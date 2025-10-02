@@ -8,23 +8,30 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class OCBHWM {
 
-    public static Rev9AxisImu imu;
+    //Motors
     public static Motor leftFront;
     public static Motor rightFront;
     public static Motor rightBack;
     public static Motor leftBack;
-    public static Motor shootaL;
-    public static Motor shootaR;
-    public static Motor transferM;
-    public static Motor intakeM;
-    public static MotorGroup flyWheel;
-    public HardwareMap hardwareMap;
+    public static Motor flywheelL;
+    public static Motor flywheelR;
+    public static MotorGroup flywheel;
+    public static DcMotor transferM;
+    public static DcMotor intakeM;
+
+    //Servos
+    public static Servo turretServo;
+    public static Servo hoodServo;
 
     public static double kP = 20;
     public static double kV = 0.7;
+    public static Rev9AxisImu imu;
+    public HardwareMap hardwareMap;
+
 
     public static void hwinit(HardwareMap hardwareMap) {
 
@@ -34,18 +41,26 @@ public class OCBHWM {
         leftBack = hardwareMap.get(Motor.class, "leftBack");
         rightBack = hardwareMap.get(Motor.class, "rightBack");
 
-        flyWheel = new MotorGroup(
-                new Motor(hardwareMap, "shootaL", Motor.GoBILDA.BARE),
-                new Motor(hardwareMap, "shootaL", Motor.GoBILDA.BARE)
+        flywheel = new MotorGroup(
+                flywheelL = new Motor(hardwareMap, "flywheelL", Motor.GoBILDA.BARE),
+                flywheelR = new Motor(hardwareMap, "flywheelR", Motor.GoBILDA.BARE)
         );
+        flywheel.setRunMode(Motor.RunMode.VelocityControl);
+        flywheel.setVeloCoefficients(kP, 0, 0);
+        flywheel.setFeedforwardCoefficients(0, kV);
+        flywheelL.setInverted(true);
 
-        flyWheel.setRunMode(Motor.RunMode.VelocityControl);
-        flyWheel.setVeloCoefficients(kP, 0, 0);
-        flyWheel.setFeedforwardCoefficients(0, kV);
+        transferM = hardwareMap.get(DcMotor.class, "transferM");
+        transferM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        transferM.setPower(0);
+        transferM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        transferM = hardwareMap.get(Motor.class, "transferM");
+        intakeM = hardwareMap.get(DcMotor.class, "intakeM");
+        intakeM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeM.setPower(0);
+        intakeM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        intakeM = hardwareMap.get(Motor.class, "transferM");
-
+        turretServo = hardwareMap.get(Servo.class, "turretServo");
+        hoodServo = hardwareMap.get(Servo.class, "hoodServo");
     }
 }

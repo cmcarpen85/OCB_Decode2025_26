@@ -8,20 +8,28 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.PWMOutput;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.List;
+
+import Modules.Constants;
 
 /**
  * A sample opmode for a flywheel with two motors
  * that are linked mechanically.
  */
 @TeleOp
-@Disabled
 public class FlywheelSample extends LinearOpMode {
+    public static double MotorPower1 = 0.5;
 
     private GamepadEx toolOp;
 
     // this is our flywheel motor group
+    private Motor flywheelL;
+    private Motor flywheelR;
+    private Servo light;
+
     private MotorGroup flywheel;
 
     public static double kP = 20;
@@ -30,18 +38,19 @@ public class FlywheelSample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         toolOp = new GamepadEx(gamepad2);
-
+        light = hardwareMap.get(Servo.class, "light");
         // this creates a group of two 6k RPM goBILDA motors
         // the 'flywheel_left' motor in the configuration will be set
         // as the leader for the group
         flywheel = new MotorGroup(
-                new Motor(hardwareMap, "flywheel_left", Motor.GoBILDA.BARE),
-                new Motor(hardwareMap, "flywheel_right", Motor.GoBILDA.BARE)
+                flywheelL = new Motor(hardwareMap, "flywheelL", Motor.GoBILDA.BARE),
+                flywheelR = new Motor(hardwareMap, "flywheelR", Motor.GoBILDA.BARE)
         );
 
         flywheel.setRunMode(Motor.RunMode.VelocityControl);
         flywheel.setVeloCoefficients(kP, 0, 0);
         flywheel.setFeedforwardCoefficients(0, kV);
+        flywheelL.setInverted(true);
 
         // this is not required for this example
         // here, we are setting the bulk caching mode to manual so all hardware reads
@@ -58,11 +67,21 @@ public class FlywheelSample extends LinearOpMode {
             // for more information on bulk reads.
             hubs.forEach(LynxModule::clearBulkCache);
 
-            if (toolOp.isDown(GamepadKeys.Button.A)) {
-                flywheel.set(1);
+            if (gamepad1.right_trigger > 0.4) {
+                flywheel.set(MotorPower1);
+
+            } else if (gamepad1.left_trigger > 0.4) {
+                flywheel.set(Constants.COASTSPEED);
             } else {
                 flywheel.stopMotor();
             }
+            if (gamepad1.dpad_up && MotorPower1 < 1) {
+                MotorPower1 = MotorPower1 + .0001;
+            } else if (gamepad1.dpad_down && MotorPower1 > 0) {
+                MotorPower1 = MotorPower1 - .0001;
+            }
+            light.setPosition(MotorPower1);
+
 
             // we can obtain a list of velocities with each item in the list
             // representing the motor passed in as an input to the constructor.
@@ -70,7 +89,9 @@ public class FlywheelSample extends LinearOpMode {
             List<Double> velocities = flywheel.getVelocities();
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
+            telemetry.addData("motorPower", MotorPower1);
 
+            telemetry.update();
             toolOp.readButtons();
         }
     }
