@@ -28,7 +28,7 @@ public class FlywheelSample extends LinearOpMode {
     // this is our flywheel motor group
     private Motor flywheelL;
     private Motor flywheelR;
-    private Servo light;
+
 
     private MotorGroup flywheel;
 
@@ -37,8 +37,7 @@ public class FlywheelSample extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        toolOp = new GamepadEx(gamepad2);
-        light = hardwareMap.get(Servo.class, "light");
+        toolOp = new GamepadEx(gamepad1);
         // this creates a group of two 6k RPM goBILDA motors
         // the 'flywheel_left' motor in the configuration will be set
         // as the leader for the group
@@ -75,12 +74,14 @@ public class FlywheelSample extends LinearOpMode {
             } else {
                 flywheel.stopMotor();
             }
+
+
             if (gamepad1.dpad_up && MotorPower1 < 1) {
                 MotorPower1 = MotorPower1 + .0001;
             } else if (gamepad1.dpad_down && MotorPower1 > 0) {
                 MotorPower1 = MotorPower1 - .0001;
             }
-            light.setPosition(MotorPower1);
+
 
 
             // we can obtain a list of velocities with each item in the list

@@ -22,7 +22,8 @@ public static double TURRETMINANGLE = -150;
 
     //Transfer
     public static double TRANSFERPOWER = 1;
-
+public static double GATEPOWER = 1;
+public static double KICKERPOWER = 1;
 
     //Intake
     public static double INTAKEPOWER = 1;
