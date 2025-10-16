@@ -1,5 +1,7 @@
 package Modules;
 
+import com.sun.tools.javac.code.Attribute;
+
 public class Hood {
     public static double angleToServoValue(double angle) {
         return angle * ((Constants.HOODMAXSERVOVALUE - Constants.HOODMINSERVOVALUE) / (Constants.HOODMAXANGLE - Constants.HOODMINANGLE));
@@ -30,5 +32,15 @@ public class Hood {
         } else {
             OCBHWM.hoodServo.setPosition(angleToServoValue(currentValue - increment));
         }
+    }
+
+    public double getCurrentAngle() {
+        if (OCBHWM.hoodFeedback == null) return 0;
+        return (OCBHWM.hoodFeedback.getVoltage() / 3.3)*360;
+    }
+
+    public boolean hoodAngelOk(double desiredAngle) {
+        double Error = getCurrentAngle() - desiredAngle;
+        if (Error > (Constants.))
     }
 }

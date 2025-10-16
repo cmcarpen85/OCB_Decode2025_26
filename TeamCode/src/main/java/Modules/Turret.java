@@ -22,4 +22,10 @@ public class Turret {
         double currentValue= servoValueToAngle(OCBHWM.turretServo.getPosition());
         OCBHWM.turretServo.setPosition(angleToServoValue(currentValue+increment));
     }
+
+    public double getCurrentAngle() {
+        if (OCBHWM.turretFeedback == null) return 0;
+        return (OCBHWM.turretFeedback.getVoltage() / 3.3)*360;
+    }
+
 }

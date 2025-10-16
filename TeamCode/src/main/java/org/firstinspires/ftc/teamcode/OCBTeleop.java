@@ -9,15 +9,18 @@ import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCapt
 
 import java.util.Objects;
 
+import Modules.Constants;
+import Modules.Hood;
 import Modules.Intake;
 import Modules.OCBHWM;
+import Modules.Shoota;
 import Modules.Transfer;
 import Modules.Turret;
 
 @TeleOp
 public class OCBTeleop extends LinearOpMode {
 
-    public String ShootaMode;
+    public String ShootaMode = "Manual";
 
     @Override
     public void runOpMode() {
@@ -32,6 +35,11 @@ public class OCBTeleop extends LinearOpMode {
                 OCBHWM.imu.reset();
             }
 
+            if (gamepad2.dpad_down) {
+                ShootaMode = "Manual";
+            } else if (gamepad2.dpad_up) {
+                ShootaMode = "Tracking";
+            }
 
             if (gamepad1.right_trigger >= .4) {
                 OCBHWM.m_robotDrive.driveFieldCentric(
@@ -81,14 +89,22 @@ public class OCBTeleop extends LinearOpMode {
         }
     }
 
-    public void shooterControl(){
+    public void shooterControl() {
         switch (ShootaMode) {
             case "Manual":
-if(gamepad2.x){
-    Turret.subtractAngle(.5);
-} else if (gamepad2.y) {
-    Turret.addAngle(.5);
-}
+                if (gamepad2.x) {
+                    Turret.setToAngle(Constants.FARSHOTTURRETANGLE);
+                    Hood.setToAngle(Constants.FARSHOTHOODANGLE);
+                    Shoota.setSpeed(Constants.FARSHOTSPEED);
+                } else if (gamepad2.y) {
+                    Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
+                    Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
+                    Shoota.setSpeed(Constants.MIDSHOTHOODANGLE);
+                } else if (gamepad2.a) {
+                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
+                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
+                    Shoota.setSpeed(Constants.CLOSESHOTHOODANGLE);
+                }
                 break;
             case "Tracking":
 

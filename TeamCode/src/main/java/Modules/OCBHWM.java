@@ -7,7 +7,9 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.Rev9AxisImu;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -45,6 +47,13 @@ public class OCBHWM {
     public static Servo hoodServo;
     public static CRServo gateServo;
     public static CRServo kickerServo;
+
+    //Sensors/Gains
+    public static Limelight3A limelight;
+
+    public static AnalogInput turretFeedback;
+
+    public static AnalogInput hoodFeedback;
 
     public static double kP = 20;
     public static double kV = 0.7;
@@ -98,7 +107,9 @@ public class OCBHWM {
 
         turretServo = hardwareMap.get(Servo.class, "turretServo");
         hoodServo = hardwareMap.get(Servo.class, "hoodServo");
-        gateServo=hardwareMap.get(CRServo.class,"gateServo");
-        kickerServo=hardwareMap.get(CRServo.class,"kickerServo");
+        gateServo = hardwareMap.get(CRServo.class, "gateServo");
+        kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
+
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
     }
 }
