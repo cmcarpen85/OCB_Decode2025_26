@@ -106,7 +106,9 @@ public class OCBHWM {
         intakeM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         turretServo = hardwareMap.get(Servo.class, "turretServo");
+        turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
         hoodServo = hardwareMap.get(Servo.class, "hoodServo");
+        hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
         gateServo = hardwareMap.get(CRServo.class, "gateServo");
         kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
 

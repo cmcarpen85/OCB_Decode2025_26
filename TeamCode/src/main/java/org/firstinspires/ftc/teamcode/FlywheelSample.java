@@ -8,12 +8,15 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.PWMOutput;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.List;
 
 import Modules.Constants;
+import Modules.OCBHWM;
 
 /**
  * A sample opmode for a flywheel with two motors
@@ -28,6 +31,12 @@ public class FlywheelSample extends LinearOpMode {
     // this is our flywheel motor group
     private Motor flywheelL;
     private Motor flywheelR;
+
+    private Servo hoodServo;
+    private Servo turretServo;
+    private AnalogInput turretFeedback;
+
+    private AnalogInput hoodFeedback;
 
 
     private MotorGroup flywheel;
@@ -46,10 +55,16 @@ public class FlywheelSample extends LinearOpMode {
                 flywheelR = new Motor(hardwareMap, "flywheelR", Motor.GoBILDA.BARE)
         );
 
+        hoodServo = hardwareMap.get(Servo.class, "hoodServo");
+        turretServo = hardwareMap.get(Servo.class, "turretServo");
+
         flywheel.setRunMode(Motor.RunMode.VelocityControl);
         flywheel.setVeloCoefficients(kP, 0, 0);
         flywheel.setFeedforwardCoefficients(0, kV);
         flywheelL.setInverted(true);
+
+        hoodServo.setPosition(0.05);
+        turretServo.setPosition(0.5);
 
         // this is not required for this example
         // here, we are setting the bulk caching mode to manual so all hardware reads
@@ -80,6 +95,17 @@ public class FlywheelSample extends LinearOpMode {
                 MotorPower1 = MotorPower1 + .0001;
             } else if (gamepad1.dpad_down && MotorPower1 > 0) {
                 MotorPower1 = MotorPower1 - .0001;
+            }
+            if (gamepad1.dpad_up) {
+                hoodServo.setPosition(hoodServo.getPosition() + 0.0001);
+            } else if (gamepad1.dpad_down) {
+                hoodServo.setPosition(hoodServo.getPosition() - 0.0001);
+            }
+
+            if (gamepad1.left_bumper) {
+                turretServo.setPosition(turretServo.getPosition() + 0.0001);
+            } else if (gamepad1.right_bumper) {
+                turretServo.setPosition(turretServo.getPosition() - 0.0001);
             }
 
 

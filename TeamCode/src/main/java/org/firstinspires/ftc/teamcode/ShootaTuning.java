@@ -91,12 +91,6 @@ public class ShootaTuning extends LinearOpMode {
                 OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.0001);
             }
 
-            if (gamepad1.dpad_up) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.0001);
-            } else if (gamepad1.dpad_down) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.0001);
-            }
-
             if (gamepad1.left_bumper) {
                 OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.0001);
             } else if (gamepad1.right_bumper) {
