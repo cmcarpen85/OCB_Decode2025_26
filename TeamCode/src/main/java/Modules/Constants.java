@@ -13,6 +13,7 @@ public class Constants {
     public static double HOODMAXANGLE = 150;
     public static double HOODMINSERVOVALUE = 0;
     public static double HOODMAXSERVOVALUE = 1;
+    public static double HOODTARGETTOLERANCE = 1;
     public static double FARSHOTHOODANGLE = 130;
     public static double MIDSHOTHOODANGLE = 0;
     public static double CLOSESHOTHOODANGLE = 0;
@@ -22,6 +23,7 @@ public static double TURRETMINANGLE = -150;
     public static double TURRETMAXANGLE = 150;
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
+    public static double TURRETANGLETOLERANCE = 1;
 public static double FARSHOTTURRETANGLE = 130;
 public static double MIDSHOTTURRETANGLE = 0;
     public static double CLOSESHOTTURRETANGLE = 0;

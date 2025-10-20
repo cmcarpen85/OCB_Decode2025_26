@@ -28,4 +28,13 @@ public class Turret {
         return (OCBHWM.turretFeedback.getVoltage() / 3.3)*360;
     }
 
+    public boolean TurretAngelOk(double desiredAngle) {
+        double Error = getCurrentAngle() - desiredAngle;
+        if(Error > (Constants.TURRETANGLETOLERANCE)){
+            return false;
+
+        } else {
+            return true;
+        }
+    }
 }

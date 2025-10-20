@@ -41,6 +41,11 @@ public class Hood {
 
     public boolean hoodAngelOk(double desiredAngle) {
         double Error = getCurrentAngle() - desiredAngle;
-        if (Error > (Constants.))
+        if(Error > (Constants.HOODTARGETTOLERANCE)){
+            return false;
+
+        } else {
+            return true;
+        }
     }
 }
