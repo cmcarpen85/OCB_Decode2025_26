@@ -108,7 +108,9 @@ public class ShootaTuning extends LinearOpMode {
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
             telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
+            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
             telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
+            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
         }
     }
 
