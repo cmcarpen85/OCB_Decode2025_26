@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import java.util.List;
+
 import Modules.Constants;
 import Modules.Hood;
 import Modules.Intake;
@@ -31,9 +33,9 @@ public class ShootaTuning extends LinearOpMode {
                 OCBHWM.imu.reset();
             }
 
-            if (gamepad2.dpad_down) {
+            if (gamepad1.start) {
                 ShootaMode = "Manual";
-            } else if (gamepad2.dpad_up) {
+            } else if (gamepad2.back) {
                 ShootaMode = "Tracking";
             }
 
@@ -58,10 +60,9 @@ public class ShootaTuning extends LinearOpMode {
             }
 
             // Intake & Transfer
-            if (gamepad2.left_trigger > 0.4) {
-            Shoota.setSpeed(ShootaSpeed);
-            }
-            else{
+            if (gamepad1.left_trigger > 0.4) {
+                Shoota.setSpeed(ShootaSpeed);
+            } else {
                 Shoota.stop();
             }
             if (gamepad1.left_bumper && ShootaSpeed < 1) {
@@ -72,22 +73,42 @@ public class ShootaTuning extends LinearOpMode {
                 ShootaSpeed = ShootaSpeed - .0001;
             }
 
-            if(gamepad1.right_trigger > 0.4){
+            if (gamepad1.right_trigger > 0.4) {
                 Transfer.gateForward();
                 Transfer.transferIn();
                 Transfer.kickerForward();
                 Intake.intakeIn();
-            }
-            else {
+            } else {
                 Transfer.gateRest();
                 Transfer.kickerRest();
                 Transfer.transferHold();
                 Intake.intakeRest();
             }
 
+            if (gamepad1.dpad_up) {
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.0001);
+            } else if (gamepad1.dpad_down) {
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.0001);
+            }
 
+            if (gamepad1.dpad_up) {
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.0001);
+            } else if (gamepad1.dpad_down) {
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.0001);
+            }
 
+            if (gamepad1.left_bumper) {
+                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.0001);
+            } else if (gamepad1.right_bumper) {
+                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.0001);
+            }
 
+            telemetry.addData("Shoota set speed", ShootaSpeed);
+            List<Double> velocities = OCBHWM.flywheel.getVelocities();
+            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
+            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
+            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
+            telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
         }
     }
 
