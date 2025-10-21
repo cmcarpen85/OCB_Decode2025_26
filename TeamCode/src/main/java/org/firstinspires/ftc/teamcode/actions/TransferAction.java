@@ -5,8 +5,6 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.enums.IntakeActionType;
-import org.firstinspires.ftc.teamcode.enums.PieceColor;
 import org.firstinspires.ftc.teamcode.enums.TransferActionType;
 
 import Modules.Intake;
@@ -24,7 +22,6 @@ public class TransferAction implements FailableAction {
 
     private long startTime = 0;
 
-    private PieceColor color = PieceColor.NONE;
 
 
     public TransferAction(TransferActionType actionType) {

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PWMOutput;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 import Modules.Constants;
 import Modules.OCBHWM;
+import Modules.Turret;
 
 /**
  * A sample opmode for a flywheel with two motors
@@ -31,15 +33,14 @@ public class FlywheelSample extends LinearOpMode {
     // this is our flywheel motor group
     private Motor flywheelL;
     private Motor flywheelR;
+    private MotorGroup flywheel;
 
     private Servo hoodServo;
     private Servo turretServo;
     private AnalogInput turretFeedback;
-
     private AnalogInput hoodFeedback;
 
-
-    private MotorGroup flywheel;
+    private CRServo gateServo;
 
     public static double kP = 20;
     public static double kV = 0.7;
@@ -57,6 +58,10 @@ public class FlywheelSample extends LinearOpMode {
 
         hoodServo = hardwareMap.get(Servo.class, "hoodServo");
         turretServo = hardwareMap.get(Servo.class, "turretServo");
+        turretFeedback = hardwareMap.get(AnalogInput.class,"turretFeedback");
+        hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
+
+        gateServo = hardwareMap.get(CRServo.class, "gateServo");
 
         flywheel.setRunMode(Motor.RunMode.VelocityControl);
         flywheel.setVeloCoefficients(kP, 0, 0);
@@ -97,18 +102,26 @@ public class FlywheelSample extends LinearOpMode {
                 MotorPower1 = MotorPower1 - .0001;
             }
             if (gamepad1.dpad_up) {
-                hoodServo.setPosition(hoodServo.getPosition() + 0.0001);
+                hoodServo.setPosition(hoodServo.getPosition() + 0.0003);
             } else if (gamepad1.dpad_down) {
-                hoodServo.setPosition(hoodServo.getPosition() - 0.0001);
+                hoodServo.setPosition(hoodServo.getPosition() - 0.0003);
             }
 
             if (gamepad1.left_bumper) {
-                turretServo.setPosition(turretServo.getPosition() + 0.0001);
+                turretServo.setPosition(turretServo.getPosition() + 0.001);
             } else if (gamepad1.right_bumper) {
-                turretServo.setPosition(turretServo.getPosition() - 0.0001);
+                turretServo.setPosition(turretServo.getPosition() - 0.001);
             }
 
-
+            if (gamepad1.a) {
+                gateServo.setDirection(DcMotorSimple.Direction.FORWARD);
+                gateServo.setPower(1);
+            } else if (gamepad1.y) {
+                gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
+                gateServo.setPower(1);
+            } else {
+                gateServo.setPower(0);
+            }
 
             // we can obtain a list of velocities with each item in the list
             // representing the motor passed in as an input to the constructor.
@@ -117,6 +130,9 @@ public class FlywheelSample extends LinearOpMode {
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
             telemetry.addData("motorPower", MotorPower1);
+            telemetry.addData("turret pos", turretServo.getPosition());
+            telemetry.addData("Turret Voltage", turretFeedback.getVoltage());
+            telemetry.addData("Hood Voltage", hoodFeedback.getVoltage());
 
             telemetry.update();
             toolOp.readButtons();
