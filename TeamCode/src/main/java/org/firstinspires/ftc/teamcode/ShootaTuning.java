@@ -23,6 +23,7 @@ public class ShootaTuning extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
+        OCBHWM.imu.init();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
 
@@ -65,10 +66,10 @@ public class ShootaTuning extends LinearOpMode {
             } else {
                 Shoota.stop();
             }
-            if (gamepad1.left_bumper && ShootaSpeed < 1) {
+            if (gamepad1.dpad_left && ShootaSpeed < 1) {
                 ShootaSpeed = ShootaSpeed + .0001;
                 ShootaSpeed = ShootaSpeed + .0001;
-            } else if (gamepad1.dpad_down && ShootaSpeed > 0) {
+            } else if (gamepad1.dpad_right && ShootaSpeed > 0) {
                 ShootaSpeed = ShootaSpeed - .0001;
                 ShootaSpeed = ShootaSpeed - .0001;
             }
@@ -86,15 +87,15 @@ public class ShootaTuning extends LinearOpMode {
             }
 
             if (gamepad1.dpad_up) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.0001);
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.003);
             } else if (gamepad1.dpad_down) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.0001);
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.003);
             }
 
             if (gamepad1.left_bumper) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.0001);
+                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.005);
             } else if (gamepad1.right_bumper) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.0001);
+                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.005);
             }
 
             telemetry.addData("Shoota set speed", ShootaSpeed);
@@ -105,6 +106,7 @@ public class ShootaTuning extends LinearOpMode {
             telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
             telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
             telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
+            telemetry.update();
         }
     }
 

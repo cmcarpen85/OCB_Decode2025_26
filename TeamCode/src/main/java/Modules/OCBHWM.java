@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class OCBHWM {
 
+
     //Motors
     public static Motor leftFront;
     public static Motor rightFront;
@@ -46,10 +47,11 @@ public class OCBHWM {
     public static Servo turretServo;
     public static Servo hoodServo;
     public static CRServo gateServo;
+    public static CRServo gateServo2;
     public static CRServo kickerServo;
 
     //Sensors/Gains
-    public static Limelight3A limelight;
+    //public static Limelight3A limelight;
 
     public static AnalogInput turretFeedback;
 
@@ -64,15 +66,15 @@ public class OCBHWM {
     public static void hwinit(HardwareMap hardwareMap) {
 
         imu = new RevIMU(hardwareMap, "imu");
-        leftFront = hardwareMap.get(Motor.class, "leftFront");
-        rightFront = hardwareMap.get(Motor.class, "rightFront");
-        leftBack = hardwareMap.get(Motor.class, "leftBack");
-        rightBack = hardwareMap.get(Motor.class, "rightBack");
+        leftFront = new Motor(hardwareMap, "leftFront", Motor.GoBILDA.RPM_435);
+        rightFront = new Motor(hardwareMap, "rightFront", Motor.GoBILDA.RPM_435);
+        leftBack = new Motor(hardwareMap, "leftBack", Motor.GoBILDA.RPM_435);
+        rightBack = new Motor(hardwareMap, "rightBack", Motor.GoBILDA.RPM_435);
         m_robotDrive = new MecanumDrive(OCBHWM.leftFront, OCBHWM.rightFront, OCBHWM.leftBack, OCBHWM.rightBack);
 
-        leftEncoder = new MotorEx(hardwareMap, "rightFront");
-        rightEncoder = new MotorEx(hardwareMap, "leftBack");
-        centerEncoder = new MotorEx(hardwareMap, "rightBack");
+        leftEncoder = new MotorEx(hardwareMap, "leftFront");
+        rightEncoder = new MotorEx(hardwareMap, "rightFront");
+        centerEncoder = new MotorEx(hardwareMap, "leftBack");
 
         // calculate multiplier
         TICKS_TO_INCHES = WHEEL_DIAMETER * Math.PI / leftEncoder.getCPR();
@@ -93,7 +95,8 @@ public class OCBHWM {
         flywheel.setRunMode(Motor.RunMode.VelocityControl);
         flywheel.setVeloCoefficients(kP, 0, 0);
         flywheel.setFeedforwardCoefficients(0, kV);
-        flywheelL.setInverted(true);
+        flywheelR.setInverted(true);
+
 
         transferM = hardwareMap.get(DcMotor.class, "transferM");
         transferM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -107,11 +110,18 @@ public class OCBHWM {
 
         turretServo = hardwareMap.get(Servo.class, "turretServo");
         turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
+
         hoodServo = hardwareMap.get(Servo.class, "hoodServo");
         hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
-        gateServo = hardwareMap.get(CRServo.class, "gateServo");
-        kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
 
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        gateServo = hardwareMap.get(CRServo.class, "gateServo");
+        gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        gateServo2 = hardwareMap.get(CRServo.class, "gateServo2");
+
+
+        kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
+        kickerServo.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //limelight = hardwareMap.get(Limelight3A.class, "limelight");
     }
 }

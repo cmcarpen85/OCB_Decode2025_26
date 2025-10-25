@@ -2,6 +2,7 @@ package Modules;
 
 public class Transfer {
 
+    //Transfer
     public static void transferIn(){
         OCBHWM.transferM.setPower(Constants.TRANSFERPOWER);
     }
@@ -17,20 +18,23 @@ public class Transfer {
     //Gate
     public static void gateForward(){
         OCBHWM.gateServo.setPower(Constants.GATEPOWER);
+        OCBHWM.gateServo2.setPower(Constants.GATEPOWER);
     }
     public static void gateReverse() {
         OCBHWM.gateServo.setPower(-Constants.GATEPOWER);
+        OCBHWM.gateServo2.setPower(-Constants.GATEPOWER);
     }
     public static void gateRest() {
         OCBHWM.gateServo.setPower(0);
+        OCBHWM.gateServo2.setPower(0);
     }
 
     //Kicker
     public static void kickerForward(){
-        OCBHWM.gateServo.setPower(Constants.KICKERPOWER);
+        OCBHWM.kickerServo.setPower(Constants.KICKERPOWER);
     }
     public static void kickerReverse(){
-        OCBHWM.gateServo.setPower(-Constants.KICKERPOWER);
+        OCBHWM.kickerServo.setPower(-Constants.KICKERPOWER);
     }
     public static void kickerRest() {
         OCBHWM.kickerServo.setPower(0);

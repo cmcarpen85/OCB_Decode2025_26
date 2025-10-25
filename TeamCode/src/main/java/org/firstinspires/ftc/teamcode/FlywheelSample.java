@@ -41,6 +41,7 @@ public class FlywheelSample extends LinearOpMode {
     private AnalogInput hoodFeedback;
 
     private CRServo gateServo;
+    private CRServo gateServo2;
 
     public static double kP = 20;
     public static double kV = 0.7;
@@ -52,8 +53,8 @@ public class FlywheelSample extends LinearOpMode {
         // the 'flywheel_left' motor in the configuration will be set
         // as the leader for the group
         flywheel = new MotorGroup(
-                flywheelL = new Motor(hardwareMap, "flywheelL", Motor.GoBILDA.BARE),
-                flywheelR = new Motor(hardwareMap, "flywheelR", Motor.GoBILDA.BARE)
+                flywheelR = new Motor(hardwareMap, "flywheelL", Motor.GoBILDA.BARE),
+                flywheelL = new Motor(hardwareMap, "flywheelR", Motor.GoBILDA.BARE)
         );
 
         hoodServo = hardwareMap.get(Servo.class, "hoodServo");
@@ -62,6 +63,7 @@ public class FlywheelSample extends LinearOpMode {
         hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
 
         gateServo = hardwareMap.get(CRServo.class, "gateServo");
+        gateServo2 = hardwareMap.get(CRServo.class, "gateServo2");
 
         flywheel.setRunMode(Motor.RunMode.VelocityControl);
         flywheel.setVeloCoefficients(kP, 0, 0);
@@ -70,6 +72,7 @@ public class FlywheelSample extends LinearOpMode {
 
         hoodServo.setPosition(0.05);
         turretServo.setPosition(0.5);
+//        turretServo.setPower(0);
 
         // this is not required for this example
         // here, we are setting the bulk caching mode to manual so all hardware reads
@@ -88,7 +91,6 @@ public class FlywheelSample extends LinearOpMode {
 
             if (gamepad1.right_trigger > 0.4) {
                 flywheel.set(MotorPower1);
-
             } else if (gamepad1.left_trigger > 0.4) {
                 flywheel.set(Constants.COASTSPEED);
             } else {
@@ -96,9 +98,9 @@ public class FlywheelSample extends LinearOpMode {
             }
 
 
-            if (gamepad1.dpad_up && MotorPower1 < 1) {
+            if (gamepad1.dpad_left && MotorPower1 < 1) {
                 MotorPower1 = MotorPower1 + .0001;
-            } else if (gamepad1.dpad_down && MotorPower1 > 0) {
+            } else if (gamepad1.dpad_right && MotorPower1 > 0) {
                 MotorPower1 = MotorPower1 - .0001;
             }
             if (gamepad1.dpad_up) {
@@ -108,19 +110,29 @@ public class FlywheelSample extends LinearOpMode {
             }
 
             if (gamepad1.left_bumper) {
+//                turretServo.setPower(1);
                 turretServo.setPosition(turretServo.getPosition() + 0.001);
             } else if (gamepad1.right_bumper) {
+//                turretServo.setPower(-1);
                 turretServo.setPosition(turretServo.getPosition() - 0.001);
             }
+//            } else {
+//                turretServo.setPower(0);
+//            }
 
             if (gamepad1.a) {
                 gateServo.setDirection(DcMotorSimple.Direction.FORWARD);
+                gateServo2.setDirection(DcMotorSimple.Direction.REVERSE);
                 gateServo.setPower(1);
+                gateServo2.setPower(1);
             } else if (gamepad1.y) {
                 gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
+                gateServo2.setDirection(DcMotorSimple.Direction.FORWARD);
                 gateServo.setPower(1);
+                gateServo2.setPower(1);
             } else {
                 gateServo.setPower(0);
+                gateServo2.setPower(0);
             }
 
             // we can obtain a list of velocities with each item in the list
