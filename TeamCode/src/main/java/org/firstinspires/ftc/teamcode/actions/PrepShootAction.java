@@ -1,0 +1,105 @@
+package org.firstinspires.ftc.teamcode.actions;
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
+import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
+
+import Modules.Constants;
+import Modules.Hood;
+import Modules.Intake;
+import Modules.Shoota;
+import Modules.Transfer;
+import Modules.Turret;
+
+public class PrepShootAction implements FailableAction {
+    public Telemetry tel;
+
+    private boolean initialized = false;
+    private boolean isFailed = false;
+
+    private final PrepShootActionType actionType;
+    private long duration = -1;
+    private long timeout = 0;
+
+    private long startTime = 0;
+    private double ShootSpeed = 0;
+    private double TurretAngle = 0;
+    private double HoodAngle = 0;
+
+    public PrepShootAction(PrepShootActionType actionType) {
+        this.actionType = actionType;
+        this.duration = 100;
+    }
+
+    public PrepShootAction(PrepShootActionType actionType, double ShootSpeed, double TurretAngle, double HoodAngle) {
+        this.actionType = actionType;
+        this.duration = 100;
+        this.ShootSpeed = ShootSpeed;
+        this.TurretAngle = TurretAngle;
+        this.HoodAngle = HoodAngle;
+    }
+    public PrepShootAction(PrepShootActionType actionType, long milliseconds) {
+        this.actionType = actionType;
+        this.duration = milliseconds;
+    }
+
+    private void initialize() {
+        this.startTime = System.currentTimeMillis();
+
+        switch (this.actionType) {
+            case PREP_SHOOT:
+                Shoota.setSpeed(this.ShootSpeed);
+                Turret.setToAngle(this.TurretAngle);
+                Hood.setToAngle(this.HoodAngle);
+                break;
+
+            case PREP_FAR_SHOOT:
+                Shoota.setSpeed(Constants.FARSHOTSPEED);
+                Turret.setToAngle(Constants.FARSHOTTURRETANGLE);
+                Hood.setToAngle(Constants.FARSHOTHOODANGLE);
+                break;
+
+            case PREP_MID_SHOOT:
+                Shoota.setSpeed(Constants.MIDSHOTSPEED);
+                Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
+                Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
+                break;
+
+            case PREP_CLOSE_SHOOT:
+                Shoota.setSpeed(Constants.CLOSESHOTSPEED);
+                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
+                Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
+                break;
+
+            case STOP:
+                Shoota.stop();
+                break;
+        }
+
+        initialized = true;
+    }
+
+//    private void end() {
+//        Intake.intakeRest();
+//    }
+
+    @Override
+    public boolean run(@NonNull TelemetryPacket packet) {
+        if (!initialized) {
+            initialize();
+        }
+        if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean didFail() {
+        return isFailed;
+    }
+}

@@ -15,4 +15,6 @@ public class Intake {
         OCBHWM.intakeM.setPower(-Constants.INTAKEPOWER);
     }
 
+    public static void intakeHold() {OCBHWM.intakeM.setPower(Constants.INTAKEHOLD);}
+
 }

@@ -47,6 +47,7 @@ public class OCBTeleop extends LinearOpMode {
 //                ShootaMode = "Tracking";
 //            }
 
+//          Slow Mode
             if (gamepad1.right_trigger >= .4) {
                 OCBHWM.m_robotDrive.driveFieldCentric(
                         (-driverOp.getLeftX() * 0.4),
@@ -67,17 +68,18 @@ public class OCBTeleop extends LinearOpMode {
 
             }
 
-            //Shooter
-            if (gamepad2.left_trigger > 0.4) {
+            //Prep Shoota
+            if (gamepad2.left_trigger > 0.4 ) {
                 Shoota.setSpeed(ShootaSpeed);
-            } else {
+            } else if (gamepad2.a) {
+                Shoota.setSpeed(Constants.FARSHOTSPEED);
+            }
+            else {
                 Shoota.stop();
             }
-            if (gamepad2.dpad_left && ShootaSpeed < 1) {
+            if (-gamepad2.right_stick_y >= 0.4 && ShootaSpeed < 1) {
                 ShootaSpeed = ShootaSpeed + .0001;
-                ShootaSpeed = ShootaSpeed + .0001;
-            } else if (gamepad2.dpad_right && ShootaSpeed > 0) {
-                ShootaSpeed = ShootaSpeed - .0001;
+            } else if (-gamepad2.right_stick_y <= -0.4 && ShootaSpeed > 0) {
                 ShootaSpeed = ShootaSpeed - .0001;
             }
 
@@ -85,16 +87,13 @@ public class OCBTeleop extends LinearOpMode {
             // Intake & Transfer
             if (gamepad2.left_bumper) {
                 Intake.intakeIn();
-                Transfer.transferIn();
             } else if (gamepad2.b) {
                 Intake.intakeOut();
-                Transfer.transferOut();
             } else {
                 Intake.intakeRest();
-                Transfer.transferHold();
             }
 
-            //Gate & Kicker
+            //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
                 Transfer.gateForward();
                 Transfer.kickerForward();
@@ -106,7 +105,13 @@ public class OCBTeleop extends LinearOpMode {
                 Transfer.kickerRest();
             }
 
-
+            if (gamepad2.right_trigger > 0.4 || gamepad2.left_bumper) {
+                Transfer.transferIn();
+            } else if (gamepad2.b) {
+                Transfer.transferOut();
+            }else {
+                Transfer.transferHold();
+            }
 
 
             if (gamepad2.a) {
@@ -115,6 +120,7 @@ public class OCBTeleop extends LinearOpMode {
                 OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
                 OCBHWM.turretServo.setPosition(Constants.FARSHOTTURRETSERVO);
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
+                ShootaSpeed = Constants.FARSHOTSPEED;
             } else if (gamepad2.x) {
 //                    Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
 //                    Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
@@ -127,16 +133,16 @@ public class OCBTeleop extends LinearOpMode {
                 Shoota.setSpeed(Constants.CLOSESHOTHOODANGLE);
             }
 
-            if (gamepad2.dpad_up && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.003);
-            } else if (gamepad2.dpad_down && OCBHWM.hoodServo.getPosition() > Constants.HOODMINSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.003);
+            if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.006);
+            } else if (-gamepad2.left_stick_y <= -0.4 && OCBHWM.hoodServo.getPosition() > Constants.HOODMINSERVOVALUE) {
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.006);
             }
 
-            if (gamepad2.right_stick_x < -0.1 && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.001);
-            } else if (gamepad2.right_stick_x > 0.1&& OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.001);
+            if (gamepad2.dpad_left && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
+                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.002);
+            } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
+                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
             }
 
             telemetry.addData("shoota mode", ShootaMode);
