@@ -75,6 +75,12 @@ public class PrepShootAction implements FailableAction {
                 Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
                 break;
 
+            case PREP_STARTING_SHOT:
+                Shoota.setSpeed(Constants.STARTSHOTSPEED);
+                Turret.setToAngle(Constants.STARTSHOTTURRETANGLE);
+                Hood.setToAngle(Constants.STARTSHOTHOODANGLE);
+                break;
+
             case STOP:
                 Shoota.stop();
                 break;

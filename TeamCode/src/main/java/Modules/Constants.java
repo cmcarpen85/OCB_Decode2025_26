@@ -7,6 +7,7 @@ public class Constants {
     public static double FARSHOTSPEED = 0.635;
     public static double MIDSHOTSPEED = 0.6;
     public static double CLOSESHOTSPEED = 0.4;
+    public static double STARTSHOTSPEED = 0.63;
 
     //Hood
     public static double HOODHOME = 0.05;
@@ -21,6 +22,8 @@ public class Constants {
     public static double MIDSHOTHOODSERVO = 0;
     public static double CLOSESHOTHOODANGLE = 0;
     public static double CLOSEHOTHOODSERVO = 0;
+    public static double STARTSHOTHOODSERVO = 0;
+    public static double STARTSHOTHOODANGLE = 0;
 
     //Turret
     public static double TURRETHOME = .5;
@@ -35,8 +38,8 @@ public class Constants {
     public static double MIDSHOTTURRETSERVO = .5;
     public static double CLOSESHOTTURRETANGLE = 0;
     public static double CLOSESHOTTURRETSERVO = .4;
-
-
+    public static double STARTSHOTTURRETANGLE = 0;
+    public static double STARTSHOTTURRETSERVO = 0;
     //Slider
 
 

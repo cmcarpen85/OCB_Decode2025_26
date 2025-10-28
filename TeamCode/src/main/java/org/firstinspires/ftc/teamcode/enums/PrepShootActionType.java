@@ -5,5 +5,6 @@ public enum PrepShootActionType {
     PREP_FAR_SHOOT,
     PREP_MID_SHOOT,
     PREP_CLOSE_SHOOT,
-    STOP
+    STOP,
+    PREP_STARTING_SHOT
 }
