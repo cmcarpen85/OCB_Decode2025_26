@@ -29,21 +29,21 @@ public class RedFarAuto extends LinearOpMode {
     public static class Params {
         public double startX = 0;
         public double startY = 0;
-        public double startOri = -90;
+        public double startOri = 0;
 
         //SM = Spike Mark
-        public double pickMidSMX = 0;
-        public double pickMidSMY = 0;
-        public double intakeDriveX = 0;
+        public double pickMidSMX = 15;
+        public double pickMidSMY = 51;
+        public double intakeDriveX = 21;
         public double intakeDriveY = 0;
         public double shoot1X = 0;
-        public double shoot1Y = 0;
-        public double pickCloseSMX = 0;
-        public double pickCloseSMY = 0;
+        public double shoot1Y = 2;
+        public double pickCloseSMX = 15;
+        public double pickCloseSMY = 27;
         public double shoot2X = 0;
-        public double shoot2Y = 0;
+        public double shoot2Y = 2;
         public double leaveLaunchZoneX = 0;
-        public double leaveLaunchZoneY = 0;
+        public double leaveLaunchZoneY = 24;
     }
 
     public static Params PARAMS = new Params();
@@ -70,7 +70,7 @@ public class RedFarAuto extends LinearOpMode {
 
         TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.startOri)))
                 .lineToXConstantHeading(PARAMS.pickMidSMX)
-                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(PARAMS.startOri));
+                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(-90));
 
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
@@ -80,7 +80,7 @@ public class RedFarAuto extends LinearOpMode {
 
         TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(PARAMS.startOri)))
                 .lineToXConstantHeading(PARAMS.pickCloseSMX)
-                .splineToConstantHeading(new Vector2d(PARAMS.shoot2X, PARAMS.shoot2Y), Math.toRadians(PARAMS.startOri));
+                .splineToConstantHeading(new Vector2d(PARAMS.shoot2X, PARAMS.shoot2Y), Math.toRadians(-90));
 
 
         TrajectoryActionBuilder LeaveLaunchZone = drive.actionBuilder(shootPos2)
