@@ -34,6 +34,7 @@ public class Shoota {
     public static void coast() {
         OCBHWM.flywheel.set(Constants.COASTSPEED);
     }
+    
     public static void cameraAdjustTurret() {
 //Error = desiredPos - actualPos
 //        if (Error  0) {

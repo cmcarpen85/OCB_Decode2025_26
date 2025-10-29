@@ -19,10 +19,9 @@ import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
 
 import Modules.OCBHWM;
-
 @Config
 @Autonomous
-public class RedFarAuto extends LinearOpMode {
+public class AutoTesting extends LinearOpMode {
 
 
     Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
@@ -95,45 +94,46 @@ public class RedFarAuto extends LinearOpMode {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
                             new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT),
+                            new SleepAction(2),
                             new ShootAction(ShootaActionType.SHOOT),
-                            new ShootAction(ShootaActionType.STOP),
+                            new ShootAction(ShootaActionType.STOP)
 
-                            //Pick mid spike mark
-                            new ParallelAction(
-                                    PickMidSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new IntakeAction(IntakeActionType.INTAKE_HOLD)
-                            ),
-
-                            //Prep mid spike mark shoot
-                            new ParallelAction(
-                                    DriveToShoot1.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT)
-                            ),
-
-                            //Shoot1
-                            new ShootAction(ShootaActionType.SHOOT),
-                            new ShootAction(ShootaActionType.STOP),
-
-                            //Pick close spike mark
-                            new ParallelAction(
-                                    PickCloseSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new IntakeAction(IntakeActionType.INTAKE_HOLD)
-                            ),
-
-                            //Prep close spike mark shoot
-                            new ParallelAction(
-                                    DriveToShoot2.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT)
-                            ),
-
-                            //Shoot2
-                            new ShootAction(ShootaActionType.SHOOT),
-                            new ShootAction(ShootaActionType.STOP),
-
-                            //Leave launch zone!
-                            LeaveLaunchZone.build()
+//                            //Pick mid spike mark
+//                            new ParallelAction(
+//                                    PickMidSpikeMark.build(),
+//                                    new IntakeAction(IntakeActionType.INTAKE_IN),
+//                                    new IntakeAction(IntakeActionType.INTAKE_HOLD)
+//                            ),
+//
+//                            //Prep mid spike mark shoot
+//                            new ParallelAction(
+//                                    DriveToShoot1.build(),
+//                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT)
+//                            ),
+//
+//                            //Shoot1
+//                            new ShootAction(ShootaActionType.SHOOT),
+//                            new ShootAction(ShootaActionType.STOP),
+//
+//                            //Pick close spike mark
+//                            new ParallelAction(
+//                                    PickCloseSpikeMark.build(),
+//                                    new IntakeAction(IntakeActionType.INTAKE_IN),
+//                                    new IntakeAction(IntakeActionType.INTAKE_HOLD)
+//                            ),
+//
+//                            //Prep close spike mark shoot
+//                            new ParallelAction(
+//                                    DriveToShoot2.build(),
+//                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT)
+//                            ),
+//
+//                            //Shoot2
+//                            new ShootAction(ShootaActionType.SHOOT),
+//                            new ShootAction(ShootaActionType.STOP),
+//
+//                            //Leave launch zone!
+//                            LeaveLaunchZone.build()
                     )
             );
             sleep(30000);

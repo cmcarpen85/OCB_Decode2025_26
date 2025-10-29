@@ -154,6 +154,7 @@ public class OCBTeleop extends LinearOpMode {
             telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
             telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
             telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
+            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
             telemetry.addData("heading", OCBHWM.imu.getRotation2d());
             telemetry.update();
 

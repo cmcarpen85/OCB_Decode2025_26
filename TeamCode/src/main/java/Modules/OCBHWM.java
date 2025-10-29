@@ -46,6 +46,7 @@ public class OCBHWM {
     //Servos
     public static Servo turretServo;
     public static Servo hoodServo;
+    public static Servo indLight;
     public static CRServo gateServo;
     public static CRServo gateServo2;
     public static CRServo kickerServo;
@@ -56,6 +57,7 @@ public class OCBHWM {
     public static AnalogInput turretFeedback;
 
     public static AnalogInput hoodFeedback;
+    public static AnalogInput transferClear;
 
     public static double kP = 20;
     public static double kV = 0.7;
@@ -111,8 +113,11 @@ public class OCBHWM {
         turretServo = hardwareMap.get(Servo.class, "turretServo");
         turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
 
+        indLight = hardwareMap.get(Servo.class, "indLight");
+
         hoodServo = hardwareMap.get(Servo.class, "hoodServo");
         hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
+        transferClear = hardwareMap.get(AnalogInput.class, "transferClear");
 
         gateServo = hardwareMap.get(CRServo.class, "gateServo");
         gateServo.setDirection(DcMotorSimple.Direction.REVERSE);

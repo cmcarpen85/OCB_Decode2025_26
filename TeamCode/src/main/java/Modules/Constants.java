@@ -22,7 +22,7 @@ public class Constants {
     public static double MIDSHOTHOODSERVO = 0;
     public static double CLOSESHOTHOODANGLE = 0;
     public static double CLOSEHOTHOODSERVO = 0;
-    public static double STARTSHOTHOODSERVO = 0;
+    public static double STARTSHOTHOODSERVO = 0.6128;
     public static double STARTSHOTHOODANGLE = 0;
 
     //Turret
@@ -39,7 +39,7 @@ public class Constants {
     public static double CLOSESHOTTURRETANGLE = 0;
     public static double CLOSESHOTTURRETSERVO = .4;
     public static double STARTSHOTTURRETANGLE = 0;
-    public static double STARTSHOTTURRETSERVO = 0;
+    public static double STARTSHOTTURRETSERVO = 0.9144;
     //Slider
 
 
