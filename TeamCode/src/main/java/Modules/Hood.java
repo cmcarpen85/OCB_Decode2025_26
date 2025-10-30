@@ -3,34 +3,28 @@ package Modules;
 import com.sun.tools.javac.code.Attribute;
 
 public class Hood {
-    public static double angleToServoValue(double angle) {
-        return angle * ((Constants.HOODMAXSERVOVALUE - Constants.HOODMINSERVOVALUE) / (Constants.HOODMAXANGLE - Constants.HOODMINANGLE));
-    }
 
-    public static double servoValueToAngle(double servoValue) {
-        return servoValue * ((Constants.HOODMAXANGLE - Constants.HOODMINANGLE) / (Constants.HOODMAXSERVOVALUE - Constants.HOODMINSERVOVALUE));
-    }
 
     public static void setToAngle(double angle) {
-        OCBHWM.hoodServo.setPosition(angleToServoValue(angle));
+        OCBHWM.hoodServo.setPosition(angle);
     }
 
     public static void addAngle(double increment) {
-        double currentValue = servoValueToAngle(OCBHWM.hoodServo.getPosition());
-        if (currentValue + increment > Constants.HOODMAXANGLE) {
+        double currentValue = OCBHWM.hoodServo.getPosition();
+        if (currentValue + increment > Constants.HOODMAXSERVOVALUE) {
             OCBHWM.hoodServo.setPosition(Constants.HOODMAXSERVOVALUE);
         } else {
-            OCBHWM.hoodServo.setPosition(angleToServoValue(currentValue + increment));
+            OCBHWM.hoodServo.setPosition(currentValue + increment);
         }
 
     }
 
     public static void subtractAngle(double increment) {
-        double currentValue = servoValueToAngle(OCBHWM.hoodServo.getPosition());
-        if (currentValue - increment < Constants.HOODMINANGLE) {
+        double currentValue = OCBHWM.hoodServo.getPosition();
+        if (currentValue - increment < Constants.HOODMINSERVOVALUE) {
             OCBHWM.hoodServo.setPosition(Constants.HOODMINSERVOVALUE);
         } else {
-            OCBHWM.hoodServo.setPosition(angleToServoValue(currentValue - increment));
+            OCBHWM.hoodServo.setPosition(currentValue - increment);
         }
     }
 

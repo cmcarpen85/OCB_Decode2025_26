@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
 import org.firstinspires.ftc.teamcode.enums.TransferActionType;
 
+import Modules.Constants;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -32,13 +33,13 @@ public class ShootAction implements FailableAction {
     public ShootAction(ShootaActionType actionType) {
         this.actionType = actionType;
         this.duration = 3000;
-        this.shootTime = 2000;
+        this.shootTime = 1500;
     }
 
     public ShootAction(ShootaActionType actionType, long milliseconds) {
         this.actionType = actionType;
         this.duration = milliseconds;
-        this.shootTime = 2000;
+        this.shootTime = 1500;
     }
 
     private void initialize() {
@@ -84,12 +85,12 @@ public class ShootAction implements FailableAction {
 //            if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
 //                return ;
 //            }
-
         if (OCBHWM.transferClear.getVoltage() <= 0.38) {
             this.countingEmpty = false;
         } else if (OCBHWM.transferClear.getVoltage() > 0.38 && !countingEmpty) {
             startEmptyTime();
         }
+        Shoota.setSpeed(Constants.STARTSHOTSPEED);
         return true;
     }
 

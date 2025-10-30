@@ -40,6 +40,7 @@ public class IntakeAction implements FailableAction {
         switch (this.actionType) {
             case INTAKE_IN:
                 Intake.intakeIn();
+                Transfer.transferIn();
                 break;
             case INTAKE_HOLD:
                 Intake.intakeHold();

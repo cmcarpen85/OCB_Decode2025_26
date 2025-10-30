@@ -54,10 +54,10 @@ public class RedFarAuto extends LinearOpMode {
 
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
     Pose2d pickMidSM = new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(-90));
-    Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(-90));
-    Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(-90));
-    Pose2d shootPos2 = new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(-90));
-    Pose2d leavelaunchZone = new Pose2d(PARAMS.leaveLaunchZoneX, PARAMS.leaveLaunchZoneY, Math.toRadians(-90));
+    Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.startOri));
+    Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(PARAMS.startOri));
+    Pose2d shootPos2 = new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.startOri));
+    Pose2d leavelaunchZone = new Pose2d(PARAMS.leaveLaunchZoneX, PARAMS.leaveLaunchZoneY, Math.toRadians(PARAMS.startOri));
 
 
     @Override
@@ -94,15 +94,15 @@ public class RedFarAuto extends LinearOpMode {
         while (opModeIsActive()) {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
-                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT),
+                            new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT),
+                            new SleepAction(2),
                             new ShootAction(ShootaActionType.SHOOT),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick mid spike mark
                             new ParallelAction(
                                     PickMidSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new IntakeAction(IntakeActionType.INTAKE_HOLD)
+                                    new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
 
                             //Prep mid spike mark shoot
@@ -118,8 +118,7 @@ public class RedFarAuto extends LinearOpMode {
                             //Pick close spike mark
                             new ParallelAction(
                                     PickCloseSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new IntakeAction(IntakeActionType.INTAKE_HOLD)
+                                    new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
 
                             //Prep close spike mark shoot

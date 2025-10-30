@@ -1,12 +1,27 @@
 package Modules;
 
 public class Turret {
+
     public static double angleToServoValue(double angle) {
-        return angle * ((Constants.TURRETMAXSERVOVALUE - Constants.TURRETMINSERVOVALUE) / (Constants.TURRETMAXANGLE - Constants.TURRETMINANGLE));
+        double Ratio = ((Constants.TURRETMAXSERVOVALUE - Constants.TURRETMINSERVOVALUE) / (Constants.TURRETMAXANGLE - Constants.TURRETMINANGLE));
+
+        if (angle > 0) {
+            return angle * Ratio + 0.5;
+        } else if (angle < 0) {
+            return Math.abs(angle) * Ratio + 0.25;
+        }
+        return 0.5;
     }
 
     public static double servoValueToAngle(double servoValue) {
-        return servoValue * ((Constants.TURRETMAXANGLE - Constants.TURRETMINANGLE) / (Constants.TURRETMAXSERVOVALUE - Constants.TURRETMINSERVOVALUE));
+       double Ratio = ((Constants.TURRETMAXANGLE - Constants.TURRETMINANGLE) / (Constants.TURRETMAXSERVOVALUE - Constants.TURRETMINSERVOVALUE));
+
+        if (servoValue > 0.5) {
+            return (servoValue - 0.5) * Ratio;
+        } else if (servoValue < 0.5) {
+            return (servoValue - 0.5) * Ratio;
+        }
+        return 0;
     }
 
     public static void setToAngle(double angle) {

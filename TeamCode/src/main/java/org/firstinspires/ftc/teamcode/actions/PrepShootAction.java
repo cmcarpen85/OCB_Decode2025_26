@@ -6,13 +6,10 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
-import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
 
 import Modules.Constants;
 import Modules.Hood;
-import Modules.Intake;
 import Modules.Shoota;
-import Modules.Transfer;
 import Modules.Turret;
 
 public class PrepShootAction implements FailableAction {
@@ -42,6 +39,7 @@ public class PrepShootAction implements FailableAction {
         this.TurretAngle = TurretAngle;
         this.HoodAngle = HoodAngle;
     }
+
     public PrepShootAction(PrepShootActionType actionType, long milliseconds) {
         this.actionType = actionType;
         this.duration = milliseconds;
@@ -60,25 +58,29 @@ public class PrepShootAction implements FailableAction {
             case PREP_FAR_SHOOT:
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 Turret.setToAngle(Constants.FARSHOTTURRETANGLE);
-                Hood.setToAngle(Constants.FARSHOTHOODANGLE);
+                Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+                this.ShootSpeed = Constants.FARSHOTSPEED;
                 break;
 
             case PREP_MID_SHOOT:
                 Shoota.setSpeed(Constants.MIDSHOTSPEED);
                 Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
-                Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
+                Hood.setToAngle(Constants.MIDSHOTHOODSERVO);
+                this.ShootSpeed = Constants.MIDSHOTSPEED;
                 break;
 
             case PREP_CLOSE_SHOOT:
                 Shoota.setSpeed(Constants.CLOSESHOTSPEED);
                 Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
-                Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
+                Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
+                this.ShootSpeed = Constants.CLOSESHOTSPEED;
                 break;
 
             case PREP_STARTING_SHOT:
                 Shoota.setSpeed(Constants.STARTSHOTSPEED);
                 Turret.setToAngle(Constants.STARTSHOTTURRETANGLE);
-                Hood.setToAngle(Constants.STARTSHOTHOODANGLE);
+                Hood.setToAngle(Constants.STARTSHOTHOODSERVO);
+                this.ShootSpeed = Constants.STARTSHOTSPEED;
                 break;
 
             case STOP:
@@ -101,7 +103,7 @@ public class PrepShootAction implements FailableAction {
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
             return true;
         }
-
+        Shoota.setSpeed(this.ShootSpeed);
         return false;
     }
 

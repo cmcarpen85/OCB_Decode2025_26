@@ -115,16 +115,16 @@ public class ShootaTuning extends LinearOpMode {
             case "Manual":
                 if (gamepad2.x) {
                     Turret.setToAngle(Constants.FARSHOTTURRETANGLE);
-                    Hood.setToAngle(Constants.FARSHOTHOODANGLE);
+                    Hood.setToAngle(Constants.FARSHOTHOODSERVO);
                     Shoota.setSpeed(Constants.FARSHOTSPEED);
                 } else if (gamepad2.y) {
                     Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
-                    Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
-                    Shoota.setSpeed(Constants.MIDSHOTHOODANGLE);
+                    Hood.setToAngle(Constants.MIDSHOTHOODSERVO);
+                    Shoota.setSpeed(Constants.MIDSHOTSPEED);
                 } else if (gamepad2.a) {
                     Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
-                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
-                    Shoota.setSpeed(Constants.CLOSESHOTHOODANGLE);
+                    Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
+                    Shoota.setSpeed(Constants.CLOSESHOTSPEED);
                 }
                 break;
             case "Tracking":

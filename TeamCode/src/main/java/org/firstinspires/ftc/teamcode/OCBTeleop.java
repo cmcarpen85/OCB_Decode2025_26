@@ -126,11 +126,11 @@ public class OCBTeleop extends LinearOpMode {
 //                    Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
                 OCBHWM.hoodServo.setPosition(Constants.MIDSHOTHOODSERVO);
                 OCBHWM.turretServo.setPosition(Constants.MIDSHOTTURRETSERVO);
-                Shoota.setSpeed(Constants.MIDSHOTHOODANGLE);
+                Shoota.setSpeed(Constants.MIDSHOTHOODSERVO);
             } else if (gamepad2.y) {
 //                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
 //                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
-                Shoota.setSpeed(Constants.CLOSESHOTHOODANGLE);
+                Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
@@ -151,6 +151,7 @@ public class OCBTeleop extends LinearOpMode {
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
             telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
+            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
             telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
             telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
             telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
