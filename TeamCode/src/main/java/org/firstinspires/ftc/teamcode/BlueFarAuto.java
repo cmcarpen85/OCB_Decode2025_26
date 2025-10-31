@@ -24,7 +24,7 @@ import Modules.OCBHWM;
 
 @Config
 @Autonomous
-public class RedFarAuto extends LinearOpMode {
+public class BlueFarAuto extends LinearOpMode {
 
 
     Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
@@ -39,23 +39,23 @@ public class RedFarAuto extends LinearOpMode {
 
         //SM = Spike Mark
         public double pickMidSMX = 15;
-        public double pickMidSMY = 47;
+        public double pickMidSMY = -47;
         public double intakeDriveX = 27;
         public double intakeDriveY = 0;
         public double shoot1X = 0;
-        public double shoot1Y = 2;
+        public double shoot1Y = -2;
         public double pickCloseSMX = 15;
-        public double pickCloseSMY = 27;
+        public double pickCloseSMY = -27;
         public double shoot2X = 0;
-        public double shoot2Y = 2;
+        public double shoot2Y = -2;
         public double leaveLaunchZoneX = 0;
-        public double leaveLaunchZoneY = 24;
+        public double leaveLaunchZoneY = -24;
     }
 
     public static Params PARAMS = new Params();
 
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
-    Pose2d pickMidSM = new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(-90));
+    Pose2d pickMidSM = new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.startOri));
     Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.startOri));
     Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(PARAMS.startOri));
     Pose2d shootPos2 = new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.startOri));
@@ -70,23 +70,23 @@ public class RedFarAuto extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap, initialPos);
 
         TrajectoryActionBuilder PickMidSpikeMark = drive.actionBuilder(startPos)
-                .setTangent(Math.toRadians(90))
+                .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(PARAMS.startOri))
                 .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.startOri)))
                 .lineToXConstantHeading(PARAMS.pickMidSMX)
-                .splineToConstantHeading(new Vector2d(PARAMS.startX, PARAMS.startY), Math.toRadians(-90));
+                .splineToConstantHeading(new Vector2d(PARAMS.startX, PARAMS.startY), Math.toRadians(90));
 
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
-                .setTangent(Math.toRadians(90))
+                .setTangent(Math.toRadians(-90))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(PARAMS.startOri))
                 .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(PARAMS.startOri)))
                 .lineToXConstantHeading(PARAMS.pickCloseSMX)
-                .splineToConstantHeading(new Vector2d(PARAMS.startX, PARAMS.startY), Math.toRadians(-90));
+                .splineToConstantHeading(new Vector2d(PARAMS.startX, PARAMS.startY), Math.toRadians(90));
 
 
         TrajectoryActionBuilder LeaveLaunchZone = drive.actionBuilder(shootPos2)
@@ -96,21 +96,21 @@ public class RedFarAuto extends LinearOpMode {
         while (opModeIsActive()) {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
-                            new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT,1.0),
-                            new SleepAction(1.5),
-                            new ShootAction(ShootaActionType.SHOOT),
-                            new ShootAction(ShootaActionType.STOP),
+                   new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT,-1.0),
+                    new SleepAction(1.5),
+                    new ShootAction(ShootaActionType.SHOOT),
+                    new ShootAction(ShootaActionType.STOP),
 
-                            //Pick mid spike mark
-                            new ParallelAction(
-                                    PickMidSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
-                            ),
+                    //Pick mid spike mark
+                    new ParallelAction(
+                            PickMidSpikeMark.build(),
+                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                    ),
 
                             //Prep mid spike mark shoot
                             new ParallelAction(
                                     DriveToShoot1.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT,1.0)
+                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT,-1.0)
                             ),
 
                             //Shoot1
@@ -126,7 +126,7 @@ public class RedFarAuto extends LinearOpMode {
                             //Prep close spike mark shoot
                             new ParallelAction(
                                     DriveToShoot2.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT,1.0)
+                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT,-1.0)
                             ),
 
                             //Shoot2

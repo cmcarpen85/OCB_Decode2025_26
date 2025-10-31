@@ -93,7 +93,7 @@ public class AutoTesting extends LinearOpMode {
         while (opModeIsActive()) {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
-                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT),
+                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT,1.0),
                             new SleepAction(2),
                             new ShootAction(ShootaActionType.SHOOT),
                             new ShootAction(ShootaActionType.STOP)

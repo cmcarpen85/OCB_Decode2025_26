@@ -4,15 +4,9 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
-
 import java.util.List;
-import java.util.Objects;
 
 import Modules.Constants;
-import Modules.Hood;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -20,7 +14,7 @@ import Modules.Transfer;
 import Modules.Turret;
 
 @TeleOp
-public class OCBTeleop extends LinearOpMode {
+public class RedOCBTeleop extends LinearOpMode {
 
     public String ShootaMode = "Manual";
 
@@ -73,6 +67,8 @@ public class OCBTeleop extends LinearOpMode {
                 Shoota.setSpeed(ShootaSpeed);
             } else if (gamepad2.a) {
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
+            }else if (gamepad2.x){
+                Shoota.setSpeed(Constants.MIDSHOTSPEED);
             }
             else {
                 Shoota.stop();
@@ -115,22 +111,20 @@ public class OCBTeleop extends LinearOpMode {
 
 
             if (gamepad2.a) {
-//                    Turret.setToAngle(Constants.FARSHOTTURRETANGLE);
-//                    Hood.setToAngle(Constants.FARSHOTHOODANGLE);
                 OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
-                OCBHWM.turretServo.setPosition(Constants.FARSHOTTURRETSERVO);
+                Turret.setToAngle(-Constants.TELEFARSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 ShootaSpeed = Constants.FARSHOTSPEED;
             } else if (gamepad2.x) {
-//                    Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
-//                    Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
                 OCBHWM.hoodServo.setPosition(Constants.MIDSHOTHOODSERVO);
-                OCBHWM.turretServo.setPosition(Constants.MIDSHOTTURRETSERVO);
-                Shoota.setSpeed(Constants.MIDSHOTHOODSERVO);
+                Turret.setToAngle(-Constants.MIDSHOTTURRETANGLE);
+                Shoota.setSpeed(Constants.MIDSHOTSPEED);
+                ShootaSpeed = Constants.MIDSHOTSPEED;
+
             } else if (gamepad2.y) {
 //                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
 //                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
-                Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
+                Shoota.setSpeed(Constants.CLOSESHOTSPEED);
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
@@ -144,6 +138,8 @@ public class OCBTeleop extends LinearOpMode {
             } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
                 OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
             }
+
+            Shoota.CheckSpeed(ShootaSpeed);
 
             telemetry.addData("shoota mode", ShootaMode);
             telemetry.addData("Shoota set speed", ShootaSpeed);

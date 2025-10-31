@@ -25,10 +25,12 @@ public class PrepShootAction implements FailableAction {
     private long startTime = 0;
     private double ShootSpeed = 0;
     private double TurretAngle = 0;
+    private double color = 1;
     private double HoodAngle = 0;
 
-    public PrepShootAction(PrepShootActionType actionType) {
+    public PrepShootAction(PrepShootActionType actionType, double color) {
         this.actionType = actionType;
+        this.color = color;
         this.duration = 100;
     }
 
@@ -51,34 +53,34 @@ public class PrepShootAction implements FailableAction {
         switch (this.actionType) {
             case PREP_SHOOT:
                 Shoota.setSpeed(this.ShootSpeed);
-                Turret.setToAngle(this.TurretAngle);
+                Turret.setToAngle(this.TurretAngle * this.color);
                 Hood.setToAngle(this.HoodAngle);
                 break;
 
             case PREP_FAR_SHOOT:
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
-                Turret.setToAngle(Constants.FARSHOTTURRETANGLE);
+                Turret.setToAngle(Constants.FARSHOTTURRETANGLE * this.color);
                 Hood.setToAngle(Constants.FARSHOTHOODSERVO);
                 this.ShootSpeed = Constants.FARSHOTSPEED;
                 break;
 
             case PREP_MID_SHOOT:
                 Shoota.setSpeed(Constants.MIDSHOTSPEED);
-                Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
+                Turret.setToAngle(Constants.MIDSHOTTURRETANGLE * this.color);
                 Hood.setToAngle(Constants.MIDSHOTHOODSERVO);
                 this.ShootSpeed = Constants.MIDSHOTSPEED;
                 break;
 
             case PREP_CLOSE_SHOOT:
                 Shoota.setSpeed(Constants.CLOSESHOTSPEED);
-                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
+                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE * this.color);
                 Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
                 this.ShootSpeed = Constants.CLOSESHOTSPEED;
                 break;
 
             case PREP_STARTING_SHOT:
                 Shoota.setSpeed(Constants.STARTSHOTSPEED);
-                Turret.setToAngle(Constants.STARTSHOTTURRETANGLE);
+                Turret.setToAngle(Constants.STARTSHOTTURRETANGLE * this.color);
                 Hood.setToAngle(Constants.STARTSHOTHOODSERVO);
                 this.ShootSpeed = Constants.STARTSHOTSPEED;
                 break;

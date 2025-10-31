@@ -8,7 +8,7 @@ public class Turret {
         if (angle > 0) {
             return angle * Ratio + 0.5;
         } else if (angle < 0) {
-            return Math.abs(angle) * Ratio + 0.25;
+            return angle * Ratio + 0.5;
         }
         return 0.5;
     }

@@ -34,7 +34,17 @@ public class Shoota {
     public static void coast() {
         OCBHWM.flywheel.set(Constants.COASTSPEED);
     }
-    
+
+
+    public static void CheckSpeed(double setShootSpeed){
+        if (OCBHWM.flywheel.getVelocity()> setShootSpeed+20 || OCBHWM.flywheel.getVelocity()< setShootSpeed-20){
+            OCBHWM.indLight.setPosition(.5);
+        } else if (OCBHWM.flywheel.getVelocity()<= setShootSpeed+20 && OCBHWM.flywheel.getVelocity()>= setShootSpeed-20) {
+            OCBHWM.indLight.setPosition(.33);
+        } else {
+            OCBHWM.indLight.setPosition(.9);
+        }
+    }
     public static void cameraAdjustTurret() {
 //Error = desiredPos - actualPos
 //        if (Error  0) {

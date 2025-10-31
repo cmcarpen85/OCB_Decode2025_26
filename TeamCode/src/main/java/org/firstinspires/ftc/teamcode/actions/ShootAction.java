@@ -33,13 +33,13 @@ public class ShootAction implements FailableAction {
     public ShootAction(ShootaActionType actionType) {
         this.actionType = actionType;
         this.duration = 3000;
-        this.shootTime = 1500;
+        this.shootTime = 1000;
     }
 
     public ShootAction(ShootaActionType actionType, long milliseconds) {
         this.actionType = actionType;
         this.duration = milliseconds;
-        this.shootTime = 1500;
+        this.shootTime = 1000;
     }
 
     private void initialize() {
@@ -85,9 +85,9 @@ public class ShootAction implements FailableAction {
 //            if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
 //                return ;
 //            }
-        if (OCBHWM.transferClear.getVoltage() <= 0.38) {
+        if (OCBHWM.transferClear.getVoltage() <= 0.35) {
             this.countingEmpty = false;
-        } else if (OCBHWM.transferClear.getVoltage() > 0.38 && !countingEmpty) {
+        } else if (OCBHWM.transferClear.getVoltage() > 0.35 && !countingEmpty) {
             startEmptyTime();
         }
         Shoota.setSpeed(Constants.STARTSHOTSPEED);
