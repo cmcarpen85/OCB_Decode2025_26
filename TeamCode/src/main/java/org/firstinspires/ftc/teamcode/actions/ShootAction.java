@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.actions;
 
+import static org.firstinspires.ftc.teamcode.enums.ShootaActionType.STOP;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -78,25 +80,26 @@ public class ShootAction implements FailableAction {
     public boolean run(@NonNull TelemetryPacket packet) {
         if (!initialized) {
             initialize();
-        }
-         else if (countingEmpty  && this.emptyTime>0 && System.currentTimeMillis() >= this.emptyTime + this.shootTime) {
+        } else if (countingEmpty && this.emptyTime > 0 && System.currentTimeMillis() >= this.emptyTime + this.shootTime) {
             return false;
-         }
-//            if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
-//                return ;
-//            }
-        if (OCBHWM.transferClear.getVoltage() <= 0.35) {
+        } else if (this.actionType == STOP) {
+            return false;
+        }
+        if (OCBHWM.transferClear.getVoltage() <= 0.26) {
             this.countingEmpty = false;
-        } else if (OCBHWM.transferClear.getVoltage() > 0.35 && !countingEmpty) {
+        } else if (OCBHWM.transferClear.getVoltage() > 0.26 && !countingEmpty) {
             startEmptyTime();
         }
-        Shoota.setSpeed(Constants.STARTSHOTSPEED);
+        if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
+            return false;
+        }
+        Shoota.setSpeed(Constants.AUTOSHOTSPEED);
         return true;
     }
 
-        public boolean didFail () {
-            return isFailed;
-        }
+    public boolean didFail() {
+        return isFailed;
     }
+}
 
 
