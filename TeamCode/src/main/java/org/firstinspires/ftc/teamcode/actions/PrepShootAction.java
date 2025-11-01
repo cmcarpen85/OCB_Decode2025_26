@@ -42,8 +42,9 @@ public class PrepShootAction implements FailableAction {
         this.HoodAngle = HoodAngle;
     }
 
-    public PrepShootAction(PrepShootActionType actionType, long milliseconds) {
+    public PrepShootAction(PrepShootActionType actionType, long milliseconds,double color) {
         this.actionType = actionType;
+        this.color = color;
         this.duration = milliseconds;
     }
 
@@ -103,10 +104,10 @@ public class PrepShootAction implements FailableAction {
             initialize();
         }
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
-            return true;
+            return false;
         }
         Shoota.setSpeed(this.ShootSpeed);
-        return false;
+        return true;
     }
 
     public boolean didFail() {

@@ -42,7 +42,7 @@ public class MeepMeepTesting {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri)))
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(PARAMS.startOri))
-                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
+                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(15), new ProfileAccelConstraint(-60, 60))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)

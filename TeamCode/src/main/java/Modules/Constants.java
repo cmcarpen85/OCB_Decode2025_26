@@ -29,14 +29,14 @@ public class Constants {
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
     public static double TURRETANGLETOLERANCE = 1;
-    public static double FARSHOTTURRETANGLE = 67.0; //67
+    public static double FARSHOTTURRETANGLE = 66.0; //67
     public static double TELEFARSHOTTURRETANGLE = 29.9;//27.9
     public static double FARSHOTTURRETSERVO = .3261;
     public static double MIDSHOTTURRETANGLE = 40.0; //38
     public static double MIDSHOTTURRETSERVO = .2622;
     public static double CLOSESHOTTURRETANGLE = 0;
     public static double CLOSESHOTTURRETSERVO = .4;
-    public static double STARTSHOTTURRETANGLE = 67.0; // 67
+    public static double STARTSHOTTURRETANGLE = 66.0; // 67
     public static double STARTSHOTTURRETSERVO = 0.9144;
     //Slider
 
@@ -48,6 +48,7 @@ public class Constants {
 
     //Intake
     public static double INTAKEPOWER = 0.8; //1
+    public static double AUTOINTAKEPOWER = 1; //1
     public static double INTAKEHOLD = 0.3;
 
 
