@@ -24,6 +24,7 @@ import Modules.Turret;
  * A sample opmode for a flywheel with two motors
  * that are linked mechanically.
  */
+@Disabled
 @TeleOp
 public class FlywheelSample extends LinearOpMode {
     public static double MotorPower1 = 0.5;

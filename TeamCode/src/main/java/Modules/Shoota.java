@@ -2,6 +2,7 @@ package Modules;
 
 import com.arcrobotics.ftclib.util.InterpLUT;
 import com.arcrobotics.ftclib.util.LUT;
+import com.qualcomm.hardware.limelightvision.LLResult;
 
 public class Shoota {
 
@@ -36,16 +37,28 @@ public class Shoota {
     }
 
 
-    public static void CheckSpeed(double setShootSpeed){
-        if (OCBHWM.flywheel.getVelocity()> setShootSpeed+20 || OCBHWM.flywheel.getVelocity()< setShootSpeed-20){
+    public static void CheckSpeed(double setShootSpeed) {
+        if (OCBHWM.flywheel.getVelocity() > setShootSpeed + 20 || OCBHWM.flywheel.getVelocity() < setShootSpeed - 20) {
             OCBHWM.indLight.setPosition(.33);
-        } else if (OCBHWM.flywheel.getVelocity()<= setShootSpeed+20 && OCBHWM.flywheel.getVelocity()>= setShootSpeed-20) {
+        } else if (OCBHWM.flywheel.getVelocity() <= setShootSpeed + 20 && OCBHWM.flywheel.getVelocity() >= setShootSpeed - 20) {
             OCBHWM.indLight.setPosition(.5);
         } else {
             OCBHWM.indLight.setPosition(.33);
         }
     }
+
     public static void cameraAdjustTurret() {
+        LLResult result = OCBHWM.limelight.getLatestResult();
+        if (result != null) {
+            if (result.isValid()) {
+                if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
+                    Turret.subtractAngle(Math.abs(result.getTx() * 0.17));
+                } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
+                    Turret.addAngle(Math.abs(result.getTx() * 0.17));
+                }
+            }
+
+        }
 //Error = desiredPos - actualPos
 //        if (Error  0) {
     }

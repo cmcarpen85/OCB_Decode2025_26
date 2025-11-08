@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.actions.IntakeAction;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
 
 import Modules.OCBHWM;
+@Disabled
 @Config
 @Autonomous
 public class AutoTesting extends LinearOpMode {

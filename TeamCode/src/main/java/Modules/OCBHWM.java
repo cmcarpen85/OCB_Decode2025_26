@@ -52,7 +52,7 @@ public class OCBHWM {
     public static CRServo kickerServo;
 
     //Sensors/Gains
-    //public static Limelight3A limelight;
+    public static Limelight3A limelight;
 
     public static AnalogInput turretFeedback;
 
@@ -127,6 +127,6 @@ public class OCBHWM {
         kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
         kickerServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
     }
 }

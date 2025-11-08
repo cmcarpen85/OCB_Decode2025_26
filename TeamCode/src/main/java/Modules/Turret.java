@@ -30,12 +30,12 @@ public class Turret {
 
     public static void addAngle(double increment) {
         double currentValue= servoValueToAngle(OCBHWM.turretServo.getPosition());
-        OCBHWM.turretServo.setPosition(angleToServoValue(currentValue+increment));
+        OCBHWM.turretServo.setPosition(angleToServoValue(currentValue + increment));
     }
 
     public static void subtractAngle(double increment) {
         double currentValue= servoValueToAngle(OCBHWM.turretServo.getPosition());
-        OCBHWM.turretServo.setPosition(angleToServoValue(currentValue+increment));
+        OCBHWM.turretServo.setPosition(angleToServoValue(currentValue - increment));
     }
 
     public double getCurrentAngle() {

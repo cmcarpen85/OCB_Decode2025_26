@@ -15,18 +15,20 @@ public class MeepMeepTesting {
         public double startOri = 0;
 
         //SM = Spike Mark
-        public double pickMidSMX = 15;
-        public double pickMidSMY = 51;
-        public double intakeDriveX = 21;
-        public double intakeDriveY = 0;
         public double shoot1X = 0;
-        public double shoot1Y = 2;
-        public double pickCloseSMX = 15;
-        public double pickCloseSMY = 27;
+        public double shoot1Y = 50.09;
+        public double pickFarSMX = 18.4;
+        public double pickFarSMY = 50.09;
+        public double intakeDriveFarX = 21.5; //39.9076
         public double shoot2X = 0;
-        public double shoot2Y = 2;
+        public double shoot2Y = 50.09;
+        public double pickMidSMX = 18.4;
+        public double pickMidSMY = 73.25;
+        public double intakeDriveX = 27.2; //45.5875
+        public double shoot3X = 0;
+        public double shoot3Y = 50.09;
         public double leaveLaunchZoneX = 0;
-        public double leaveLaunchZoneY = 24;
+        public double leaveLaunchZoneY = 64;
     }
 
     public static Params PARAMS = new Params();
@@ -39,11 +41,10 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri)))
-                .setTangent(Math.toRadians(90))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.startOri)))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(PARAMS.startOri))
-                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(15), new ProfileAccelConstraint(-60, 60))
-                .build());
+                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30))
+ .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
                 .setDarkMode(true)

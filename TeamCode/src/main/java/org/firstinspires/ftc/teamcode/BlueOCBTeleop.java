@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -28,10 +29,14 @@ public class BlueOCBTeleop extends LinearOpMode {
         double ShootaSpeed = .6;
         double ShootaDesiredVelocity = 0;
 
+OCBHWM.limelight.start();
+OCBHWM.limelight.pipelineSwitch(0);
+
+
+        waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
 
-        waitForStart();
         while (!isStopRequested()) {
             if (gamepad1.back) {
                 OCBHWM.imu.reset();
@@ -128,6 +133,8 @@ public class BlueOCBTeleop extends LinearOpMode {
 //                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
 //                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
                 Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
+            }else if (gamepad2.right_bumper){
+                Shoota.cameraAdjustTurret();
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
@@ -143,7 +150,14 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             Shoota.CheckSpeed(ShootaDesiredVelocity);
-
+            LLResult result = OCBHWM.limelight.getLatestResult();
+            if (result != null) {
+                if (result.isValid()){
+                    telemetry.addData("Tx", result.getTx());
+                    telemetry.addData("Ty", result.getTy());
+                    telemetry.addData("Ta", result.getTa());
+                }
+            }
             telemetry.addData("shoota mode", ShootaMode);
             telemetry.addData("Shoota set speed", ShootaSpeed);
             List<Double> velocities = OCBHWM.flywheel.getVelocities();

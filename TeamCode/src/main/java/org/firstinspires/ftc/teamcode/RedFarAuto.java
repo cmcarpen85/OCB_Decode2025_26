@@ -40,7 +40,7 @@ public class RedFarAuto extends LinearOpMode {
         //SM = Spike Mark
         public double pickMidSMX = 15;
         public double pickMidSMY = 47;
-        public double intakeDriveX = 27;
+        public double intakeDriveX = 29;
         public double intakeDriveY = 0;
         public double shoot1X = 0;
         public double shoot1Y = 2;
@@ -70,22 +70,23 @@ public class RedFarAuto extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap, initialPos);
 
         TrajectoryActionBuilder PickMidSpikeMark = drive.actionBuilder(startPos)
-                .setTangent(Math.toRadians(90))
+                .setTangent(Math.toRadians(85))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(PARAMS.startOri))
                 .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.startOri)))
-                .lineToXConstantHeading(PARAMS.pickMidSMX)
+//                .lineToXConstantHeading(PARAMS.pickMidSMX)
+                .setTangent(Math.toRadians(-180))
                 .splineToConstantHeading(new Vector2d(PARAMS.startX, PARAMS.startY), Math.toRadians(-90));
 
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
-                .setTangent(Math.toRadians(90))
+                .setTangent(Math.toRadians(85))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(PARAMS.startOri))
                 .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(PARAMS.startOri)))
-                .lineToXConstantHeading(PARAMS.pickCloseSMX)
+//                .lineToXConstantHeading(PARAMS.pickCloseSMX)
                 .splineToConstantHeading(new Vector2d(PARAMS.startX, PARAMS.startY), Math.toRadians(-90));
 
 

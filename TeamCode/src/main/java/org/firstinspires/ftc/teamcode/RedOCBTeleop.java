@@ -26,10 +26,12 @@ public class RedOCBTeleop extends LinearOpMode {
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
         double ShootaSpeed = .6;
 
+
+
+        waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
 
-        waitForStart();
         while (!isStopRequested()) {
             if (gamepad1.back) {
                 OCBHWM.imu.reset();
