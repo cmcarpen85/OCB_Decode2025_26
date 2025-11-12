@@ -72,11 +72,6 @@ public class BlueCloseAuto extends LinearOpMode {
 
         drive = new MecanumDrive(hardwareMap, initialPos);
 
-//        TrajectoryActionBuilder PickMidSpikeMark = drive.actionBuilder(startPos)
-//                .setTangent(Math.toRadians(-85))
-//                .splineToConstantHeading(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(PARAMS.startOri))
-//                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX,new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
-
         TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(startPos)
                 .lineToYConstantHeading(PARAMS.shoot1Y);
 

@@ -12,23 +12,25 @@ public class MeepMeepTesting {
     public static class Params {
         public double startX = 0;
         public double startY = 0;
-        public double startOri = 0;
+        public double startOri = -90;
 
         //SM = Spike Mark
-        public double shoot1X = 0;
-        public double shoot1Y = 50.09;
-        public double pickFarSMX = 18.4;
-        public double pickFarSMY = 50.09;
-        public double intakeDriveFarX = 21.5; //39.9076
-        public double shoot2X = 0;
-        public double shoot2Y = 50.09;
-        public double pickMidSMX = 18.4;
-        public double pickMidSMY = 73.25;
-        public double intakeDriveX = 27.2; //45.5875
-        public double shoot3X = 0;
-        public double shoot3Y = 50.09;
+        public double pickMidSMX = 16.5;
+        public double pickMidSMY = -50.75;
+        public double openGateX = 38;
+        public double openGateY = 54.6;
+        public double intakeDriveX = 29;
+        public double intakeDriveY = 0;
+        public double shoot1X = 3.5;
+        public double shoot1Y = -14;
+        public double pickCloseSMX = 14.5;
+        public double pickCloseSMY = -27.5;
         public double leaveLaunchZoneX = 0;
-        public double leaveLaunchZoneY = 64;
+        public double leaveLaunchZoneY = -24;
+        public double pickCornerX = 37.5;
+        public double pickCornerY = -10;
+        public double pickCorner2X = 40;
+        public double pickCorner2Y = -0.5;
     }
 
     public static Params PARAMS = new Params();
@@ -41,8 +43,8 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.startOri)))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(PARAMS.startOri))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri)))
+                .splineTo(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians (0))
                 .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30))
  .build());
 

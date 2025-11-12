@@ -32,7 +32,6 @@ public class BlueOCBTeleop extends LinearOpMode {
 OCBHWM.limelight.start();
 OCBHWM.limelight.pipelineSwitch(0);
 
-
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
