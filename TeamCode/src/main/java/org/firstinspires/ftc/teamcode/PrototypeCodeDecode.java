@@ -20,10 +20,10 @@ public class PrototypeCodeDecode extends LinearOpMode {
     static final boolean FIELD_CENTRIC = true;
     public static Servo TestServo1;
     public static Servo TestServo2;
-    public static DcMotor TestMotor1;
-    public static DcMotor TestMotor2;
-    public static CRServo CRTest1;
-    public static CRServo CRTest2;
+//    public static DcMotor TestMotor1;
+//    public static DcMotor TestMotor2;
+//    public static CRServo CRTest1;
+//    public static CRServo CRTest2;
 
     public static double MotorPower1 = 0.5;
     public static double MotorPower2 = 0.5;
@@ -46,27 +46,27 @@ public class PrototypeCodeDecode extends LinearOpMode {
 
         TestServo2 = hardwareMap.get(Servo.class, "TestServo2");
         TestServo1 = hardwareMap.get(Servo.class, "TestServo1");
-        TestMotor1 = hardwareMap.get(DcMotor.class, "TestMotor1");
-        TestMotor2 = hardwareMap.get(DcMotor.class, "TestMotor2");
-        CRTest1 = hardwareMap.get(CRServo.class, "CRTest1");
-        CRTest2 = hardwareMap.get(CRServo.class, "CRTest2");
-
-        TestMotor1.setDirection(DcMotorSimple.Direction.FORWARD);
-        TestMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        TestMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        TestMotor1.setTargetPosition(0);
-        TestMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        TestMotor1.setPower(0);
-
-        TestMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        TestMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        TestMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        TestMotor2.setTargetPosition(0);
-        TestMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        TestMotor2.setPower(0);
-
-        CRTest1.setDirection(CRServo.Direction.FORWARD);
-        CRTest2.setDirection(CRServo.Direction.REVERSE);
+//        TestMotor1 = hardwareMap.get(DcMotor.class, "TestMotor1");
+//        TestMotor2 = hardwareMap.get(DcMotor.class, "TestMotor2");
+//        CRTest1 = hardwareMap.get(CRServo.class, "CRTest1");
+//        CRTest2 = hardwareMap.get(CRServo.class, "CRTest2");
+//
+//        TestMotor1.setDirection(DcMotorSimple.Direction.FORWARD);
+//        TestMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        TestMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        TestMotor1.setTargetPosition(0);
+//        TestMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        TestMotor1.setPower(0);
+//
+//        TestMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
+//        TestMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        TestMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        TestMotor2.setTargetPosition(0);
+//        TestMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        TestMotor2.setPower(0);
+//
+//        CRTest1.setDirection(CRServo.Direction.FORWARD);
+//        CRTest2.setDirection(CRServo.Direction.REVERSE);
 
 
         // This is the built-in IMU in the REV hub.
@@ -98,28 +98,38 @@ public class PrototypeCodeDecode extends LinearOpMode {
 
         while (!isStopRequested()) {
 
-
-            if (gamepad1.left_trigger > 0.4) {
-                TestMotor1.setPower(MotorPower1);
-                TestMotor2.setPower(MotorPower2);
-            } else if (gamepad1.right_trigger > 0.4) {
-                TestMotor1.setPower(-MotorPower1);
-                TestMotor2.setPower(-MotorPower2);
-            } else {
-                TestMotor1.setPower(0);
-                TestMotor2.setPower(0);
-            }
+if (gamepad1.right_bumper){
+    TestServo1.setPosition(1);
+}
+else if (gamepad1.left_bumper){
+    TestServo1.setPosition(0);
+}
+else {
+    TestServo1.setPosition(.5);
+}
 
 
-            if (gamepad1.left_bumper) {
-                CRTest1.setPower(ServoPower1);
-                CRTest2.setPower(ServoPower2);
-            } else if (gamepad1.right_bumper) {
-                CRTest1.setPower(-ServoPower1);
-                CRTest2.setPower(-ServoPower2);
-            } else
-                CRTest1.setPower(0);
-            CRTest2.setPower(0);
+//            if (gamepad1.left_trigger > 0.4) {
+//                TestMotor1.setPower(MotorPower1);
+//                TestMotor2.setPower(MotorPower2);
+//            } else if (gamepad1.right_trigger > 0.4) {
+//                TestMotor1.setPower(-MotorPower1);
+//                TestMotor2.setPower(-MotorPower2);
+//            } else {
+//                TestMotor1.setPower(0);
+//                TestMotor2.setPower(0);
+//            }
+//
+//
+//            if (gamepad1.left_bumper) {
+//                CRTest1.setPower(ServoPower1);
+//                CRTest2.setPower(ServoPower2);
+//            } else if (gamepad1.right_bumper) {
+//                CRTest1.setPower(-ServoPower1);
+//                CRTest2.setPower(-ServoPower2);
+//            } else
+//                CRTest1.setPower(0);
+//            CRTest2.setPower(0);
 
 
         if (gamepad1.dpad_up && MotorPower1 < 1) {

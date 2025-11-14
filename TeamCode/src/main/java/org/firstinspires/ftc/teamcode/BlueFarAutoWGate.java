@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.enums.IntakeActionType;
 import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
 
+import Modules.Intake;
 import Modules.OCBHWM;
 
 @Config
@@ -41,7 +42,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
         public double pickMidSMX = 16.5;
         public double pickMidSMY = -50.75;
         public double openGateX = 38;
-        public double openGateY = 54.6;
+        public double openGateY = -54.6;
         public double intakeDriveX = 29;
         public double intakeDriveY = 0;
         public double shoot1X = 3.5;
@@ -73,10 +74,10 @@ public class BlueFarAutoWGate extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap, initialPos);
 
         TrajectoryActionBuilder PickMidSpikeMark = drive.actionBuilder(startPos)
-                .splineTo(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians (0))
+                .splineTo(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(0))
                 .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
-        TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.startOri)))
+        TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickMidSMX)
                 .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
@@ -84,29 +85,34 @@ public class BlueFarAutoWGate extends LinearOpMode {
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
                 .setTangent(Math.toRadians(-85))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(PARAMS.startOri))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
                 .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
-        TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(PARAMS.startOri)))
+        TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
-        TrajectoryActionBuilder DriveToShoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(PARAMS.startOri)))
+        TrajectoryActionBuilder DriveToShoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
-        TrajectoryActionBuilder DriveToShoot4 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(PARAMS.startOri)))
+        TrajectoryActionBuilder DriveToShoot4 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos1)
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(PARAMS.startOri));
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(0));
 
         TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos1)
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(PARAMS.startOri));
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(0));
 
         TrajectoryActionBuilder PickCorner3 = drive.actionBuilder(shootPos1)
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(PARAMS.startOri));
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(0));
+
+        TrajectoryActionBuilder OpenGate = drive.actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(0)))
+                .lineToXConstantHeading(PARAMS.pickMidSMX+8)
+                .splineToConstantHeading(new Vector2d(PARAMS.openGateX, PARAMS.openGateY), Math.toRadians(0));
+
 
         waitForStart();
         while (opModeIsActive()) {
@@ -122,7 +128,8 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickMidSpikeMark.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
-
+                            new IntakeAction(IntakeActionType.INTAKE_REST),
+                            OpenGate.build(),
                             //Prep mid spike mark shoot
                             new ParallelAction(
                                     DriveToShoot1.build(),

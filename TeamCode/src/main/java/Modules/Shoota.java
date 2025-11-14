@@ -52,9 +52,9 @@ public class Shoota {
         if (result != null) {
             if (result.isValid()) {
                 if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(result.getTx() * 0.17));
+                    Turret.subtractAngle(Math.abs(Math.pow(result.getTx() * 0.1, 2) * 1.2));
                 } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(result.getTx() * 0.17));
+                    Turret.addAngle(Math.abs(Math.pow(result.getTx() * 0.1, 2) * 1.2));
                 }
             }
 
@@ -62,5 +62,4 @@ public class Shoota {
 //Error = desiredPos - actualPos
 //        if (Error  0) {
     }
-
 }

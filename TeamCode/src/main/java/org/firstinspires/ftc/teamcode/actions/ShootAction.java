@@ -93,6 +93,7 @@ public class ShootAction implements FailableAction {
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
             return false;
         }
+        //TODO add shooter speed as input
         Shoota.setSpeed(Constants.AUTOSHOTSPEED);
         return true;
     }

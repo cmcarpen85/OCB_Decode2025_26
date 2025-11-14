@@ -18,7 +18,7 @@ public class MeepMeepTesting {
         public double pickMidSMX = 16.5;
         public double pickMidSMY = -50.75;
         public double openGateX = 38;
-        public double openGateY = 54.6;
+        public double openGateY = -54.6;
         public double intakeDriveX = 29;
         public double intakeDriveY = 0;
         public double shoot1X = 3.5;
@@ -43,9 +43,9 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri)))
-                .splineTo(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians (0))
-                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(0)))
+                .lineToXConstantHeading(PARAMS.pickMidSMX+8)
+                .splineToConstantHeading(new Vector2d(PARAMS.openGateX, PARAMS.openGateY), Math.toRadians(0))
  .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
