@@ -44,7 +44,7 @@ public class PrototypeCodeDecode extends LinearOpMode {
 //                new Motor(hardwareMap, "rightBack", Motor.GoBILDA.RPM_435)
 //        );
 
-        TestServo2 = hardwareMap.get(Servo.class, "TestServo2");
+//        TestServo2 = hardwareMap.get(Servo.class, "TestServo2");
         TestServo1 = hardwareMap.get(Servo.class, "TestServo1");
 //        TestMotor1 = hardwareMap.get(DcMotor.class, "TestMotor1");
 //        TestMotor2 = hardwareMap.get(DcMotor.class, "TestMotor2");
@@ -98,15 +98,13 @@ public class PrototypeCodeDecode extends LinearOpMode {
 
         while (!isStopRequested()) {
 
-if (gamepad1.right_bumper){
-    TestServo1.setPosition(1);
-}
-else if (gamepad1.left_bumper){
-    TestServo1.setPosition(0);
-}
-else {
-    TestServo1.setPosition(.5);
-}
+            if (gamepad1.right_bumper) {
+                TestServo1.setPosition(1);
+            } else if (gamepad1.left_bumper) {
+                TestServo1.setPosition(0);
+            } else {
+                TestServo1.setPosition(.5);
+            }
 
 
 //            if (gamepad1.left_trigger > 0.4) {
@@ -132,38 +130,37 @@ else {
 //            CRTest2.setPower(0);
 
 
-        if (gamepad1.dpad_up && MotorPower1 < 1) {
-            MotorPower1 = MotorPower1 + .0001;
-            MotorPower2 = MotorPower2 + .0001;
-        } else if (gamepad1.dpad_down && MotorPower1 > 0) {
-            MotorPower1 = MotorPower1 - .0001;
-            MotorPower2 = MotorPower2 - .0001;
-        }
+            if (gamepad1.dpad_up && MotorPower1 < 1) {
+                MotorPower1 = MotorPower1 + .0001;
+                MotorPower2 = MotorPower2 + .0001;
+            } else if (gamepad1.dpad_down && MotorPower1 > 0) {
+                MotorPower1 = MotorPower1 - .0001;
+                MotorPower2 = MotorPower2 - .0001;
+            }
 
-        if(gamepad1.y && ServoPower1<1){
-            ServoPower1=ServoPower1+.0001;
-            ServoPower2=ServoPower2+.0001;
-        } else if (gamepad1.a && ServoPower1>0) {
-            ServoPower1=ServoPower1-.0001;
-            ServoPower2=ServoPower2-.0001;
-        }
-
-
-        telemetry.addData("Motor 1 power", MotorPower1);
-        telemetry.addData("Motor 2 power", MotorPower2);
-        telemetry.addData("Servo 1 power",ServoPower1);
-        telemetry.addData("Servo 2 power",ServoPower2);
+            if (gamepad1.y && ServoPower1 < 1) {
+                ServoPower1 = ServoPower1 + .0001;
+                ServoPower2 = ServoPower2 + .0001;
+            } else if (gamepad1.a && ServoPower1 > 0) {
+                ServoPower1 = ServoPower1 - .0001;
+                ServoPower2 = ServoPower2 - .0001;
+            }
 
 
+            telemetry.addData("Motor 1 power", MotorPower1);
+            telemetry.addData("Motor 2 power", MotorPower2);
+            telemetry.addData("Servo 1 power", ServoPower1);
+            telemetry.addData("Servo 2 power", ServoPower2);
 
-        telemetry.update();
+
+            telemetry.update();
 
 
-        // Driving the mecanum base takes 3 joystick parameters: leftX, leftY, rightX.
-        // These are related to the left stick x value, left stick y value, and
-        // right stick x value respectively. These values are passed in to represent the
-        // strafing speed, the forward speed, and the turning speed of the robot frame
-        // respectively from [-1, 1].
+            // Driving the mecanum base takes 3 joystick parameters: leftX, leftY, rightX.
+            // These are related to the left stick x value, left stick y value, and
+            // right stick x value respectively. These values are passed in to represent the
+            // strafing speed, the forward speed, and the turning speed of the robot frame
+            // respectively from [-1, 1].
 
 //            if (!FIELD_CENTRIC) {
 //
@@ -230,7 +227,7 @@ else {
 //
 //            }
 
-    }
+        }
 
-}
+    }
 }
