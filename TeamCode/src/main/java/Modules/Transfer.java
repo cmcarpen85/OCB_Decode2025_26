@@ -17,16 +17,22 @@ public class Transfer {
 
     //Gate
     public static void gateForward(){
-        OCBHWM.gateServo.setPower(Constants.GATEPOWER);
-        OCBHWM.gateServo2.setPower(Constants.GATEPOWER);
+        OCBHWM.gateServo.setPosition(1);
+        OCBHWM.gateServo2.setPosition(0);
+//        OCBHWM.gateServo.setPower(Constants.GATEPOWER);
+//        OCBHWM.gateServo2.setPower(Constants.GATEPOWER);
     }
     public static void gateReverse() {
-        OCBHWM.gateServo.setPower(-Constants.GATEPOWER);
-        OCBHWM.gateServo2.setPower(-Constants.GATEPOWER);
+        OCBHWM.gateServo.setPosition(0);
+        OCBHWM.gateServo2.setPosition(1);
+//        OCBHWM.gateServo.setPower(-Constants.GATEPOWER);
+//        OCBHWM.gateServo2.setPower(-Constants.GATEPOWER);
     }
     public static void gateRest() {
-        OCBHWM.gateServo.setPower(0);
-        OCBHWM.gateServo2.setPower(0);
+        OCBHWM.gateServo.setPosition(0.5);
+        OCBHWM.gateServo2.setPosition(0.5);
+//        OCBHWM.gateServo.setPower(0);
+//        OCBHWM.gateServo2.setPower(0);
     }
 
     //Kicker

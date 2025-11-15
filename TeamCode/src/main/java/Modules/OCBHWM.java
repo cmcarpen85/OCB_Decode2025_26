@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.Rev9AxisImu;
+import com.qualcomm.hardware.rev.RevSPARKMini;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,8 +31,8 @@ public class OCBHWM {
     public static Motor flywheelL;
     public static Motor flywheelR;
     public static MotorGroup flywheel;
-    public static DcMotor transferM;
-    public static DcMotor intakeM;
+    public static CRServo transferM;
+    public static CRServo intakeM;
 
     //drivetrain
     static final double TRACKWIDTH = 11.881;
@@ -47,8 +48,8 @@ public class OCBHWM {
     public static Servo turretServo;
     public static Servo hoodServo;
     public static Servo indLight;
-    public static CRServo gateServo;
-    public static CRServo gateServo2;
+    public static Servo gateServo;
+    public static Servo gateServo2;
     public static CRServo kickerServo;
 
     //Sensors/Gains
@@ -100,15 +101,19 @@ public class OCBHWM {
         flywheelR.setInverted(true);
 
 
-        transferM = hardwareMap.get(DcMotor.class, "transferM");
-        transferM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        transferM = hardwareMap.get(CRServo.class, "transferM");
         transferM.setPower(0);
-        transferM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        transferM.setDirection(DcMotorSimple.Direction.FORWARD);
+//        transferM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        transferM.setPower(0);
+//        transferM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        intakeM = hardwareMap.get(DcMotor.class, "intakeM");
-        intakeM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeM = hardwareMap.get(CRServo.class, "intakeM");
         intakeM.setPower(0);
-        intakeM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        intakeM.setDirection(DcMotorSimple.Direction.FORWARD);
+//        intakeM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        intakeM.setPower(0);
+//        intakeM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         turretServo = hardwareMap.get(Servo.class, "turretServo");
         turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
@@ -119,9 +124,9 @@ public class OCBHWM {
         hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
         transferClear = hardwareMap.get(AnalogInput.class, "transferClear");
 
-        gateServo = hardwareMap.get(CRServo.class, "gateServo");
-        gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        gateServo2 = hardwareMap.get(CRServo.class, "gateServo2");
+        gateServo = hardwareMap.get(Servo.class, "gateServo");
+//        gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        gateServo2 = hardwareMap.get(Servo.class, "gateServo2");
 
 
         kickerServo = hardwareMap.get(CRServo.class, "kickerServo");

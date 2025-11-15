@@ -120,7 +120,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             //Shoot preload
                             new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, -1.0),
                             new SleepAction(1.5),
-                            new ShootAction(ShootaActionType.SHOOT, 4000),
+                            new ShootAction(ShootaActionType.SHOOTSTART, 4000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick mid spike mark
@@ -137,7 +137,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             ),
 
                             //Shoot1
-                            new ShootAction(ShootaActionType.SHOOT, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick close spike mark
@@ -153,7 +153,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             ),
 
                             //Shoot2
-                            new ShootAction(ShootaActionType.SHOOT, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 1
@@ -167,7 +167,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOT, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 2
@@ -181,7 +181,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOT, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 3

@@ -1,6 +1,9 @@
 package Modules;
 
 public class Constants {
+    //camara
+    public static double FARSHOTTY = 0;
+    public static double CLOSESHOTTY = 0;
 
     //FlyWheel
     public static double COASTSPEED = 0.3;

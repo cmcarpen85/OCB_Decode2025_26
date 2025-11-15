@@ -59,7 +59,24 @@ public class Shoota {
             }
 
         }
-//Error = desiredPos - actualPos
-//        if (Error  0) {
+    }
+    public static void cameraSetLaunch() {
+        LLResult result = OCBHWM.limelight.getLatestResult();
+        if (result != null) {
+            if (result.isValid()) {
+                if (result.getTy() < Constants.FARSHOTTY) {
+                   Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+                   Shoota.setSpeed(Constants.FARSHOTSPEED);
+                } else if (result.getTy() < Constants.CLOSESHOTTY) {
+                    Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
+                    Shoota.setSpeed(Constants.CLOSESHOTSPEED);
+                } else if (result.getTy() >= Constants.FARSHOTTY && result.getTy() < 0){
+                    //TODO DO MATH FOR ADJUSTMENT
+                } else if (result.getTy() <= Constants.CLOSESHOTTY && result.getTy() > 0){
+
+                }
+            }
+
+        }
     }
 }

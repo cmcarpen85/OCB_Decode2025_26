@@ -31,6 +31,8 @@ public class ShootAction implements FailableAction {
     private long shootTime = -1;
     private boolean countingEmpty = false;
 
+    private double shootSpeed = 0;
+
 
     public ShootAction(ShootaActionType actionType) {
         this.actionType = actionType;
@@ -44,6 +46,14 @@ public class ShootAction implements FailableAction {
         this.shootTime = 1000;
     }
 
+    public ShootAction(ShootaActionType actionType, long milliseconds, double speed) {
+        this.actionType = actionType;
+        this.duration = milliseconds;
+        this.shootTime = 1000;
+        this.shootSpeed = speed;
+
+    }
+
     private void initialize() {
         this.startTime = System.currentTimeMillis();
         switch (this.actionType) {
@@ -53,6 +63,22 @@ public class ShootAction implements FailableAction {
                 Transfer.transferIn();
                 Intake.intakeIn();
                 break;
+            case SHOOTSTART:
+                Transfer.kickerForward();
+                Transfer.gateForward();
+                Transfer.transferIn();
+                Intake.intakeIn();
+            this.shootSpeed = Constants.STARTSHOTSPEED;
+                break;
+
+            case SHOOTFAR:
+                Transfer.kickerForward();
+                Transfer.gateForward();
+                Transfer.transferIn();
+                Intake.intakeIn();
+                this.shootSpeed = Constants.AUTOSHOTSPEED;
+                break;
+
             case STOP:
                 Transfer.kickerRest();
                 Transfer.gateRest();
