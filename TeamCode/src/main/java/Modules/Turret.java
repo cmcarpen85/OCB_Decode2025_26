@@ -24,17 +24,23 @@ public class Turret {
         return 0;
     }
 
+    public static double FeedbacktoAngle(){
+        return (55.17*(OCBHWM.turretFeedback.getVoltage()-1.6495));
+    }
+
     public static void setToAngle(double angle) {
         OCBHWM.turretServo.setPosition(angleToServoValue(angle));
     }
 
     public static void addAngle(double increment) {
         double currentValue= servoValueToAngle(OCBHWM.turretServo.getPosition());
+//        double currentValue= FeedbacktoAngle();
         OCBHWM.turretServo.setPosition(angleToServoValue(currentValue + increment));
     }
 
     public static void subtractAngle(double increment) {
         double currentValue= servoValueToAngle(OCBHWM.turretServo.getPosition());
+//        double currentValue= FeedbacktoAngle();
         OCBHWM.turretServo.setPosition(angleToServoValue(currentValue - increment));
     }
 

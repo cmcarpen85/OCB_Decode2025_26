@@ -31,7 +31,7 @@ public class Constants {
     public static double TURRETMAXANGLE = 80;
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
-    public static double TURRETANGLETOLERANCE = 1;
+    public static double TURRETANGLETOLERANCE = 2;
     public static double AUTOFARSHOTTURRETANGLE = 65; //67
     public static double TELEFARSHOTTURRETANGLE = 27.9;//27.9
     public static double FARSHOTTURRETSERVO = .3261;
@@ -41,6 +41,8 @@ public class Constants {
     public static double CLOSESHOTTURRETSERVO = .4;
     public static double STARTSHOTTURRETANGLE = -18.0; // 67
     public static double STARTSHOTTURRETSERVO = 0.9144;
+
+
     //Slider
 
 

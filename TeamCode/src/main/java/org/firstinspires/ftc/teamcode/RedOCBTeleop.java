@@ -146,27 +146,27 @@ public class RedOCBTeleop extends LinearOpMode {
                 OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
             }
 
-            Shoota.CheckSpeed(ShootaSpeed);
-            LLResult result = OCBHWM.limelight.getLatestResult();
-            if (result != null) {
-                if (result.isValid()){
-                    telemetry.addData("Tx", result.getTx());
-                    telemetry.addData("Ty", result.getTy());
-                    telemetry.addData("Ta", result.getTa());
-                }
-            }
-            telemetry.addData("shoota mode", ShootaMode);
-            telemetry.addData("Shoota set speed", ShootaSpeed);
-            List<Double> velocities = OCBHWM.flywheel.getVelocities();
-            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
-            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
-            telemetry.addData("turret Servo angle", OCBHWM.turretServo.getPosition());
-            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
-            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
-            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
-            telemetry.addData("Hood Feedback voltage", OCBHWM.hoodFeedback.getVoltage());
-            telemetry.addData("Transfer Sensor voltage", OCBHWM.transferClear.getVoltage());
-            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
+//            Shoota.CheckSpeed(ShootaSpeed);
+//            LLResult result = OCBHWM.limelight.getLatestResult();
+//            if (result != null) {
+//                if (result.isValid()){
+//                    telemetry.addData("Tx", result.getTx());
+//                    telemetry.addData("Ty", result.getTy());
+//                    telemetry.addData("Ta", result.getTa());
+//                }
+//            }
+//            telemetry.addData("shoota mode", ShootaMode);
+//            telemetry.addData("Shoota set speed", ShootaSpeed);
+//            List<Double> velocities = OCBHWM.flywheel.getVelocities();
+//            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
+//            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
+//            telemetry.addData("turret Servo angle", OCBHWM.turretServo.getPosition());
+//            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
+//            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
+//            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
+//            telemetry.addData("Hood Feedback voltage", OCBHWM.hoodFeedback.getVoltage());
+//            telemetry.addData("Transfer Sensor voltage", OCBHWM.transferClear.getVoltage());
+//            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
             telemetry.update();
 
 
