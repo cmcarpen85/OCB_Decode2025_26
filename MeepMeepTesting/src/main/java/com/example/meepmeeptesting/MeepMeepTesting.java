@@ -43,9 +43,9 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(0)))
-                .lineToXConstantHeading(PARAMS.pickMidSMX+8)
-                .splineToConstantHeading(new Vector2d(PARAMS.openGateX, PARAMS.openGateY), Math.toRadians(0))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(70))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(70))
  .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)

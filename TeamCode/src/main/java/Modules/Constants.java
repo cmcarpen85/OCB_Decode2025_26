@@ -7,13 +7,13 @@ public class Constants {
 
     //FlyWheel
     public static double COASTSPEED = 0.3;
-    public static double FARSHOTSPEED = 0.635;
+    public static double FARSHOTSPEED = 0.625; // 0.635
     public static double FARSHOTVEL = 1560;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
     public static double CLOSESHOTSPEED = 0.4;
-    public static double STARTSHOTSPEED = 0.605;
-    public static double AUTOSHOTSPEED = .608;
+    public static double STARTSHOTSPEED = 0.62;
+    public static double AUTOSHOTSPEED = .58;
 
     //Hood
     public static double HOODHOME = 0.05;
@@ -32,7 +32,7 @@ public class Constants {
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
     public static double TURRETANGLETOLERANCE = 1;
-    public static double AUTOFARSHOTTURRETANGLE = 60.0; //67
+    public static double AUTOFARSHOTTURRETANGLE = 65; //67
     public static double TELEFARSHOTTURRETANGLE = 27.9;//27.9
     public static double FARSHOTTURRETSERVO = .3261;
     public static double MIDSHOTTURRETANGLE = 40.0; //38

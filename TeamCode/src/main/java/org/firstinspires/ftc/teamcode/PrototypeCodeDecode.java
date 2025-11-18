@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import Modules.OCBHWM;
+
 
 @TeleOp
 public class PrototypeCodeDecode extends LinearOpMode {
@@ -93,7 +95,7 @@ public class PrototypeCodeDecode extends LinearOpMode {
 
         // the extended gamepad object
         GamepadEx driverOp = new GamepadEx(gamepad1);
-
+ OCBHWM.hwinit(hardwareMap);
         waitForStart();
 
         while (!isStopRequested()) {
@@ -104,6 +106,14 @@ public class PrototypeCodeDecode extends LinearOpMode {
                 TestServo1.setPosition(0);
             } else {
                 TestServo1.setPosition(.5);
+            }
+
+            if (gamepad1.right_stick_y>0.1){
+                OCBHWM.transferM.setPower(gamepad1.right_stick_y);
+            } else if (gamepad1.right_stick_y<-0.1){
+                OCBHWM.transferM.setPower(gamepad1.right_stick_y);
+            }else {
+                OCBHWM.transferM.setPower(0);
             }
 
 

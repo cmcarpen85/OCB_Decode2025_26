@@ -47,18 +47,22 @@ public class Shoota {
         }
     }
 
-    public static void cameraAdjustTurret() {
+    public static boolean cameraAdjustTurret() {
         LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
                 if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(Math.pow(result.getTx() * 0.1, 2) * 1.2));
+                    Turret.subtractAngle(Math.abs(Math.pow(result.getTx() * 0.08, 2) * 1.1));
+                    return false;
                 } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(Math.pow(result.getTx() * 0.1, 2) * 1.2));
+                    Turret.addAngle(Math.abs(Math.pow(result.getTx() * 0.08, 2) * 1.1));
+                    return false;
                 }
+                return true;
             }
 
         }
+        return true;
     }
     public static void cameraSetLaunch() {
         LLResult result = OCBHWM.limelight.getLatestResult();

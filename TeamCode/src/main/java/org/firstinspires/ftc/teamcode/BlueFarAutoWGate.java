@@ -40,18 +40,18 @@ public class BlueFarAutoWGate extends LinearOpMode {
 
         //SM = Spike Mark
         public double pickMidSMX = 16.5;
-        public double pickMidSMY = -50.75;
+        public double pickMidSMY = -45.75;
         public double openGateX = 38;
         public double openGateY = -54.6;
         public double intakeDriveX = 29;
         public double intakeDriveY = 0;
-        public double shoot1X = 3.5;
-        public double shoot1Y = -14;
+        public double shoot1X = 2;
+        public double shoot1Y = -8;
         public double pickCloseSMX = 14.5;
         public double pickCloseSMY = -27.5;
         public double leaveLaunchZoneX = 0;
         public double leaveLaunchZoneY = -24;
-        public double pickCornerX = 37.5;
+        public double pickCornerX = 39;
         public double pickCornerY = -10;
         public double pickCorner2X = 40;
         public double pickCorner2Y = -0.5;
@@ -74,8 +74,9 @@ public class BlueFarAutoWGate extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap, initialPos);
 
         TrajectoryActionBuilder PickMidSpikeMark = drive.actionBuilder(startPos)
-                .splineTo(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(0))
-                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
+                .splineTo(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(-15))
+                .splineToLinearHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(0)), Math.toRadians(-15), new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
+//                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickMidSMX)
@@ -86,7 +87,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
                 .setTangent(Math.toRadians(-85))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
-                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
+                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
@@ -101,16 +102,19 @@ public class BlueFarAutoWGate extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos1)
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(0));
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(70))
+               .splineToConstantHeading(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(70));
 
         TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos1)
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(0));
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(70))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(70));
 
         TrajectoryActionBuilder PickCorner3 = drive.actionBuilder(shootPos1)
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(0));
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(70))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(70));
 
         TrajectoryActionBuilder OpenGate = drive.actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(0)))
-                .lineToXConstantHeading(PARAMS.pickMidSMX+8)
+                .lineToXConstantHeading(PARAMS.pickMidSMX + 8)
                 .splineToConstantHeading(new Vector2d(PARAMS.openGateX, PARAMS.openGateY), Math.toRadians(0));
 
 
@@ -128,8 +132,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickMidSpikeMark.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
-                            new IntakeAction(IntakeActionType.INTAKE_REST),
-                            OpenGate.build(),
+
                             //Prep mid spike mark shoot
                             new ParallelAction(
                                     DriveToShoot1.build(),
@@ -145,7 +148,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickCloseSpikeMark.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
-
+                            new IntakeAction(IntakeActionType.INTAKE_REST),
                             //Prep close spike mark shoot
                             new ParallelAction(
                                     DriveToShoot2.build(),
@@ -175,6 +178,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickCorner2.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
+                            new IntakeAction(IntakeActionType.INTAKE_REST),
                             //Prep Corner Corner Shoot
                             new ParallelAction(
                                     DriveToShoot4.build(),

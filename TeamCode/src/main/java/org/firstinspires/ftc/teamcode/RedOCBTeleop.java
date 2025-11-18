@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -25,8 +26,10 @@ public class RedOCBTeleop extends LinearOpMode {
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
         double ShootaSpeed = .6;
+        double ShootaDesiredVelocity = 0;
 
-
+        OCBHWM.limelight.start();
+        OCBHWM.limelight.pipelineSwitch(2);
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
@@ -65,14 +68,13 @@ public class RedOCBTeleop extends LinearOpMode {
             }
 
             //Prep Shoota
-            if (gamepad2.left_trigger > 0.4 ) {
+            if (gamepad2.left_trigger > 0.4) {
                 Shoota.setSpeed(ShootaSpeed);
             } else if (gamepad2.a) {
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
-            }else if (gamepad2.x){
+            } else if (gamepad2.x) {
                 Shoota.setSpeed(Constants.MIDSHOTSPEED);
-            }
-            else {
+            } else {
                 Shoota.stop();
             }
             if (-gamepad2.right_stick_y >= 0.4 && ShootaSpeed < 1) {
@@ -107,7 +109,7 @@ public class RedOCBTeleop extends LinearOpMode {
                 Transfer.transferIn();
             } else if (gamepad2.b) {
                 Transfer.transferOut();
-            }else {
+            } else {
                 Transfer.transferHold();
             }
 
@@ -117,16 +119,19 @@ public class RedOCBTeleop extends LinearOpMode {
                 Turret.setToAngle(-Constants.TELEFARSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 ShootaSpeed = Constants.FARSHOTSPEED;
+                ShootaDesiredVelocity = Constants.FARSHOTVEL;
             } else if (gamepad2.x) {
                 OCBHWM.hoodServo.setPosition(Constants.MIDSHOTHOODSERVO);
                 Turret.setToAngle(-Constants.MIDSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.MIDSHOTSPEED);
                 ShootaSpeed = Constants.MIDSHOTSPEED;
-
+                ShootaDesiredVelocity = Constants.MIDSHOTVEL;
             } else if (gamepad2.y) {
 //                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
 //                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
                 Shoota.setSpeed(Constants.CLOSESHOTSPEED);
+            } else if (gamepad2.right_bumper) {
+                Shoota.cameraAdjustTurret();
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
@@ -142,18 +147,25 @@ public class RedOCBTeleop extends LinearOpMode {
             }
 
             Shoota.CheckSpeed(ShootaSpeed);
-
+            LLResult result = OCBHWM.limelight.getLatestResult();
+            if (result != null) {
+                if (result.isValid()){
+                    telemetry.addData("Tx", result.getTx());
+                    telemetry.addData("Ty", result.getTy());
+                    telemetry.addData("Ta", result.getTa());
+                }
+            }
             telemetry.addData("shoota mode", ShootaMode);
             telemetry.addData("Shoota set speed", ShootaSpeed);
             List<Double> velocities = OCBHWM.flywheel.getVelocities();
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
-            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
+            telemetry.addData("turret Servo angle", OCBHWM.turretServo.getPosition());
             telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
             telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
-            telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
-            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
-            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
+            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
+            telemetry.addData("Hood Feedback voltage", OCBHWM.hoodFeedback.getVoltage());
+            telemetry.addData("Transfer Sensor voltage", OCBHWM.transferClear.getVoltage());
             telemetry.addData("heading", OCBHWM.imu.getRotation2d());
             telemetry.update();
 

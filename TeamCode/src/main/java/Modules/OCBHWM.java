@@ -103,14 +103,14 @@ public class OCBHWM {
 
         transferM = hardwareMap.get(CRServo.class, "transferM");
         transferM.setPower(0);
-        transferM.setDirection(DcMotorSimple.Direction.FORWARD);
+        transferM.setDirection(DcMotorSimple.Direction.REVERSE);
 //        transferM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        transferM.setPower(0);
 //        transferM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeM = hardwareMap.get(CRServo.class, "intakeM");
         intakeM.setPower(0);
-        intakeM.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeM.setDirection(DcMotorSimple.Direction.REVERSE);
 //        intakeM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //        intakeM.setPower(0);
 //        intakeM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
