@@ -168,12 +168,12 @@ OCBHWM.limelight.pipelineSwitch(0);
                     telemetry.addData("Ta", result.getTa());
                 }
             }
-            telemetry.addData("turret in Pos",Shoota.InPos);
-            telemetry.addData("turret Pos Error",Shoota.PosError);
-            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
-            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
-            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
-            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
+//            telemetry.addData("turret in Pos",Shoota.InPos);
+//            telemetry.addData("turret Pos Error",Shoota.PosError);
+//            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
+//            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
+//            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
+//            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
 
 //            telemetry.addData("shoota mode", ShootaMode);
 //            telemetry.addData("Shoota set speed", ShootaSpeed);

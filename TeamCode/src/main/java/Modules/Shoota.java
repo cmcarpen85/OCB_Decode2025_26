@@ -52,37 +52,57 @@ public class Shoota {
         }
     }
 
+
     public static boolean cameraAdjustTurret() {
         LLResult result = OCBHWM.limelight.getLatestResult();
-        PosError = Math.abs(DesiredTurretAng - Turret.FeedbacktoAngle());
-        if (PosError > Constants.TURRETANGLETOLERANCE && !Force) {
-            InPos = false;
-        }else if (PosError < Constants.TURRETANGLETOLERANCE) {
-            InPos = true;
-        }
-        if (result != null && InPos) {
+        if (result != null) {
             if (result.isValid()) {
                 if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    double increment = Math.abs(result.getTx());
-                    Turret.subtractAngle(increment);
-                    PrevTurretAng = Turret.FeedbacktoAngle();
-                    DesiredTurretAng = PrevTurretAng + increment;
-                    Force = false;
+                    Turret.subtractAngle(Math.abs(Math.pow(result.getTx() * 0.08, 2)));
                     return false;
                 } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    double increment = Math.abs(result.getTx());
-                    Turret.addAngle(increment);
-                    PrevTurretAng = Turret.FeedbacktoAngle();
-                    DesiredTurretAng = PrevTurretAng - increment;
-                    Force = false;
+                    Turret.addAngle(Math.abs(Math.pow(result.getTx() * 0.08, 2)));
                     return false;
                 }
                 return true;
-
             }
+
         }
         return true;
     }
+
+
+//    public static boolean cameraAdjustTurret() {
+//        LLResult result = OCBHWM.limelight.getLatestResult();
+//        PosError = Math.abs(DesiredTurretAng - Turret.FeedbacktoAngle());
+//        if (PosError > Constants.TURRETANGLETOLERANCE * 1.5 && !Force) {
+//            InPos = false;
+//        }else if (PosError < Constants.TURRETANGLETOLERANCE * 1.5) {
+//            InPos = true;
+//        }
+//        if (result != null && InPos) {
+//            if (result.isValid()) {
+//                if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
+//                    double increment = Math.abs(result.getTx());
+//                    Turret.subtractAngle(increment*0.6);
+//                    PrevTurretAng = Turret.FeedbacktoAngle();
+//                    DesiredTurretAng = PrevTurretAng - increment;
+//                    Force = false;
+//                    return false;
+//                } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
+//                    double increment = Math.abs(result.getTx());
+//                    Turret.addAngle(increment*0.6);
+//                    PrevTurretAng = Turret.FeedbacktoAngle();
+//                    DesiredTurretAng = PrevTurretAng + increment;
+//                    Force = false;
+//                    return false;
+//                }
+//                return true;
+//
+//            }
+//        }
+//        return true;
+//    }
 
     public static void resetTurretTracking() {
         Force = true;
