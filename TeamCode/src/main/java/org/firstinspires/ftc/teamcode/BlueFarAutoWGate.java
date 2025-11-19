@@ -41,20 +41,20 @@ public class BlueFarAutoWGate extends LinearOpMode {
         //SM = Spike Mark
         public double pickMidSMX = 16.5;
         public double pickMidSMY = -45.75;
-        public double openGateX = 38;
-        public double openGateY = -54.6;
-        public double intakeDriveX = 29;
+        public double openGateX = 40;
+        public double openGateY = -55.6;
+        public double intakeDriveX = 27;
         public double intakeDriveY = 0;
         public double shoot1X = 2;
         public double shoot1Y = -8;
         public double pickCloseSMX = 14.5;
-        public double pickCloseSMY = -27.5;
+        public double pickCloseSMY = -27;
         public double leaveLaunchZoneX = 0;
         public double leaveLaunchZoneY = -24;
-        public double pickCornerX = 39;
-        public double pickCornerY = -10;
-        public double pickCorner2X = 40;
-        public double pickCorner2Y = -0.5;
+        public double pickCornerX = 35;
+        public double pickCornerY = -8; //-10
+        public double pickCorner2X = 42;
+        public double pickCorner2Y = 0;
     }
 
     public static Params PARAMS = new Params();
@@ -83,7 +83,6 @@ public class BlueFarAutoWGate extends LinearOpMode {
                 .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
-
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
                 .setTangent(Math.toRadians(-85))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
@@ -91,14 +90,17 @@ public class BlueFarAutoWGate extends LinearOpMode {
 
         TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
+                .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
         TrajectoryActionBuilder DriveToShoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
+                .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
         TrajectoryActionBuilder DriveToShoot4 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
+                .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos1)
@@ -123,7 +125,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
                             new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, -1.0),
-                            new SleepAction(1.5),
+                            new SleepAction(1.75),
                             new ShootAction(ShootaActionType.SHOOTSTART, 4000),
                             new ShootAction(ShootaActionType.STOP),
 
@@ -164,6 +166,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickCorner1.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
+                            new IntakeAction(IntakeActionType.INTAKE_REST),
                             //Prep Corner Corner Shoot
                             new ParallelAction(
                                     DriveToShoot3.build(),

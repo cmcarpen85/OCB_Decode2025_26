@@ -5,22 +5,27 @@ import com.arcrobotics.ftclib.util.LUT;
 import com.qualcomm.hardware.limelightvision.LLResult;
 
 public class Shoota {
+    public static double PrevTurretAng;
+    public static double DesiredTurretAng;
+    public static double PosError = 0;
+    public static boolean InPos = true;
+    public static boolean Force = false;
 
-    LUT<Double, Double> speeds = new LUT<Double, Double>() {{
-        add(5.0, 1.0);
-        add(4.0, 0.9);
-        add(3.0, 0.75);
-        add(2.0, 0.5);
-        add(1.0, 0.2);
-    }};
-
-    LUT<Double, Double> hoodAngle = new LUT<Double, Double>() {{
-        add(5.0, 1.0);
-        add(4.0, 0.9);
-        add(3.0, 0.75);
-        add(2.0, 0.5);
-        add(1.0, 0.2);
-    }};
+//    LUT<Double, Double> speeds = new LUT<Double, Double>() {{
+//        add(5.0, 1.0);
+//        add(4.0, 0.9);
+//        add(3.0, 0.75);
+//        add(2.0, 0.5);
+//        add(1.0, 0.2);
+//    }};
+//
+//    LUT<Double, Double> hoodAngle = new LUT<Double, Double>() {{
+//        add(5.0, 1.0);
+//        add(4.0, 0.9);
+//        add(3.0, 0.75);
+//        add(2.0, 0.5);
+//        add(1.0, 0.2);
+//    }};
 
 
     //Flywheel
@@ -49,34 +54,53 @@ public class Shoota {
 
     public static boolean cameraAdjustTurret() {
         LLResult result = OCBHWM.limelight.getLatestResult();
-        if (result != null) {
+        PosError = Math.abs(DesiredTurretAng - Turret.FeedbacktoAngle());
+        if (PosError > Constants.TURRETANGLETOLERANCE && !Force) {
+            InPos = false;
+        }else if (PosError < Constants.TURRETANGLETOLERANCE) {
+            InPos = true;
+        }
+        if (result != null && InPos) {
             if (result.isValid()) {
                 if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(Math.pow(result.getTx() * 0.06, 2)));
+                    double increment = Math.abs(result.getTx());
+                    Turret.subtractAngle(increment);
+                    PrevTurretAng = Turret.FeedbacktoAngle();
+                    DesiredTurretAng = PrevTurretAng + increment;
+                    Force = false;
                     return false;
                 } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(Math.pow(result.getTx() * 0.06, 2)));
+                    double increment = Math.abs(result.getTx());
+                    Turret.addAngle(increment);
+                    PrevTurretAng = Turret.FeedbacktoAngle();
+                    DesiredTurretAng = PrevTurretAng - increment;
+                    Force = false;
                     return false;
                 }
                 return true;
             }
-
         }
         return true;
     }
+
+    public static void resetTurretTracking() {
+        Force = true;
+        InPos = true;
+    }
+
     public static void cameraSetLaunch() {
         LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
                 if (result.getTy() < Constants.FARSHOTTY) {
-                   Hood.setToAngle(Constants.FARSHOTHOODSERVO);
-                   Shoota.setSpeed(Constants.FARSHOTSPEED);
+                    Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+                    Shoota.setSpeed(Constants.FARSHOTSPEED);
                 } else if (result.getTy() < Constants.CLOSESHOTTY) {
                     Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
                     Shoota.setSpeed(Constants.CLOSESHOTSPEED);
-                } else if (result.getTy() >= Constants.FARSHOTTY && result.getTy() < 0){
+                } else if (result.getTy() >= Constants.FARSHOTTY && result.getTy() < 0) {
                     //TODO DO MATH FOR ADJUSTMENT
-                } else if (result.getTy() <= Constants.CLOSESHOTTY && result.getTy() > 0){
+                } else if (result.getTy() <= Constants.CLOSESHOTTY && result.getTy() > 0) {
 
                 }
             }

@@ -138,6 +138,7 @@ OCBHWM.limelight.pipelineSwitch(0);
             }else if (gamepad2.right_bumper){
                 Tracked = Shoota.cameraAdjustTurret();
             } else {
+                Shoota.resetTurretTracking();
                 Tracked = true;
             }
 
@@ -158,23 +159,30 @@ OCBHWM.limelight.pipelineSwitch(0);
 
             }
 
-//            Shoota.CheckSpeed(ShootaDesiredVelocity);
-//            LLResult result = OCBHWM.limelight.getLatestResult();
-//            if (result != null) {
-//                if (result.isValid()){
-//                    telemetry.addData("Tx", result.getTx());
-//                    telemetry.addData("Ty", result.getTy());
-//                    telemetry.addData("Ta", result.getTa());
-//                }
-//            }
+            Shoota.CheckSpeed(ShootaDesiredVelocity);
+            LLResult result = OCBHWM.limelight.getLatestResult();
+            if (result != null) {
+                if (result.isValid()){
+                    telemetry.addData("Tx", result.getTx());
+                    telemetry.addData("Ty", result.getTy());
+                    telemetry.addData("Ta", result.getTa());
+                }
+            }
+            telemetry.addData("turret in Pos",Shoota.InPos);
+            telemetry.addData("turret Pos Error",Shoota.PosError);
+            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
+            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
+            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
+            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
+
 //            telemetry.addData("shoota mode", ShootaMode);
 //            telemetry.addData("Shoota set speed", ShootaSpeed);
 //            List<Double> velocities = OCBHWM.flywheel.getVelocities();
 //            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
 //            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
-//            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
-//            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
-//            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
+//
+//
+//
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
 ////            telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
 ////            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
