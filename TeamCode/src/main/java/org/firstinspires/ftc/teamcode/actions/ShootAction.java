@@ -62,6 +62,7 @@ public class ShootAction implements FailableAction {
                 Transfer.gateForward();
                 Transfer.transferIn();
                 Intake.intakeIn();
+                this.shootSpeed = Constants.AUTOSHOTSPEED;
                 break;
             case SHOOTSTART:
                 Transfer.kickerForward();
@@ -120,7 +121,7 @@ public class ShootAction implements FailableAction {
             return false;
         }
         //TODO add shooter speed as input
-        Shoota.setSpeed(Constants.AUTOSHOTSPEED);
+        Shoota.setSpeed(this.shootSpeed);
         return true;
     }
 

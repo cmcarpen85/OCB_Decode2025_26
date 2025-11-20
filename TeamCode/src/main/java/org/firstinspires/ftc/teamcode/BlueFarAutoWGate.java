@@ -42,7 +42,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
         public double pickMidSMX = 16.5;
         public double pickMidSMY = -45.75;
         public double openGateX = 40;
-        public double openGateY = -55.6;
+        public double openGateY = -56.6;
         public double intakeDriveX = 27;
         public double intakeDriveY = 0;
         public double shoot1X = 2;
@@ -52,9 +52,9 @@ public class BlueFarAutoWGate extends LinearOpMode {
         public double leaveLaunchZoneX = 0;
         public double leaveLaunchZoneY = -24;
         public double pickCornerX = 35;
-        public double pickCornerY = -8; //-10
-        public double pickCorner2X = 42;
-        public double pickCorner2Y = 0;
+        public double pickCornerY = -3; //-10
+        public double pickCorner2X = 45;
+        public double pickCorner2Y = 1;
     }
 
     public static Params PARAMS = new Params();
@@ -86,7 +86,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
                 .setTangent(Math.toRadians(-85))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
-                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30));
+                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(30), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX)
@@ -105,7 +105,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos1)
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(70))
-               .splineToConstantHeading(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(70));
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(70));
 
         TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos1)
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(70))
@@ -126,13 +126,14 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             //Shoot preload
                             new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, -1.0),
                             new SleepAction(1.75),
-                            new ShootAction(ShootaActionType.SHOOTSTART, 4000),
+                            new ShootAction(ShootaActionType.SHOOTSTART, 2800),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick mid spike mark
                             new ParallelAction(
                                     PickMidSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    new IntakeAction(IntakeActionType.INTAKE_IN),
+                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 1000, -1.0)
                             ),
 
                             //Prep mid spike mark shoot
@@ -142,7 +143,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             ),
 
                             //Shoot1
-                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick close spike mark
@@ -150,15 +151,18 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickCloseSpikeMark.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
-                            new IntakeAction(IntakeActionType.INTAKE_REST),
                             //Prep close spike mark shoot
                             new ParallelAction(
+                                    new SequentialAction(
+                                            new SleepAction(1),
+                                            new IntakeAction(IntakeActionType.INTAKE_REST)
+                                    ),
                                     DriveToShoot2.build(),
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
                             ),
 
                             //Shoot2
-                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 1
@@ -166,14 +170,17 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickCorner1.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
-                            new IntakeAction(IntakeActionType.INTAKE_REST),
                             //Prep Corner Corner Shoot
                             new ParallelAction(
+                                    new SequentialAction(
+                                            new SleepAction(1),
+                                            new IntakeAction(IntakeActionType.INTAKE_REST)
+                                    ),
                                     DriveToShoot3.build(),
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 2
@@ -188,7 +195,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 4000),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 3

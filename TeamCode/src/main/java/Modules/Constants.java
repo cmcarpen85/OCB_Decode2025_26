@@ -12,7 +12,7 @@ public class Constants {
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
     public static double CLOSESHOTSPEED = 0.4;
-    public static double STARTSHOTSPEED = 0.62;
+    public static double STARTSHOTSPEED = 0.60;
     public static double AUTOSHOTSPEED = .58;
 
     //Hood
