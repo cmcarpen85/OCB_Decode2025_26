@@ -198,6 +198,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             new ShootAction(ShootaActionType.SHOOTFAR, 2800),
                             new ShootAction(ShootaActionType.STOP),
 
+
                             //Pick Corner Corner 3
                             new ParallelAction(
                                     PickCorner3.build(),
