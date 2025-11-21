@@ -16,21 +16,21 @@ public class MeepMeepTesting {
 
         //SM = Spike Mark
         public double pickMidSMX = 16.5;
-        public double pickMidSMY = -50.75;
-        public double openGateX = 38;
-        public double openGateY = -54.6;
-        public double intakeDriveX = 29;
+        public double pickMidSMY = -45.75;
+        public double openGateX = 40;
+        public double openGateY = -56.6;
+        public double intakeDriveX = 27;
         public double intakeDriveY = 0;
-        public double shoot1X = 3.5;
-        public double shoot1Y = -14;
+        public double shoot1X = 2;
+        public double shoot1Y = -8;
         public double pickCloseSMX = 14.5;
-        public double pickCloseSMY = -27.5;
+        public double pickCloseSMY = -27;
         public double leaveLaunchZoneX = 0;
         public double leaveLaunchZoneY = -24;
-        public double pickCornerX = 37.5;
-        public double pickCornerY = -10;
-        public double pickCorner2X = 40;
-        public double pickCorner2Y = -0.5;
+        public double pickCornerX = 25;
+        public double pickCornerY = -3; //-10
+        public double pickCorner2X = 45;
+        public double pickCorner2Y = 1;
     }
 
     public static Params PARAMS = new Params();
@@ -44,8 +44,8 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0)))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(70))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(70))
+                .splineTo(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(15))
+                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0))
  .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
