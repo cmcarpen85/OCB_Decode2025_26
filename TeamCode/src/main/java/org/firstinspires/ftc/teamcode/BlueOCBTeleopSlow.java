@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-
-import java.util.List;
 
 import Modules.Constants;
 import Modules.Intake;
@@ -16,7 +12,7 @@ import Modules.Transfer;
 import Modules.Turret;
 
 @TeleOp
-public class BlueOCBTeleop extends LinearOpMode {
+public class BlueOCBTeleopSlow extends LinearOpMode {
 
     public String ShootaMode = "Manual";
 
@@ -60,9 +56,9 @@ OCBHWM.limelight.pipelineSwitch(0);
 
             } else {
                 OCBHWM.m_robotDrive.driveFieldCentric(
-                        (-driverOp.getLeftX()),
-                        (-driverOp.getLeftY()),
-                        (-driverOp.getRightX() * 0.8),
+                        (-driverOp.getLeftX()*0.5),
+                        (-driverOp.getLeftY()*0.5),
+                        (-driverOp.getRightX() * 0.5),
                         OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );

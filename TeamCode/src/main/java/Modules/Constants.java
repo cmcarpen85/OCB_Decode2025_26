@@ -39,7 +39,7 @@ public class Constants {
     public static double MIDSHOTTURRETSERVO = .2622;
     public static double CLOSESHOTTURRETANGLE = 0;
     public static double CLOSESHOTTURRETSERVO = .4;
-    public static double STARTSHOTTURRETANGLE = -18.0; // 67
+    public static double STARTSHOTTURRETANGLE = -19.0; // 67
     public static double STARTSHOTTURRETSERVO = 0.9144;
 
 

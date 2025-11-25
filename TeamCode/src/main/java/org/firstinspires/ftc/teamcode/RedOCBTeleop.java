@@ -146,7 +146,7 @@ public class RedOCBTeleop extends LinearOpMode {
                 OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
             }
 
-//            Shoota.CheckSpeed(ShootaSpeed);
+           Shoota.CheckSpeed(ShootaSpeed);
 //            LLResult result = OCBHWM.limelight.getLatestResult();
 //            if (result != null) {
 //                if (result.isValid()){

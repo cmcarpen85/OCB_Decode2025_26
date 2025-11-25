@@ -53,8 +53,12 @@ public class BlueFarAutoWGate extends LinearOpMode {
         public double leaveLaunchZoneY = -24;
         public double pickCornerX = 25;
         public double pickCornerY = -3; //-10
-        public double pickCorner2X = 45;
+        public double pickCorner2X = 42.5;
         public double pickCorner2Y = 1;
+        public double pickCornerXAlt = 38;
+        public double pickCornerYAlt = -10;
+        public double endAutoX = 30;
+        public double endAutoY = 1;
     }
 
     public static Params PARAMS = new Params();
@@ -104,12 +108,12 @@ public class BlueFarAutoWGate extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos1)
-                .splineTo(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(15))
-                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerXAlt, PARAMS.pickCornerYAlt,Math.toRadians(15)), Math.toRadians(15))
+                .splineToLinearHeading(new Pose2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y, Math.toRadians(0)), Math.toRadians(0), new TranslationalVelConstraint(60), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos1)
-                .splineTo(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(15))
-                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY,Math.toRadians(15)), Math.toRadians(15))
+                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0), new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
 
         TrajectoryActionBuilder PickCorner3 = drive.actionBuilder(shootPos1)
                 .splineTo(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(15))
@@ -118,6 +122,9 @@ public class BlueFarAutoWGate extends LinearOpMode {
         TrajectoryActionBuilder OpenGate = drive.actionBuilder(new Pose2d(PARAMS.pickMidSMX + PARAMS.intakeDriveX, PARAMS.pickMidSMY, Math.toRadians(0)))
                 .lineToXConstantHeading(PARAMS.pickMidSMX + 8)
                 .splineToConstantHeading(new Vector2d(PARAMS.openGateX, PARAMS.openGateY), Math.toRadians(0));
+
+        TrajectoryActionBuilder EndDrive = drive.actionBuilder(new Pose2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y, Math.toRadians(0)))
+                        .splineToConstantHeading(new Vector2d(PARAMS.endAutoX, PARAMS.endAutoY), Math.toRadians(-180));
 
 
         waitForStart();
@@ -154,7 +161,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             //Prep close spike mark shoot
                             new ParallelAction(
                                     new SequentialAction(
-                                            new SleepAction(1),
+                                            new SleepAction(.5),
                                             new IntakeAction(IntakeActionType.INTAKE_REST)
                                     ),
                                     DriveToShoot2.build(),
@@ -170,17 +177,18 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     PickCorner1.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
+                            new SequentialAction(
+                                           new SleepAction(0),
+                                    new IntakeAction(IntakeActionType.INTAKE_REST)
+                            ),
                             //Prep Corner Corner Shoot
                             new ParallelAction(
-                                    new SequentialAction(
-//                                            new SleepAction(0.25),
-                                            new IntakeAction(IntakeActionType.INTAKE_REST)
-                                    ),
+
                                     DriveToShoot3.build(),
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2500),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 2
@@ -191,19 +199,19 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             new IntakeAction(IntakeActionType.INTAKE_REST),
                             //Prep Corner Corner Shoot
                             new ParallelAction(
-                                    DriveToShoot4.build(),
+                                    EndDrive.build(),
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
-                            ),
-                            //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
-                            new ShootAction(ShootaActionType.STOP),
-
-
-                            //Pick Corner Corner 3
-                            new ParallelAction(
-                                    PickCorner3.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
                             )
+//                            //Shoot Corner Corner Shoot
+//                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
+//                            new ShootAction(ShootaActionType.STOP),
+//
+//
+//                            //Pick Corner Corner 3
+//                            new ParallelAction(
+//                                    PickCorner3.build(),
+//                                    new IntakeAction(IntakeActionType.INTAKE_IN)
+//                            )
                     )
             );
             sleep(30000);

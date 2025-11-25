@@ -29,8 +29,12 @@ public class MeepMeepTesting {
         public double leaveLaunchZoneY = -24;
         public double pickCornerX = 25;
         public double pickCornerY = -3; //-10
-        public double pickCorner2X = 45;
+        public double pickCorner2X = 43;
         public double pickCorner2Y = 1;
+        public double pickCornerXAlt = 25;
+        public double pickCornerYAlt = -10;
+        public double endAutoX = 30;
+        public double endAutoY = 1;
     }
 
     public static Params PARAMS = new Params();
@@ -44,8 +48,8 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0)))
-                .splineTo(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(15))
-                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerXAlt, PARAMS.pickCornerYAlt,Math.toRadians(15)), Math.toRadians(15))
+                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0), new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30))
  .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
