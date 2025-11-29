@@ -53,8 +53,7 @@ public class Shoota {
     }
 
     public static double distanceToGoal(double Ty) {
-        double Result = (Constants.GOALHEIGHT - Constants.CAMERAHEIGHT) / Math.tan(Math.toRadians(Constants.CAMERAANGLE + Ty));
-        return Result;
+        return (Constants.GOALHEIGHT - Constants.CAMERAHEIGHT) / Math.tan(Math.toRadians(Constants.CAMERAANGLE + Ty));
     }
 
     public static boolean cameraAdjustTurret() {
