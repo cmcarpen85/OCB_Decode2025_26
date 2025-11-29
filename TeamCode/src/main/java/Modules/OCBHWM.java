@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
+import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.Rev9AxisImu;
 import com.qualcomm.hardware.rev.RevSPARKMini;
@@ -54,6 +55,7 @@ public class OCBHWM {
 
     //Sensors/Gains
     public static Limelight3A limelight;
+    public static HuskyLens huskyLens;
 
     public static AnalogInput turretFeedback;
 
@@ -133,5 +135,7 @@ public class OCBHWM {
         kickerServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
     }
 }

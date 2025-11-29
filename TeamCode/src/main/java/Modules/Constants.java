@@ -5,8 +5,13 @@ public class Constants {
     public static double FARSHOTTY = 0;
     public static double CLOSESHOTTY = 0;
     public static double GOALHEIGHT = 29.5; //inches
-    public static double CAMERAHEIGHT = 15.7; //inches
-    public static double CAMERAANGLE = 7.51; //degrees
+    public static double CAMERAHEIGHT = 15.825; //inches
+    public static double CAMERAANGLE = 18.989; //degrees
+
+    //HuskyLens
+    public static double LEFTBOUND = 0;
+    public static double RIGHTBOUND = 0;
+
 
     //FlyWheel
     public static double COASTSPEED = 0.3;
@@ -44,10 +49,6 @@ public class Constants {
     public static double CLOSESHOTTURRETSERVO = .4;
     public static double STARTSHOTTURRETANGLE = -19.0; // 67
     public static double STARTSHOTTURRETSERVO = 0.9144;
-
-
-    //Slider
-
 
     //Transfer
     public static double TRANSFERPOWER = 0.8; //1

@@ -52,10 +52,31 @@ public class BlueFarAuto extends LinearOpMode {
         public double leaveLaunchZoneY = -24;
         public double pickCornerX = 25;
         public double pickCornerY = -3; //-10
-        public double pickCorner2X = 43;
-        public double pickCorner2Y = 1;
         public double pickCornerXAlt = 38;
         public double pickCornerYAlt = -10;
+        public double pickCorner2X = 43;
+        public double pickCorner2Y = 1;
+        //        pickCornerScrape
+        public double pickCornerScrape1X = 0;
+        public double pickCornerScrape1Y = 0;
+        public double pickCornerScrape2X = 0;
+        public double pickCornerScrape2Y = 0;
+        public double pickCornerScrape3X = 0;
+        public double pickCornerScrape3Y = 0;
+        //        pickCornerStraight
+        public double pickCornerStraight1X = 0;
+        public double pickCornerStraight1Y = 0;
+        public double pickCornerStraight2X = 0;
+        public double pickCornerStraight2Y = 0;
+        public double pickCornerStraight3X = 0;
+        public double pickCornerStraight3Y = 0;
+        //        pickRoundedCorner
+        public double pickRoundedCorner1X = 0;
+        public double pickRoundedCorner1Y = 0;
+        public double pickRoundedCorner2X = 0;
+        public double pickRoundedCorner2Y = 0;
+        public double pickRoundedCorner3X = 0;
+        public double pickRoundedCorner3Y = 0;
         public double endAutoX = 30;
         public double endAutoY = 1;
     }
@@ -96,12 +117,12 @@ public class BlueFarAuto extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos1)
-                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerXAlt, PARAMS.pickCornerYAlt,Math.toRadians(15)), Math.toRadians(15))
+                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerXAlt, PARAMS.pickCornerYAlt, Math.toRadians(15)), Math.toRadians(15))
                 .splineToLinearHeading(new Pose2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y, Math.toRadians(0)), Math.toRadians(0), new TranslationalVelConstraint(60), new ProfileAccelConstraint(-30, 30));
 
 
         TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos1)
-                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerXAlt, PARAMS.pickCornerYAlt,Math.toRadians(15)), Math.toRadians(15))
+                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerXAlt, PARAMS.pickCornerYAlt, Math.toRadians(15)), Math.toRadians(15))
                 .splineToLinearHeading(new Pose2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y, Math.toRadians(0)), Math.toRadians(0), new TranslationalVelConstraint(60), new ProfileAccelConstraint(-30, 30));
 
 
