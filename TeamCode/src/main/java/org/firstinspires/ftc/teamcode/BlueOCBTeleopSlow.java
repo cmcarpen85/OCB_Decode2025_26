@@ -133,9 +133,6 @@ OCBHWM.limelight.pipelineSwitch(0);
                 Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
             }else if (gamepad2.right_bumper){
                 Tracked = Shoota.cameraAdjustTurret();
-            } else {
-                Shoota.resetTurretTracking();
-                Tracked = true;
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {

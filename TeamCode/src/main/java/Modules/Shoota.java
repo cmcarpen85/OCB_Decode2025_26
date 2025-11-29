@@ -52,6 +52,10 @@ public class Shoota {
         }
     }
 
+    public static double distanceToGoal(double Ty) {
+        double Result = (Constants.GOALHEIGHT - Constants.CAMERAHEIGHT) / Math.tan(Math.toRadians(Constants.CAMERAANGLE + Ty));
+        return Result;
+    }
 
     public static boolean cameraAdjustTurret() {
         LLResult result = OCBHWM.limelight.getLatestResult();
@@ -66,47 +70,8 @@ public class Shoota {
                 }
                 return true;
             }
-
         }
         return true;
-    }
-
-
-//    public static boolean cameraAdjustTurret() {
-//        LLResult result = OCBHWM.limelight.getLatestResult();
-//        PosError = Math.abs(DesiredTurretAng - Turret.FeedbacktoAngle());
-//        if (PosError > Constants.TURRETANGLETOLERANCE * 1.5 && !Force) {
-//            InPos = false;
-//        }else if (PosError < Constants.TURRETANGLETOLERANCE * 1.5) {
-//            InPos = true;
-//        }
-//        if (result != null && InPos) {
-//            if (result.isValid()) {
-//                if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
-//                    double increment = Math.abs(result.getTx());
-//                    Turret.subtractAngle(increment*0.6);
-//                    PrevTurretAng = Turret.FeedbacktoAngle();
-//                    DesiredTurretAng = PrevTurretAng - increment;
-//                    Force = false;
-//                    return false;
-//                } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-//                    double increment = Math.abs(result.getTx());
-//                    Turret.addAngle(increment*0.6);
-//                    PrevTurretAng = Turret.FeedbacktoAngle();
-//                    DesiredTurretAng = PrevTurretAng + increment;
-//                    Force = false;
-//                    return false;
-//                }
-//                return true;
-//
-//            }
-//        }
-//        return true;
-//    }
-
-    public static void resetTurretTracking() {
-        Force = true;
-        InPos = true;
     }
 
     public static void cameraSetLaunch() {
@@ -122,10 +87,8 @@ public class Shoota {
                 } else if (result.getTy() >= Constants.FARSHOTTY && result.getTy() < 0) {
                     //TODO DO MATH FOR ADJUSTMENT
                 } else if (result.getTy() <= Constants.CLOSESHOTTY && result.getTy() > 0) {
-
                 }
             }
-
         }
     }
 }

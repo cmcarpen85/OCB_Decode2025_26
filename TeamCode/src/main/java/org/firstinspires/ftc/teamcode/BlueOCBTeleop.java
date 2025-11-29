@@ -137,9 +137,6 @@ OCBHWM.limelight.pipelineSwitch(0);
                 Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
             }else if (gamepad2.right_bumper){
                 Tracked = Shoota.cameraAdjustTurret();
-            } else {
-                Shoota.resetTurretTracking();
-                Tracked = true;
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
@@ -160,15 +157,17 @@ OCBHWM.limelight.pipelineSwitch(0);
             }
 
             Shoota.CheckSpeed(ShootaDesiredVelocity);
-//            LLResult result = OCBHWM.limelight.getLatestResult();
-//            if (result != null) {
-//                if (result.isValid()){
-//                    telemetry.addData("Tx", result.getTx());
-//                    telemetry.addData("Ty", result.getTy());
-//                    telemetry.addData("Ta", result.getTa());
-//                }
-//            }
-//            telemetry.addData("turret in Pos",Shoota.InPos);
+
+            LLResult result = OCBHWM.limelight.getLatestResult();
+            if (result != null) {
+                if (result.isValid()){
+                    telemetry.addData("Tx", result.getTx());
+                    telemetry.addData("Ty", result.getTy());
+                    telemetry.addData("Ta", result.getTa());
+                    telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
+                }
+            }
+            telemetry.addData("turret in Pos",Shoota.InPos);
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
