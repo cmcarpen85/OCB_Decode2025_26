@@ -2,10 +2,10 @@ package Modules;
 
 public class Constants {
     //camara
-    public static double FARSHOTTY = 0;
-    public static double CLOSESHOTTY = 0;
+    public static double FARSHOTTY = 0.3;
+    public static double CLOSESHOT_TA = 0.6;
     public static double GOALHEIGHT = 29.5; //inches
-    public static double CAMERAHEIGHT = 15.825; //inches
+    public static double CAMERAHEIGHT = 15.75; //inches
     public static double CAMERAANGLE = 18.989; //degrees
 
     //HuskyLens
