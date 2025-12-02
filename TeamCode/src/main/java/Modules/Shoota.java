@@ -1,9 +1,7 @@
 package Modules;
 
-import com.arcrobotics.ftclib.kotlin.extensions.util.LUTExtKt;
 import com.arcrobotics.ftclib.util.LUT;
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.arcrobotics.ftclib.util.InterpLUT;
 
 public class Shoota {
     public static double PrevTurretAng;
@@ -15,11 +13,15 @@ public class Shoota {
 
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
-        add(5.0, 1.0);
-        add(4.0, 0.9);
-        add(3.0, 0.75);
-        add(2.0, 0.5);
-        add(1.0, 0.2);
+        add(40.0, 0.38 );
+        add(45.0, 0.40);
+        add(50.0, 0.42);
+        add(55.0, 0.435);
+        add(60.0, 0.445);
+        add(65.0, 0.455);
+        add(70.0, 0.475);
+        add(75.0, 0.48);
+        add(80.0, 0.5);
 
     }};
 
@@ -28,11 +30,15 @@ public class Shoota {
     }
 
     static LUT<Double, Double> hoodAngle = new LUT<Double, Double>() {{
-        add(5.0, 1.0);
-        add(4.0, 0.9);
-        add(3.0, 0.75);
-        add(2.0, 0.5);
-        add(1.0, 0.2);
+        add(40.0, 0.05 );
+        add(45.0, 0.07);
+        add(50.0, 0.14);
+        add(55.0, 0.21);
+        add(60.0, 0.28);
+        add(65.0, 0.35);
+        add(70.0, 0.42);
+        add(75.0, 0.49);
+        add(80.0, 0.608);
     }};
 
     public static double gethoodAngle(double distance) {
@@ -89,7 +95,7 @@ public class Shoota {
         LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                if (result.getTa() < Constants.FARSHOTTY) {
+                if (result.getTa() < Constants.FARSHOT_TA) {
                     Hood.setToAngle(Constants.FARSHOTHOODSERVO);
                     Shoota.setSpeed(Constants.FARSHOTSPEED);
                 } else if (result.getTa() < Constants.CLOSESHOT_TA) {

@@ -80,6 +80,8 @@ OCBHWM.limelight.pipelineSwitch(0);
             else {
                 Shoota.stop();
             }
+
+
             if (gamepad2.dpad_up && ShootaSpeed < 1) {
                 ShootaSpeed = ShootaSpeed + .0001;
             } else if (gamepad2.dpad_down && ShootaSpeed > 0) {
@@ -137,6 +139,7 @@ OCBHWM.limelight.pipelineSwitch(0);
                 Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
             }else if (gamepad2.right_bumper){
                 Tracked = Shoota.cameraAdjustTurret();
+                Shoota.cameraSetLaunch();
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
