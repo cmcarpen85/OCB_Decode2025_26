@@ -34,7 +34,7 @@ OCBHWM.limelight.pipelineSwitch(0);
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
-        OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
+//        OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
 
         while (!isStopRequested()) {
             if (gamepad1.back) {
@@ -144,16 +144,16 @@ OCBHWM.limelight.pipelineSwitch(0);
                 OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.006);
             }
 
-            if (gamepad2.dpad_left && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.001);
-            } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.001);
-            }else if (gamepad2.right_stick_x >= 0.4  && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE){
-                Turret.addAngle(gamepad2.right_stick_y * 2);
-            } else if (gamepad2.right_stick_x <= -0.4  && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE){
-                Turret.subtractAngle(Math.abs( gamepad2.right_stick_y )* 2);
-
-            }
+//            if (gamepad2.dpad_left && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
+//                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.001);
+//            } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
+//                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.001);
+//            }else if (gamepad2.right_stick_x >= 0.4  && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE){
+//                Turret.addAngle(gamepad2.right_stick_y * 2);
+//            } else if (gamepad2.right_stick_x <= -0.4  && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE){
+//                Turret.subtractAngle(Math.abs( gamepad2.right_stick_y )* 2);
+//
+//            }
 
             Shoota.CheckSpeed(ShootaDesiredVelocity);
             LLResult result = OCBHWM.limelight.getLatestResult();
@@ -168,8 +168,8 @@ OCBHWM.limelight.pipelineSwitch(0);
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
-            telemetry.addData("turret Servo value",OCBHWM.turretServo.getPosition());
-            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
+//            telemetry.addData("turret Servo value",OCBHWM.turretServo.getPosition());
+//            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
 
 //            telemetry.addData("shoota mode", ShootaMode);
             telemetry.addData("Shoota set speed", ShootaSpeed);

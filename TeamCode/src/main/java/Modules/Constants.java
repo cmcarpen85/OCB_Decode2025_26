@@ -34,7 +34,7 @@ public class Constants {
     public static double STARTSHOTHOODSERVO = 0.608;
 
     //Turret
-    public static double TURRETHOME = .5;
+    public static double TURRETHOME = 176.7;
     public static double TURRETMINANGLE = -80;
     public static double TURRETMAXANGLE = 80;
     public static double TURRETMINSERVOVALUE = 0;

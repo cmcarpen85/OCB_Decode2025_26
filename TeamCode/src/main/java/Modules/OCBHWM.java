@@ -21,6 +21,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.RTPAxon;
+
 public class OCBHWM {
 
 
@@ -46,7 +48,9 @@ public class OCBHWM {
     public static MotorEx leftEncoder, rightEncoder, centerEncoder;
 
     //Servos
-    public static Servo turretServo;
+    public static CRServo CRturretServo;
+    public static CRServo CRturretServo2;
+    public static RTPAxon turretServo;
     public static Servo hoodServo;
     public static Servo indLight;
     public static Servo gateServo;
@@ -117,8 +121,11 @@ public class OCBHWM {
 //        intakeM.setPower(0);
 //        intakeM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        turretServo = hardwareMap.get(Servo.class, "turretServo");
+        CRturretServo = hardwareMap.get(CRServo.class, "CRturretServo");
+        CRturretServo2 = hardwareMap.get(CRServo.class, "CRturretServo2");
         turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
+        turretServo = new RTPAxon(CRturretServo,CRturretServo2,turretFeedback);
+
 
         indLight = hardwareMap.get(Servo.class, "indLight");
 

@@ -33,7 +33,7 @@ public class RedOCBTeleop extends LinearOpMode {
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
-        OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
+//        OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
 
         while (!isStopRequested()) {
             if (gamepad1.back) {
@@ -134,17 +134,17 @@ public class RedOCBTeleop extends LinearOpMode {
                 Shoota.cameraAdjustTurret();
             }
 
-            if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.006);
-            } else if (-gamepad2.left_stick_y <= -0.4 && OCBHWM.hoodServo.getPosition() > Constants.HOODMINSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.006);
-            }
-
-            if (gamepad2.dpad_left && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.002);
-            } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
-            }
+//            if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
+//                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.006);
+//            } else if (-gamepad2.left_stick_y <= -0.4 && OCBHWM.hoodServo.getPosition() > Constants.HOODMINSERVOVALUE) {
+//                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.006);
+//            }
+//
+//            if (gamepad2.dpad_left && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
+//                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.002);
+//            } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
+//                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
+//            }
 
            Shoota.CheckSpeed(ShootaSpeed);
 //            LLResult result = OCBHWM.limelight.getLatestResult();

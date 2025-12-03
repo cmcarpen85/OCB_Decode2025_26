@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import Modules.Constants;
+
 public class RTPAxon {
     // Encoder for servo position feedback
     private final AnalogInput servoEncoder;
@@ -45,8 +47,8 @@ public class RTPAxon {
     public int ntry = 0;
     public int cliffs = 0;
     public double homeAngle;
-    public double maxAngle = 122;
-    public double minAngle= -122;
+    public double maxAngle = 145;
+    public double minAngle= -145;
 
     // Direction enum for servo
     public enum Direction {
@@ -96,20 +98,21 @@ public class RTPAxon {
             ntry++;
         } while (Math.abs(previousAngle) < 0.2 && (ntry < 50));
 
-        totalRotation = 0;
-        homeAngle = previousAngle;
+        totalRotation = (STARTPOS - Constants.TURRETHOME  );
+        homeAngle = Constants.TURRETHOME;
+        targetRotation = totalRotation;
 
         // Default PID coefficients
         kP = 0.015;
-        kI = 0.0005;
-        kD = 0.0025;
+        kI = 0.0002;
+        kD = 0.0005;
         integralSum = 0.0;
         lastError = 0.0;
-        maxIntegralSum = 100.0;
+        maxIntegralSum = 20.0;
         pidTimer = new ElapsedTime();
         pidTimer.reset();
 
-        maxPower = 0.25;
+        maxPower = 0.8;
         cliffs = 0;
     }
     // endregion
@@ -335,7 +338,7 @@ public class RTPAxon {
         final double DEADZONE = 0.5;
         if (Math.abs(error) > DEADZONE) {
             double power = Math.min(maxPower, Math.abs(output)) * Math.signum(output);
-            setPower(power);
+            setPower(-power);
         } else {
             setPower(0);
         }
@@ -370,51 +373,62 @@ public class RTPAxon {
         @Override
         public void runOpMode() throws InterruptedException {
             telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-            CRServo crservo = hardwareMap.crservo.get("turretServo");
-            CRServo crServo2 = hardwareMap.crservo.get("turretServo2");
+            CRServo crservo = hardwareMap.crservo.get("CRturretServo");
+            CRServo crServo2 = hardwareMap.crservo.get("CRturretServo2");
             AnalogInput encoder = hardwareMap.get(AnalogInput.class, "turretFeedback");
-            GamepadPair gamepads = new GamepadPair(gamepad1, gamepad2);
             RTPAxon servo = new RTPAxon(crservo, crServo2, encoder);
 
+//            servo.rtp = false;
             waitForStart();
 
             while (!isStopRequested()) {
-                gamepads.copyStates();
                 servo.update();
 
+                if (gamepad1.start){
+                    servo.setRtp(false);
+                } else if (gamepad1.right_trigger>0.4){
+                    servo.setRtp(true);
+                }
+
                 // Manual controls for target and PID tuning
-                if (gamepads.isPressed(-1, "dpad_up")) {
-                    servo.changeTargetRotation(15);
+                if (gamepad1.dpad_left) {
+                    servo.changeTargetRotation(0.2);
                 }
-                if (gamepads.isPressed(-1, "dpad_down")) {
-                    servo.changeTargetRotation(-15);
+                if (gamepad1.dpad_right) {
+                    servo.changeTargetRotation(-0.2);
                 }
-                if (gamepads.isPressed(-1, "cross")) {
+                if (gamepad1.a) {
                     servo.setTargetRotation(0);
+                } else if (gamepad1.left_bumper){
+                    servo.setTargetRotation(50);
+                } else if (gamepad1.right_bumper){
+                    servo.setTargetRotation(-50);
                 }
 
-                if (gamepads.isPressed(-1, "triangle")) {
-                    servo.setKP(servo.getKP() + 0.001);
+                if (gamepad1.b) {
+                    servo.setKP(servo.getKP() + 0.0001);
                 }
-                if (gamepads.isPressed(-1, "square")) {
-                    servo.setKP(Math.max(0, servo.getKP() - 0.001));
+                if (gamepad1.x) {
+                    servo.setKP(Math.max(0, servo.getKP() - 0.0001));
                 }
 
-                if (gamepads.isPressed(-1, "right_bumper")) {
+                if (gamepad1.dpad_up) {
                     servo.setKI(servo.getKI() + 0.0001);
                 }
-                if (gamepads.isPressed(-1, "left_bumper")) {
+                if (gamepad1.dpad_down) {
                     servo.setKI(Math.max(0, servo.getKI() - 0.0001));
                 }
 
-                if (gamepads.isPressed(-1, "touchpad")) {
-                    servo.setKP(0.015);
-                    servo.setKI(0.0005);
-                    servo.setKD(0.0025);
+                if (gamepad1.back) {
+                    servo.setKP(0.001);
+                    servo.setKI(0.0001);
+                    servo.setKD(0.0005);
                     servo.resetPID();
                 }
 
                 telemetry.addData("Starting angle", servo.STARTPOS);
+                telemetry.addData("target rotation", servo.targetRotation);
+                telemetry.addData("total rotation", servo.totalRotation);
                 telemetry.addLine(servo.log());
                 telemetry.addData("NTRY", servo.ntry);
                 telemetry.update();

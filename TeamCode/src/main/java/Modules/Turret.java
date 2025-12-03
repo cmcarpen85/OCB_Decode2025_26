@@ -29,25 +29,15 @@ public class Turret {
     }
 
     public static void setToAngle(double angle) {
-        OCBHWM.turretServo.setPosition(angleToServoValue(angle));
+        OCBHWM.turretServo.setTargetRotation(angleToServoValue(angle));
     }
 
     public static void addAngle(double increment) {
-        double currentValue= servoValueToAngle(OCBHWM.turretServo.getPosition());
-        if (increment>2){
-            OCBHWM.turretServo.setPosition(angleToServoValue(currentValue + 2));
-        }else{
-            OCBHWM.turretServo.setPosition(angleToServoValue(currentValue + increment));
-        }
+            OCBHWM.turretServo.changeTargetRotation(increment);
     }
 
     public static void subtractAngle(double increment) {
-        double currentValue= servoValueToAngle(OCBHWM.turretServo.getPosition());
-        if (increment>2){
-            OCBHWM.turretServo.setPosition(angleToServoValue(currentValue - 2));
-        }else{
-        OCBHWM.turretServo.setPosition(angleToServoValue(currentValue - increment));
-        }
+        OCBHWM.turretServo.changeTargetRotation(-increment);
     }
 
     public double getCurrentAngle() {
@@ -55,13 +45,5 @@ public class Turret {
         return (OCBHWM.turretFeedback.getVoltage() / 3.3)*360;
     }
 
-    public boolean TurretAngelOk(double desiredAngle) {
-        double Error = getCurrentAngle() - desiredAngle;
-        if(Error > (Constants.TURRETANGLETOLERANCE)){
-            return false;
 
-        } else {
-            return true;
-        }
-    }
 }

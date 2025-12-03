@@ -92,17 +92,17 @@ public class ShootaTuning extends LinearOpMode {
                 OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.003);
             }
 
-            if (gamepad1.left_bumper) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.005);
-            } else if (gamepad1.right_bumper) {
-                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.005);
-            }
+//            if (gamepad1.left_bumper) {
+//                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.005);
+//            } else if (gamepad1.right_bumper) {
+//                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.005);
+//            }
 
             telemetry.addData("Shoota set speed", ShootaSpeed);
             List<Double> velocities = OCBHWM.flywheel.getVelocities();
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
-            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
+//            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
             telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
             telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
             telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
