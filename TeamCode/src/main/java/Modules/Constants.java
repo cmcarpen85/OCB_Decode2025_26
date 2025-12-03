@@ -49,7 +49,7 @@ public class Constants {
     public static double CLOSESHOTTURRETSERVO = .4;
     public static double STARTSHOTTURRETANGLE = -19.0; // 67
     public static double STARTSHOTTURRETSERVO = 0.9144;
-
+    public static double TURRETDYNAMIC = 200;
     //Transfer
     public static double TRANSFERPOWER = 0.8; //1
     public static double GATEPOWER = 1;

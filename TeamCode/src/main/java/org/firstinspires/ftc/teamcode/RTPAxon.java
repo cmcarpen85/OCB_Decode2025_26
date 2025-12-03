@@ -45,6 +45,8 @@ public class RTPAxon {
     public int ntry = 0;
     public int cliffs = 0;
     public double homeAngle;
+    public double maxAngle = 122;
+    public double minAngle= -122;
 
     // Direction enum for servo
     public enum Direction {
@@ -222,12 +224,24 @@ public class RTPAxon {
 
     // Increment target rotation by a value
     public void changeTargetRotation(double change) {
-        targetRotation += change;
+        if (targetRotation + change > maxAngle) {
+            targetRotation = maxAngle;
+        } else if (targetRotation + change < minAngle) {
+            targetRotation = minAngle;
+        }else {
+            targetRotation += change;
+        }
     }
 
     // Set target rotation and reset PID
     public void setTargetRotation(double target) {
-        targetRotation = target;
+        if (target > maxAngle) {
+            targetRotation = maxAngle;
+        } else if (target < minAngle) {
+            targetRotation = minAngle;
+        } else {
+            targetRotation = target;
+        }
         resetPID();
     }
 

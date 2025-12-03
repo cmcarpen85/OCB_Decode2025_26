@@ -143,9 +143,9 @@ OCBHWM.limelight.pipelineSwitch(0);
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.006);
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.001);
             } else if (-gamepad2.left_stick_y <= -0.4 && OCBHWM.hoodServo.getPosition() > Constants.HOODMINSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.006);
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.001);
             }
 
             if (gamepad2.dpad_left && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
@@ -178,15 +178,15 @@ OCBHWM.limelight.pipelineSwitch(0);
 //            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
 
 //            telemetry.addData("shoota mode", ShootaMode);
-//            telemetry.addData("Shoota set speed", ShootaSpeed);
-//            List<Double> velocities = OCBHWM.flywheel.getVelocities();
-//            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
-//            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
+            telemetry.addData("Shoota set speed", ShootaSpeed);
+            List<Double> velocities = OCBHWM.flywheel.getVelocities();
+            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
+            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
 //
 //
 //
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
-////            telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
+            telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
 ////            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
 ////            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
 //            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
