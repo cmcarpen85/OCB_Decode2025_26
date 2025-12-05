@@ -28,7 +28,7 @@ public class BlueOCBTeleop extends LinearOpMode {
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
         double ShootaSpeed = .6;
         double ShootaDesiredVelocity = 0;
-        boolean Tracked = true;
+        boolean Tracking = false;
 
         OCBHWM.limelight.start();
         OCBHWM.limelight.pipelineSwitch(0);
@@ -97,10 +97,11 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             //Gate & Kicker (Shoot)
-            if (gamepad2.right_trigger > 0.4 && Tracked) {
+            if (gamepad2.right_trigger > 0.4 && !Tracking) {
                 Transfer.gateForward();
                 Transfer.kickerForward();
             } else if (gamepad2.b) {
+
                 Transfer.gateReverse();
                 Transfer.kickerReverse();
             } else {
@@ -122,21 +123,21 @@ public class BlueOCBTeleop extends LinearOpMode {
                 Turret.setToAngle(Constants.TELEFARSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 ShootaSpeed = Constants.FARSHOTSPEED;
-                Tracked = true;
+                Tracking = false;
                 ShootaDesiredVelocity = Constants.FARSHOTVEL;
             } else if (gamepad2.x) {
                 OCBHWM.hoodServo.setPosition(Constants.MIDSHOTHOODSERVO);
                 Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.MIDSHOTSPEED);
                 ShootaSpeed = Constants.MIDSHOTSPEED;
-                Tracked = true;
+                Tracking = false;
                 ShootaDesiredVelocity = Constants.MIDSHOTVEL;
             } else if (gamepad2.y) {
 //                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
 //                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
                 Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
             } else if (gamepad2.right_bumper) {
-                Tracked = Shoota.cameraAdjustTurret();
+                Tracking = Shoota.cameraAdjustTurret();
                 Shoota.cameraSetLaunch();
             }
 

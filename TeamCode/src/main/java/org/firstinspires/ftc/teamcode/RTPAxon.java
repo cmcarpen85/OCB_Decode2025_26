@@ -25,7 +25,7 @@ public class RTPAxon {
     // Maximum allowed power
     private double maxPower;
     // Minimum allowed power
-    private double minPower;
+    private double minPower = 0.0;
     // Direction of servo movement
     private Direction direction;
     // Last measured angle
@@ -110,7 +110,7 @@ public class RTPAxon {
         kD = 0.0005;
         integralSum = 0.0;
         lastError = 0.0;
-        maxIntegralSum = 40.0;
+        maxIntegralSum = 60.0;
         pidTimer = new ElapsedTime();
         pidTimer.reset();
 

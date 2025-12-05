@@ -33,15 +33,11 @@ public class Turret {
     }
 
     public static void addAngle(double increment) {
-        if (OCBHWM.turretServo.isAtTarget(1)) {
             OCBHWM.turretServo.changeTargetRotation(-increment);
-        }
     }
 
     public static void subtractAngle(double increment) {
-        if (OCBHWM.turretServo.isAtTarget(1)) {
             OCBHWM.turretServo.changeTargetRotation(increment);
-        }
     }
 
     public double getCurrentAngle() {

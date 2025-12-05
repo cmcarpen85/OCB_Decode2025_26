@@ -10,6 +10,7 @@ public class Shoota {
     public static double currentTurretTolerance = 1;
     public static boolean InPos = true;
     public static boolean Force = false;
+    public static double cameraSign = 0;
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
         add(40.0, 0.42);
@@ -76,11 +77,14 @@ public class Shoota {
         LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(result.getTx() * 0.5));
+                if (Math.signum(result.getTx())!=cameraSign){
+                    OCBHWM.turretServo.setTargetRotation(OCBHWM.turretServo.getTotalRotation());
+                } else if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
+                    Turret.subtractAngle(Math.abs(result.getTx() * 0.05));
                 } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(result.getTx() * 0.5));
+                    Turret.addAngle(Math.abs(result.getTx() * 0.05));
                 }
+                cameraSign = Math.signum(result.getTx());
                 return result.getTx()>= currentTurretTolerance || result.getTx()<= -currentTurretTolerance;
             }
         }
