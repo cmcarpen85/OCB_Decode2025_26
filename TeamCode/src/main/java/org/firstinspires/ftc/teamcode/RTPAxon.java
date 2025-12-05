@@ -24,6 +24,8 @@ public class RTPAxon {
     private double power;
     // Maximum allowed power
     private double maxPower;
+    // Minimum allowed power
+    private double minPower;
     // Direction of servo movement
     private Direction direction;
     // Last measured angle
@@ -108,11 +110,11 @@ public class RTPAxon {
         kD = 0.0005;
         integralSum = 0.0;
         lastError = 0.0;
-        maxIntegralSum = 20.0;
+        maxIntegralSum = 40.0;
         pidTimer = new ElapsedTime();
         pidTimer.reset();
 
-        maxPower = 0.8;
+        maxPower = 0.95;
         cliffs = 0;
     }
     // endregion
@@ -125,6 +127,13 @@ public class RTPAxon {
     // Set power to servo, respecting direction and maxPower
     public void setPower(double power) {
         this.power = Math.max(-maxPower, Math.min(maxPower, power));
+        if (power > 0){
+            this.power = Math.max(minPower, power);
+        } else if (power < 0) {
+            this.power = Math.min(-minPower, power);
+        } else {
+            this.power = power;
+        }
         servo.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
         servo2.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
     }
@@ -392,10 +401,10 @@ public class RTPAxon {
 
                 // Manual controls for target and PID tuning
                 if (gamepad1.dpad_left) {
-                    servo.changeTargetRotation(0.2);
+                    servo.changeTargetRotation(1);
                 }
                 if (gamepad1.dpad_right) {
-                    servo.changeTargetRotation(-0.2);
+                    servo.changeTargetRotation(-1);
                 }
                 if (gamepad1.a) {
                     servo.setTargetRotation(0);
@@ -419,9 +428,15 @@ public class RTPAxon {
                     servo.setKI(Math.max(0, servo.getKI() - 0.0001));
                 }
 
+                if(gamepad1.right_stick_y>0.4){
+                    servo.setKD(servo.getKD() + 0.0001);
+                } else if (gamepad1.right_stick_y<-0.4){
+                    servo.setKD(servo.getKD() - 0.0001);
+                }
+
                 if (gamepad1.back) {
-                    servo.setKP(0.001);
-                    servo.setKI(0.0001);
+                    servo.setKP(0.015);
+                    servo.setKI(0.0002);
                     servo.setKD(0.0005);
                     servo.resetPID();
                 }

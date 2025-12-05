@@ -30,14 +30,16 @@ public class BlueOCBTeleop extends LinearOpMode {
         double ShootaDesiredVelocity = 0;
         boolean Tracked = true;
 
-OCBHWM.limelight.start();
-OCBHWM.limelight.pipelineSwitch(0);
+        OCBHWM.limelight.start();
+        OCBHWM.limelight.pipelineSwitch(0);
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
+        OCBHWM.turretServo.setRtp(true);
 //        OCBHWM.turretServo.setTargetRotation(Constants.TURRETHOME);
 
         while (!isStopRequested()) {
+            OCBHWM.turretServo.update();
             if (gamepad1.back) {
                 OCBHWM.imu.reset();
             }
@@ -66,28 +68,24 @@ OCBHWM.limelight.pipelineSwitch(0);
                         OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
-
             }
 
             //Prep Shoota
-            if (gamepad2.left_trigger > 0.4 ) {
+            if (gamepad2.left_trigger > 0.4) {
                 Shoota.setSpeed(ShootaSpeed);
             } else if (gamepad2.a) {
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
-            } else if (gamepad2.x){
+            } else if (gamepad2.x) {
                 Shoota.setSpeed(Constants.MIDSHOTSPEED);
-            }
-            else {
+            } else {
                 Shoota.stop();
             }
-
 
             if (gamepad2.dpad_up && ShootaSpeed < 1) {
                 ShootaSpeed = ShootaSpeed + .0001;
             } else if (gamepad2.dpad_down && ShootaSpeed > 0) {
                 ShootaSpeed = ShootaSpeed - .0001;
             }
-
 
             // Intake & Transfer
             if (gamepad2.left_bumper) {
@@ -110,14 +108,14 @@ OCBHWM.limelight.pipelineSwitch(0);
                 Transfer.kickerRest();
             }
 
+            //Transfer Belts
             if (gamepad2.right_trigger > 0.4 || gamepad2.left_bumper) {
                 Transfer.transferIn();
             } else if (gamepad2.b) {
                 Transfer.transferOut();
-            }else {
+            } else {
                 Transfer.transferHold();
             }
-
 
             if (gamepad2.a) {
                 OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
@@ -137,7 +135,7 @@ OCBHWM.limelight.pipelineSwitch(0);
 //                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
 //                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
                 Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
-            }else if (gamepad2.right_bumper){
+            } else if (gamepad2.right_bumper) {
                 Tracked = Shoota.cameraAdjustTurret();
                 Shoota.cameraSetLaunch();
             }
@@ -152,25 +150,24 @@ OCBHWM.limelight.pipelineSwitch(0);
 //                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.002);
 //            } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
 //                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
-//            }else if (gamepad2.right_stick_x >= 0.4  && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE){
-//                Turret.addAngle(gamepad2.right_stick_y * 2);
-//            } else if (gamepad2.right_stick_x <= -0.4  && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE){
-//                Turret.subtractAngle(Math.abs( gamepad2.right_stick_y )* 2);
-//
-//            }
+            if (gamepad2.right_stick_x >= 0.4){
+                Turret.addAngle(gamepad2.right_stick_y * 2);
+            } else if (gamepad2.right_stick_x <= -0.4){
+                Turret.subtractAngle(Math.abs( gamepad2.right_stick_y )* 2);
+            }
 
             Shoota.CheckSpeed(ShootaDesiredVelocity);
 
             LLResult result = OCBHWM.limelight.getLatestResult();
             if (result != null) {
-                if (result.isValid()){
+                if (result.isValid()) {
                     telemetry.addData("Tx", result.getTx());
                     telemetry.addData("Ty", result.getTy());
                     telemetry.addData("Ta", result.getTa());
                     telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
                 }
             }
-            telemetry.addData("turret in Pos",Shoota.InPos);
+            telemetry.addData("turret in Pos", Shoota.InPos);
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
@@ -186,13 +183,13 @@ OCBHWM.limelight.pipelineSwitch(0);
 //
 //
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
-            telemetry.addData("hood Servo angle",OCBHWM.hoodServo.getPosition());
+            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
+            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
+            telemetry.addData("Turret Error", OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation());
 ////            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
 ////            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
 //            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
             telemetry.update();
-
-
         }
     }
 
@@ -229,13 +226,9 @@ OCBHWM.limelight.pipelineSwitch(0);
 //                    OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.001);
 //                }
 
-
                 break;
             case "Tracking":
-
                 break;
-
         }
     }
-
 }

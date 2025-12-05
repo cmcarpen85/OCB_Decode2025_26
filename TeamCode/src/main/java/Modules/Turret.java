@@ -14,7 +14,7 @@ public class Turret {
     }
 
     public static double servoValueToAngle(double servoValue) {
-       double Ratio = ((Constants.TURRETMAXANGLE - Constants.TURRETMINANGLE) / (Constants.TURRETMAXSERVOVALUE - Constants.TURRETMINSERVOVALUE));
+        double Ratio = ((Constants.TURRETMAXANGLE - Constants.TURRETMINANGLE) / (Constants.TURRETMAXSERVOVALUE - Constants.TURRETMINSERVOVALUE));
 
         if (servoValue > 0.5) {
             return (servoValue - 0.5) * Ratio;
@@ -24,8 +24,8 @@ public class Turret {
         return 0;
     }
 
-    public static double FeedbacktoAngle(){
-        return (-55.17*(OCBHWM.turretFeedback.getVoltage()-1.6495));
+    public static double FeedbacktoAngle() {
+        return (-55.17 * (OCBHWM.turretFeedback.getVoltage() - 1.6495));
     }
 
     public static void setToAngle(double angle) {
@@ -33,16 +33,20 @@ public class Turret {
     }
 
     public static void addAngle(double increment) {
-            OCBHWM.turretServo.changeTargetRotation(increment);
+        if (OCBHWM.turretServo.isAtTarget(1)) {
+            OCBHWM.turretServo.changeTargetRotation(-increment);
+        }
     }
 
     public static void subtractAngle(double increment) {
-        OCBHWM.turretServo.changeTargetRotation(-increment);
+        if (OCBHWM.turretServo.isAtTarget(1)) {
+            OCBHWM.turretServo.changeTargetRotation(increment);
+        }
     }
 
     public double getCurrentAngle() {
         if (OCBHWM.turretFeedback == null) return 0;
-        return (OCBHWM.turretFeedback.getVoltage() / 3.3)*360;
+        return (OCBHWM.turretFeedback.getVoltage() / 3.3) * 360;
     }
 
 

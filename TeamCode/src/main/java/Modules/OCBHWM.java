@@ -125,6 +125,7 @@ public class OCBHWM {
         CRturretServo2 = hardwareMap.get(CRServo.class, "CRturretServo2");
         turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
         turretServo = new RTPAxon(CRturretServo,CRturretServo2,turretFeedback);
+        turretServo.setRtp(false);
 
 
         indLight = hardwareMap.get(Servo.class, "indLight");

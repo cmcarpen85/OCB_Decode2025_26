@@ -33,9 +33,11 @@ public class RedOCBTeleop extends LinearOpMode {
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
-//        OCBHWM.turretServo.setPosition(Constants.TURRETHOME);
+        OCBHWM.turretServo.setRtp(true);
+//        OCBHWM.turretServo.setTargetRotation(Constants.TURRETHOME);
 
         while (!isStopRequested()) {
+            OCBHWM.turretServo.update();
             if (gamepad1.back) {
                 OCBHWM.imu.reset();
             }
@@ -105,6 +107,7 @@ public class RedOCBTeleop extends LinearOpMode {
                 Transfer.kickerRest();
             }
 
+            //Transfer Belts
             if (gamepad2.right_trigger > 0.4 || gamepad2.left_bumper) {
                 Transfer.transferIn();
             } else if (gamepad2.b) {
@@ -132,6 +135,7 @@ public class RedOCBTeleop extends LinearOpMode {
                 Shoota.setSpeed(Constants.CLOSESHOTSPEED);
             } else if (gamepad2.right_bumper) {
                 Shoota.cameraAdjustTurret();
+                Shoota.cameraSetLaunch();
             }
 
 //            if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
