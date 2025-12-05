@@ -8,7 +8,7 @@ public class Shoota {
     public static double DesiredTurretAng;
     public static double PosError = 0;
     public static double currentTurretTolerance = 1;
-    public static boolean InPos = true;
+    public static boolean NotInPos = true;
     public static boolean Force = false;
     public static double cameraSign = 0;
 
@@ -73,22 +73,22 @@ public class Shoota {
       currentTurretTolerance = Constants.TURRETDYNAMIC/distance;
     }
 
-    public static boolean cameraAdjustTurret() {
+    public static void cameraAdjustTurret() {
         LLResult result = OCBHWM.limelight.getLatestResult();
+        double TurretError = OCBHWM.turretServo.getTargetRotation()-OCBHWM.turretServo.getTotalRotation();
         if (result != null) {
             if (result.isValid()) {
-                if (Math.signum(result.getTx())!=cameraSign){
-                    OCBHWM.turretServo.setTargetRotation(OCBHWM.turretServo.getTotalRotation());
-                } else if (result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(result.getTx() * 0.05));
-                } else if (result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(result.getTx() * 0.05));
+//                if (Math.signum(result.getTx())!=cameraSign){
+//                    OCBHWM.turretServo.setTargetRotation(OCBHWM.turretServo.getTotalRotation());
+
+                 if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
+                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
+                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
+                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
                 }
                 cameraSign = Math.signum(result.getTx());
-                return result.getTx()>= currentTurretTolerance || result.getTx()<= -currentTurretTolerance;
             }
         }
-        return true;
     }
 
     public static void cameraSetLaunch() {
@@ -107,6 +107,7 @@ public class Shoota {
                     Hood.setToAngle(Shoota.gethoodAngle(distance));
                     turretTolerance(distance);
                 }
+                NotInPos = result.getTx()>= currentTurretTolerance || result.getTx()<= -currentTurretTolerance;
             }
         }
     }

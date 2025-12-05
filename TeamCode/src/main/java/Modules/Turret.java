@@ -29,7 +29,7 @@ public class Turret {
     }
 
     public static void setToAngle(double angle) {
-        OCBHWM.turretServo.setTargetRotation(angleToServoValue(angle));
+        OCBHWM.turretServo.setTargetRotation(angle);
     }
 
     public static void addAngle(double increment) {

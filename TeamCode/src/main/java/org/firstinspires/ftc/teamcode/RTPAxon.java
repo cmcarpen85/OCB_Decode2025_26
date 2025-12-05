@@ -25,7 +25,7 @@ public class RTPAxon {
     // Maximum allowed power
     private double maxPower;
     // Minimum allowed power
-    private double minPower = 0.0;
+    private double minPower = 0.12;
     // Direction of servo movement
     private Direction direction;
     // Last measured angle
@@ -106,11 +106,11 @@ public class RTPAxon {
 
         // Default PID coefficients
         kP = 0.015;
-        kI = 0.0002;
+        kI = 0.0007;
         kD = 0.0005;
         integralSum = 0.0;
         lastError = 0.0;
-        maxIntegralSum = 60.0;
+        maxIntegralSum = 100.0;
         pidTimer = new ElapsedTime();
         pidTimer.reset();
 
@@ -344,7 +344,7 @@ public class RTPAxon {
         double output = pTerm + iTerm + dTerm;
 
         // Deadzone for output
-        final double DEADZONE = 0.5;
+        final double DEADZONE = 1; // 0.5
         if (Math.abs(error) > DEADZONE) {
             double power = Math.min(maxPower, Math.abs(output)) * Math.signum(output);
             setPower(-power);

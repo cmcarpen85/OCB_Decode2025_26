@@ -97,7 +97,7 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             //Gate & Kicker (Shoot)
-            if (gamepad2.right_trigger > 0.4 && !Tracking) {
+            if (gamepad2.right_trigger > 0.4 && !Shoota.NotInPos) {
                 Transfer.gateForward();
                 Transfer.kickerForward();
             } else if (gamepad2.b) {
@@ -137,7 +137,7 @@ public class BlueOCBTeleop extends LinearOpMode {
 //                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
                 Shoota.setSpeed(Constants.CLOSESHOTHOODSERVO);
             } else if (gamepad2.right_bumper) {
-                Tracking = Shoota.cameraAdjustTurret();
+                Shoota.cameraAdjustTurret();
                 Shoota.cameraSetLaunch();
             }
 
@@ -168,7 +168,7 @@ public class BlueOCBTeleop extends LinearOpMode {
                     telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
                 }
             }
-            telemetry.addData("turret in Pos", Shoota.InPos);
+            telemetry.addData("turret currently tracking", Shoota.NotInPos);
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
