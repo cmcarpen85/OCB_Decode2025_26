@@ -180,9 +180,6 @@ public class BlueOCBTeleop extends LinearOpMode {
             List<Double> velocities = OCBHWM.flywheel.getVelocities();
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
-//
-//
-//
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
             telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
             telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
