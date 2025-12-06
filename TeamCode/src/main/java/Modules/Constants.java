@@ -50,6 +50,7 @@ public class Constants {
     public static double STARTSHOTTURRETANGLE = -19.0; // 67
     public static double STARTSHOTTURRETSERVO = 0.9144;
     public static double TURRETDYNAMIC = 200;
+
     //Transfer
     public static double TRANSFERPOWER = 0.8; //1
     public static double GATEPOWER = 1;
@@ -59,6 +60,6 @@ public class Constants {
     public static double INTAKEPOWER = 0.8; //1
     public static double AUTOINTAKEPOWER = 1; //1
     public static double INTAKEHOLD = 0.3;
-
+    public static double PASSTIME = 0.3;
 
 }

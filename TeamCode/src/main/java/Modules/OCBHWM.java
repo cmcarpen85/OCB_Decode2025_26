@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -65,6 +66,7 @@ public class OCBHWM {
 
     public static AnalogInput hoodFeedback;
     public static AnalogInput transferClear;
+    public static DigitalChannel artifactInIntake;
 
     public static double kP = 20;
     public static double kV = 0.7;
@@ -145,5 +147,7 @@ public class OCBHWM {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+        artifactInIntake = hardwareMap.get(DigitalChannel.class, "artifactInIntake");
+        artifactInIntake.setMode(DigitalChannel.Mode.INPUT);
     }
 }

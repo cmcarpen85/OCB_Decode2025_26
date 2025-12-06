@@ -24,12 +24,13 @@ public class Shoota {
         add(80.0, 0.5325);
 
     }};
+
     public static double getSpeeds(double distance) {
         return speeds.getClosest(distance);
     }
 
     static LUT<Double, Double> hoodAngle = new LUT<Double, Double>() {{
-        add(40.0, 0.05 );
+        add(40.0, 0.05);
         add(45.0, 0.171);
         add(50.0, 0.193);
         add(55.0, 0.296);
@@ -39,6 +40,7 @@ public class Shoota {
         add(75.0, 0.5);
         add(80.0, 0.546);
     }};
+
     public static double gethoodAngle(double distance) {
         return hoodAngle.getClosest(distance);
     }
@@ -47,12 +49,15 @@ public class Shoota {
     public static void setSpeed(double speed) {
         OCBHWM.flywheel.set(speed);
     }
+
     public static void stop() {
         OCBHWM.flywheel.stopMotor();
     }
+
     public static void coast() {
         OCBHWM.flywheel.set(Constants.COASTSPEED);
     }
+
     public static void CheckSpeed(double setShootSpeed) {
         if (OCBHWM.flywheel.getVelocity() > setShootSpeed + 20 || OCBHWM.flywheel.getVelocity() < setShootSpeed - 20) {
             OCBHWM.indLight.setPosition(.33);
@@ -66,27 +71,23 @@ public class Shoota {
     //LimeLight
     public static double distanceToGoal(double Ty) {
         double result = (Constants.GOALHEIGHT - Constants.CAMERAHEIGHT) / Math.tan(Math.toRadians(Constants.CAMERAANGLE + Ty));
-    return result * 1.21007 - 7.833307;
+        return result * 1.21007 - 7.833307;
     }
 
-    public static void turretTolerance(double distance){
-      currentTurretTolerance = Constants.TURRETDYNAMIC/distance;
+    public static void turretTolerance(double distance) {
+        currentTurretTolerance = Constants.TURRETDYNAMIC / distance;
     }
 
     public static void cameraAdjustTurret() {
         LLResult result = OCBHWM.limelight.getLatestResult();
-        double TurretError = OCBHWM.turretServo.getTargetRotation()-OCBHWM.turretServo.getTotalRotation();
+        double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
         if (result != null) {
             if (result.isValid()) {
-//                if (Math.signum(result.getTx())!=cameraSign){
-//                    OCBHWM.turretServo.setTargetRotation(OCBHWM.turretServo.getTotalRotation());
-
-                 if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
+                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
                     Turret.addAngle(Math.abs(TurretError - result.getTx()));
                 } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
                     Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
                 }
-                cameraSign = Math.signum(result.getTx());
             }
         }
     }
@@ -107,7 +108,7 @@ public class Shoota {
                     Hood.setToAngle(Shoota.gethoodAngle(distance));
                     turretTolerance(distance);
                 }
-                NotInPos = result.getTx()>= currentTurretTolerance || result.getTx()<= -currentTurretTolerance;
+                NotInPos = result.getTx() >= currentTurretTolerance || result.getTx() <= -currentTurretTolerance;
             }
         }
     }
