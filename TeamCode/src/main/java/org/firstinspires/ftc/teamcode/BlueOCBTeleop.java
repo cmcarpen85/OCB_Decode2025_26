@@ -24,6 +24,7 @@ public class BlueOCBTeleop extends LinearOpMode {
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
         OCBHWM.imu.init();
+//        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
         double ShootaSpeed = .6;
@@ -89,7 +90,7 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             //Gate & Kicker (Shoot)
-            if (gamepad2.right_trigger > 0.4 && !Shoota.NotInPos) {
+            if (gamepad2.right_trigger > 0.4) {
                 Transfer.gateForward();
                 Transfer.kickerForward();
             } else if (gamepad2.dpad_down) {
@@ -117,11 +118,11 @@ public class BlueOCBTeleop extends LinearOpMode {
                 ShootaSpeed = Constants.FARSHOTSPEED;
                 ShootaDesiredVelocity = Constants.FARSHOTVEL;
             } else if (gamepad2.x) {
-                Turret.setToAngle(90);
+                Turret.setToAngle(-90);
             } else if (gamepad2.y) {
                 Turret.setToAngle(0);
             } else if (gamepad2.b) {
-                Turret.setToAngle(-90);
+                Turret.setToAngle(90);
             } else if (gamepad2.left_trigger > 0.4) {
                 Shoota.cameraAdjustTurret();
                 Shoota.cameraSetLaunch();
@@ -135,13 +136,13 @@ public class BlueOCBTeleop extends LinearOpMode {
 //            }
             if (gamepad2.left_trigger >= 0.4) {
                 Shoota.CheckSpeed(ShootaDesiredVelocity);
-            } else if (gamepad2.left_bumper) {
-                if (Intake.intakeFull()) {
-                    Intake.setIntakeLight(true);
-                    gamepad2.rumble(100);
-                } else {
-                    Intake.setIntakeLight(false);
-                }
+//            } else if (gamepad2.left_bumper) {
+//                if (Intake.intakeFull()) {
+//                    Intake.setIntakeLight(true);
+//                    gamepad2.rumble(100);
+//                } else {
+//                    Intake.setIntakeLight(false);
+//                }
             }
 
 //            LLResult result = OCBHWM.limelight.getLatestResult();

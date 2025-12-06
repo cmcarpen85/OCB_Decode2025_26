@@ -32,6 +32,11 @@ public class Intake {
         return OCBHWM.artifactInIntake.getState();
     }
 
+    public static void InitalizeTimer(){
+        blockTime.start();
+        blockTime.pause();
+    }
+
     public static void setIntakeLight (boolean On) {
         if (On) {
             OCBHWM.indLight.setPosition(0.722);

@@ -74,8 +74,9 @@ public class Shoota {
         return result * 1.21007 - 7.833307;
     }
 
-    public static void turretTolerance(double distance) {
+    public static double turretTolerance(double distance) {
         currentTurretTolerance = Constants.TURRETDYNAMIC / distance;
+        return currentTurretTolerance;
     }
 
     public static void cameraAdjustTurret() {
@@ -99,14 +100,14 @@ public class Shoota {
                 if (result.getTa() < Constants.FARSHOT_TA) {
                     Hood.setToAngle(Constants.FARSHOTHOODSERVO);
                     Shoota.setSpeed(Constants.FARSHOTSPEED);
-                    Shoota.currentTurretTolerance = 1;
+                    Shoota.currentTurretTolerance = 2;
                 } else if (result.getTa() < Constants.CLOSESHOT_TA) {
                     //TODO: more accurate far shot distance calculation
                 } else if (result.getTa() >= Constants.CLOSESHOT_TA) {
                     double distance = Shoota.distanceToGoal(result.getTy());
                     Shoota.setSpeed(Shoota.getSpeeds(distance));
                     Hood.setToAngle(Shoota.gethoodAngle(distance));
-                    turretTolerance(distance);
+                    currentTurretTolerance = turretTolerance(distance);
                 }
                 NotInPos = result.getTx() >= currentTurretTolerance || result.getTx() <= -currentTurretTolerance;
             }
