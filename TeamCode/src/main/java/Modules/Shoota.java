@@ -13,16 +13,25 @@ public class Shoota {
     public static double cameraSign = 0;
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
-        add(40.0, 0.42);
-        add(45.0, 0.42);
-        add(50.0, 0.42);
-        add(55.0, 0.464);
-        add(60.0, 0.474);
+        add(40.0, 0.4200);
+        add(42.5, 0.4200);
+        add(45.0, 0.4200);
+        add(47.5, 0.4200);
+        add(50.0, 0.4200);
+        add(52.5, 0.4420);
+        add(55.0, 0.4640);
+        add(57.5, 0.4690);
+        add(60.0, 0.4740);
+        add(62.5, 0.4800);
         add(65.0, 0.4855);
-        add(70.0, 0.504);
+        add(67.5, 0.4900);
+        add(70.0, 0.5040);
+        add(72.5, 0.5130);
         add(75.0, 0.5224);
+        add(77.5, 0.5290);
         add(80.0, 0.5325);
-
+        add(82.5, 0.5350);
+        add(85.0, 0.5400);
     }};
 
     public static double getSpeeds(double distance) {
@@ -30,15 +39,25 @@ public class Shoota {
     }
 
     static LUT<Double, Double> hoodAngle = new LUT<Double, Double>() {{
-        add(40.0, 0.05);
-        add(45.0, 0.171);
+        add(40.0, 0.050);
+        add(42.5, 0.098);
+        add(45.0, 0.141);
+        add(47.5, 0.171);
         add(50.0, 0.193);
+        add(52.5, 0.248);
         add(55.0, 0.296);
+        add(57.5, 0.305);
         add(60.0, 0.318);
+        add(62.5, 0.368);
         add(65.0, 0.431);
+        add(67.5, 0.480);
         add(70.0, 0.521);
-        add(75.0, 0.5);
+        add(72.5, 0.525);
+        add(75.0, 0.530);
+        add(77.5, 0.539);
         add(80.0, 0.546);
+        add(82.5, 0.550);
+        add(85.0, 0.555);
     }};
 
     public static double gethoodAngle(double distance) {
@@ -74,6 +93,12 @@ public class Shoota {
         return result * 1.21007 - 7.833307;
     }
 
+    public static double farDistanceToGoal(double Ty,double Ta) {
+        double Tyresult = (Constants.GOALHEIGHT - Constants.CAMERAHEIGHT) / Math.tan(Math.toRadians(Constants.CAMERAANGLE + Ty));
+        double distance = (Tyresult * 1.21007 - 7.833307)*0.92 + Math.sqrt(Ta)*0.85;
+        return distance;
+    }
+
     public static double turretTolerance(double distance) {
         currentTurretTolerance = Constants.TURRETDYNAMIC / distance;
         return currentTurretTolerance;
@@ -97,12 +122,11 @@ public class Shoota {
         LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                if (result.getTa() < Constants.FARSHOT_TA) {
+                if (result.getTa() < Constants.CLOSESHOT_TA) {
+                    double distance = farDistanceToGoal(result.getTy(),result.getTa());
                     Hood.setToAngle(Constants.FARSHOTHOODSERVO);
                     Shoota.setSpeed(Constants.FARSHOTSPEED);
                     Shoota.currentTurretTolerance = 2;
-                } else if (result.getTa() < Constants.CLOSESHOT_TA) {
-                    //TODO: more accurate far shot distance calculation
                 } else if (result.getTa() >= Constants.CLOSESHOT_TA) {
                     double distance = Shoota.distanceToGoal(result.getTy());
                     Shoota.setSpeed(Shoota.getSpeeds(distance));

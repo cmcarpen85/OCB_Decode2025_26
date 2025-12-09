@@ -15,7 +15,7 @@ public class Constants {
 
     //FlyWheel
     public static double COASTSPEED = 0.3;
-    public static double FARSHOTSPEED = 0.63; // 0.635
+    public static double FARSHOTSPEED = 0.635; // 0.635
     public static double FARSHOTVEL = 1560;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
