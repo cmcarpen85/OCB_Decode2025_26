@@ -32,11 +32,6 @@ public class Shoota {
         add(80.0, 0.5325);
         add(82.5, 0.5350);
         add(85.0, 0.5400);
-        //far shots
-        add(126.0,.635);
-        add(129.0,.638);
-        add(132.0,.640);
-        add(136.0,.643);
 
 
     }};
@@ -65,11 +60,7 @@ public class Shoota {
         add(80.0, 0.546);
         add(82.5, 0.550);
         add(85.0, 0.555);
-        //far shots
-        add(126.0,.608);
-        add(129.0,.608);
-        add(132.0,.608);
-        add(136.0,.608);
+
 
     }};
 
@@ -106,9 +97,9 @@ public class Shoota {
         return result * 1.21007 - 7.833307;
     }
 
-    public static double farDistanceToGoal(double Ty,double Ta) {
+    public static double farDistanceToGoal(double Ty, double Ta) {
         double Tyresult = (Constants.GOALHEIGHT - Constants.CAMERAHEIGHT) / Math.tan(Math.toRadians(Constants.CAMERAANGLE + Ty));
-        double distance = (Tyresult * 1.21007 - 7.833307)*0.92 + Math.sqrt(Ta)*0.85;
+        double distance = (Tyresult * 1.21007 - 7.833307) * 0.92 + Math.sqrt(Ta) * 0.85;
         return distance;
     }
 
@@ -131,16 +122,13 @@ public class Shoota {
         }
     }
 
-    public static void cameraSetLaunch() {
+    public static void cameraSetLaunch(double speed) {
         LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
                 if (result.getTa() < Constants.CLOSESHOT_TA) {
-                    double farDistance = farDistanceToGoal(result.getTy(),result.getTa());
-                    Shoota.setSpeed(Shoota.getSpeeds(farDistance));
-                    Hood.setToAngle(Shoota.gethoodAngle(farDistance));
-//                    Hood.setToAngle(Constants.FARSHOTHOODSERVO);
-//                    Shoota.setSpeed(Constants.FARSHOTSPEED);
+                    Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+                    Shoota.setSpeed(speed);
                     Shoota.currentTurretTolerance = 2;
                 } else if (result.getTa() >= Constants.CLOSESHOT_TA) {
                     double distance = Shoota.distanceToGoal(result.getTy());
@@ -149,10 +137,10 @@ public class Shoota {
                     currentTurretTolerance = turretTolerance(distance);
                 }
                 NotInPos = result.getTx() >= currentTurretTolerance || result.getTx() <= -currentTurretTolerance;
+            } else {
+                Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+                Shoota.setSpeed(Constants.FARSHOTSPEED);
             }
-        }else {
-            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
-            Shoota.setSpeed(Constants.FARSHOTSPEED);
         }
     }
 }

@@ -131,7 +131,7 @@ public class ShootaTuning extends LinearOpMode {
                 Turret.setToAngle(-90);
             }else if (gamepad2.right_bumper) {
                 Shoota.cameraAdjustTurret();
-                Shoota.cameraSetLaunch();
+                Shoota.cameraSetLaunch(ShootaSpeed);
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
