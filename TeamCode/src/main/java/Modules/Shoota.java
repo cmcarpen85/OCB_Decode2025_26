@@ -32,6 +32,13 @@ public class Shoota {
         add(80.0, 0.5325);
         add(82.5, 0.5350);
         add(85.0, 0.5400);
+        //far shots
+        add(126.0,.635);
+        add(129.0,.638);
+        add(132.0,.640);
+        add(136.0,.643);
+
+
     }};
 
     public static double getSpeeds(double distance) {
@@ -58,6 +65,12 @@ public class Shoota {
         add(80.0, 0.546);
         add(82.5, 0.550);
         add(85.0, 0.555);
+        //far shots
+        add(126.0,.608);
+        add(129.0,.608);
+        add(132.0,.608);
+        add(136.0,.608);
+
     }};
 
     public static double gethoodAngle(double distance) {
@@ -123,9 +136,11 @@ public class Shoota {
         if (result != null) {
             if (result.isValid()) {
                 if (result.getTa() < Constants.CLOSESHOT_TA) {
-                    double distance = farDistanceToGoal(result.getTy(),result.getTa());
-                    Hood.setToAngle(Constants.FARSHOTHOODSERVO);
-                    Shoota.setSpeed(Constants.FARSHOTSPEED);
+                    double farDistance = farDistanceToGoal(result.getTy(),result.getTa());
+                    Shoota.setSpeed(Shoota.getSpeeds(farDistance));
+                    Hood.setToAngle(Shoota.gethoodAngle(farDistance));
+//                    Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+//                    Shoota.setSpeed(Constants.FARSHOTSPEED);
                     Shoota.currentTurretTolerance = 2;
                 } else if (result.getTa() >= Constants.CLOSESHOT_TA) {
                     double distance = Shoota.distanceToGoal(result.getTy());
@@ -135,6 +150,9 @@ public class Shoota {
                 }
                 NotInPos = result.getTx() >= currentTurretTolerance || result.getTx() <= -currentTurretTolerance;
             }
+        }else {
+            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+            Shoota.setSpeed(Constants.FARSHOTSPEED);
         }
     }
 }

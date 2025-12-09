@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 
 import Modules.Constants;
 import Modules.Hood;
+import Modules.OCBHWM;
 import Modules.Shoota;
 import Modules.Turret;
 
@@ -50,6 +51,7 @@ public class PrepShootAction implements FailableAction {
 
     private void initialize() {
         this.startTime = System.currentTimeMillis();
+        OCBHWM.turretServo.setRtp(true);
 
         switch (this.actionType) {
             case PREP_SHOOT:
@@ -103,10 +105,15 @@ public class PrepShootAction implements FailableAction {
         if (!initialized) {
             initialize();
         }
-        if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
+        if (Math.abs(OCBHWM.turretServo.getTargetRotation()-OCBHWM.turretServo.getTotalRotation())<=1){
+            OCBHWM.turretServo.setRtp(false);
             return false;
         }
+//        if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
+//            return false;
+//        }
         Shoota.setSpeed(this.ShootSpeed);
+        OCBHWM.turretServo.update();
         return true;
     }
 

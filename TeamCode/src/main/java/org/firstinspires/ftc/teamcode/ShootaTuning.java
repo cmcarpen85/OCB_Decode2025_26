@@ -159,6 +159,7 @@ public class ShootaTuning extends LinearOpMode {
                     telemetry.addData("Ty", result.getTy());
                     telemetry.addData("Ta", result.getTa());
                     telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
+                    telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(),result.getTa()));
                 }
             }
             telemetry.addData("turret currently tracking", Shoota.NotInPos);
