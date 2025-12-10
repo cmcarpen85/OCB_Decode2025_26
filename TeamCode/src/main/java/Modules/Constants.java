@@ -62,6 +62,6 @@ public class Constants {
     public static double INTAKEPOWER = 0.8; //1
     public static double AUTOINTAKEPOWER = 1; //1
     public static double INTAKEHOLD = 0.3;
-    public static double PASSTIME = 0.3;
+    public static double PASSTIME = 300;
 
 }

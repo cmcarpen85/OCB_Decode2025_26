@@ -127,11 +127,11 @@ public class ShootaTuning extends LinearOpMode {
                 Turret.setToAngle(90);
             } else if (gamepad2.y) {
                 Turret.setToAngle(0);
-            }else if (gamepad2.b) {
+            } else if (gamepad2.b) {
                 Turret.setToAngle(-90);
-            }else if (gamepad2.right_bumper) {
+            } else if (gamepad2.right_bumper) {
                 Shoota.cameraAdjustTurret();
-                Shoota.cameraSetLaunch(ShootaSpeed);
+//                Shoota.cameraSetLaunch(ShootaSpeed);
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
@@ -144,10 +144,10 @@ public class ShootaTuning extends LinearOpMode {
 //                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.002);
 //            } else if (gamepad2.dpad_right && OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
 //                OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.002);
-            if (gamepad2.right_stick_x >= 0.4){
+            if (gamepad2.right_stick_x >= 0.4) {
                 Turret.addAngle(gamepad2.right_stick_y * 2);
-            } else if (gamepad2.right_stick_x <= -0.4){
-                Turret.subtractAngle(Math.abs( gamepad2.right_stick_y )* 2);
+            } else if (gamepad2.right_stick_x <= -0.4) {
+                Turret.subtractAngle(Math.abs(gamepad2.right_stick_y) * 2);
             }
 
             Shoota.CheckSpeed(ShootaDesiredVelocity);
@@ -159,7 +159,7 @@ public class ShootaTuning extends LinearOpMode {
                     telemetry.addData("Ty", result.getTy());
                     telemetry.addData("Ta", result.getTa());
                     telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
-                    telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(),result.getTa()));
+                    telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(), result.getTa()));
                 }
             }
             telemetry.addData("turret currently tracking", Shoota.NotInPos);
@@ -178,49 +178,11 @@ public class ShootaTuning extends LinearOpMode {
             telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
             telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Error", OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation());
-////            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
-////            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
+            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+//            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
+//           telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
 //            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
             telemetry.update();
-        }
-    }
-
-    public void shooterControl() {
-        switch (ShootaMode) {
-            case "Manual":
-                if (gamepad2.a) {
-//                    Turret.setToAngle(Constants.FARSHOTTURRETANGLE);
-//                    Hood.setToAngle(Constants.FARSHOTHOODANGLE);
-//                    OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
-//                    OCBHWM.turretServo.setPosition(Constants.FARSHOTTURRETSERVO);
-//                    Shoota.setSpeed(Constants.FARSHOTSPEED);
-                } else if (gamepad2.x) {
-//                    Turret.setToAngle(Constants.MIDSHOTTURRETANGLE);
-//                    Hood.setToAngle(Constants.MIDSHOTHOODANGLE);
-//                    OCBHWM.hoodServo.setPosition(Constants.MIDSHOTHOODSERVO);
-//                    OCBHWM.turretServo.setPosition(Constants.MIDSHOTTURRETSERVO);
-//                    Shoota.setSpeed(Constants.MIDSHOTHOODANGLE);
-                } else if (gamepad2.y) {
-//                    Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE);
-//                    Hood.setToAngle(Constants.CLOSESHOTHOODANGLE);
-//                    Shoota.setSpeed(Constants.CLOSESHOTHOODANGLE);
-                }
-
-//                if (gamepad2.dpad_up && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
-//                    OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.003);
-//                } else if (gamepad2.dpad_down && OCBHWM.hoodServo.getPosition() > Constants.HOODMINSERVOVALUE) {
-//                    OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.003);
-//                }
-//
-//                if (gamepad2.right_stick_x < -0.1 && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {
-//                    OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() - 0.001);
-//                } else if (gamepad2.right_stick_x > 0.1&& OCBHWM.turretServo.getPosition() < Constants.TURRETMAXSERVOVALUE) {
-//                    OCBHWM.turretServo.setPosition(OCBHWM.turretServo.getPosition() + 0.001);
-//                }
-
-                break;
-            case "Tracking":
-                break;
         }
     }
 }

@@ -57,26 +57,37 @@ public class BlueFarAuto extends LinearOpMode {
         public double pickCorner2X = 43;
         public double pickCorner2Y = 1;
         //        pickCornerScrape
-        public double pickCornerScrape1X = 0;
-        public double pickCornerScrape1Y = 0;
-        public double pickCornerScrape2X = 0;
-        public double pickCornerScrape2Y = 0;
-        public double pickCornerScrape3X = 0;
-        public double pickCornerScrape3Y = 0;
+        public double pickCornerScrape1X = 22;
+        public double pickCornerScrape1Y = -0.25;
+        public double pickCornerScrape1ORI = 0;
+        public double pickCornerScrape2X = 36;
+        public double pickCornerScrape2Y = -0.25;
+        public double pickCornerScrape2ORI = 0;
+        public double pickCornerScrape3X = 42.5;
+        public double pickCornerScrape3Y = -0.25;
+        public double pickCornerScrape3ORI = 0;
+
         //        pickCornerStraight
-        public double pickCornerStraight1X = 0;
-        public double pickCornerStraight1Y = 0;
-        public double pickCornerStraight2X = 0;
-        public double pickCornerStraight2Y = 0;
-        public double pickCornerStraight3X = 0;
-        public double pickCornerStraight3Y = 0;
+        public double pickCornerStraight1X = 20;
+        public double pickCornerStraight1Y = -11;
+        public double pickCornerStraight1ORI = 0;
+        public double pickCornerStraight2X = 34;
+        public double pickCornerStraight2Y = -5;
+        public double pickCornerStraight2ORI = 0;
+        public double pickCornerStraight3X = 42;
+        public double pickCornerStraight3Y = -5;
+        public double pickCornerStraight3ORI = 0;
+
         //        pickRoundedCorner
-        public double pickRoundedCorner1X = 0;
-        public double pickRoundedCorner1Y = 0;
-        public double pickRoundedCorner2X = 0;
-        public double pickRoundedCorner2Y = 0;
-        public double pickRoundedCorner3X = 0;
-        public double pickRoundedCorner3Y = 0;
+        public double pickRoundedCorner1X = 17.5;
+        public double pickRoundedCorner1Y = -23;
+        public double pickRoundedCorner1ORI = -25;
+        public double pickRoundedCorner2X = 43;
+        public double pickRoundedCorner2Y = -24;
+        public double pickRoundedCorner2ORI = 59;
+        public double pickRoundedCorner3X = 43;
+        public double pickRoundedCorner3Y = -11;
+        public double pickRoundedCorner3ORI = 59;
         public double endAutoX = 30;
         public double endAutoY = 1;
     }

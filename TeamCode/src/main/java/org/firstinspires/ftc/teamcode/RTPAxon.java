@@ -49,8 +49,8 @@ public class RTPAxon {
     public int ntry = 0;
     public int cliffs = 0;
     public double homeAngle;
-    public double maxAngle = 145;
-    public double minAngle= -145;
+    public double maxAngle = 148;
+    public double minAngle= -148;
 
     // Direction enum for servo
     public enum Direction {

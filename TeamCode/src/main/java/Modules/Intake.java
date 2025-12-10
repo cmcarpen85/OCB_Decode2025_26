@@ -1,12 +1,13 @@
 package Modules;
 
 import com.arcrobotics.ftclib.util.Timing;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.Timer;
 
 public class Intake {
 
-   public static Timing.Timer blockTime;
+    public static ElapsedTime blockTime;
 
     public static void intakeIn() {
         OCBHWM.intakeM.setPower(Constants.INTAKEPOWER);
@@ -20,7 +21,7 @@ public class Intake {
         OCBHWM.intakeM.setPower(0);
     }
 
-    public static void intakeOut(){
+    public static void intakeOut() {
         OCBHWM.intakeM.setPower(-Constants.INTAKEPOWER);
     }
 
@@ -32,12 +33,11 @@ public class Intake {
         return OCBHWM.artifactInIntake.getState();
     }
 
-    public static void InitalizeTimer(){
-        blockTime.start();
-        blockTime.pause();
-    }
+//    public static void InitalizeTimer() {
+//        blockTime.startTime();
+//    }
 
-    public static void setIntakeLight (boolean On) {
+    public static void setIntakeLight(boolean On) {
         if (On) {
             OCBHWM.indLight.setPosition(0.722);
         } else {
@@ -47,14 +47,14 @@ public class Intake {
 
     public static boolean intakeFull() {
         boolean Blocked = OCBHWM.artifactInIntake.getState();
-        if (Blocked && !blockTime.isTimerOn()) {
-            blockTime.start();
-        } else if (blockTime.elapsedTime() >= Constants.PASSTIME && Blocked) {
-            return true;
-        } else if (!Blocked) {
-            blockTime.pause();
+        if (!Blocked) {
+//            blockTime.reset();
             return false;
         }
-        return false;
+//        } else if (blockTime.milliseconds() >= Constants.PASSTIME && Blocked) {
+//            return true;
+         else {
+            return true;
+        }
     }
 }

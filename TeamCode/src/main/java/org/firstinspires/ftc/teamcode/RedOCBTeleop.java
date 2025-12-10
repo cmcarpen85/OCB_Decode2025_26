@@ -28,7 +28,7 @@ public class RedOCBTeleop extends LinearOpMode {
         boolean Tracking = false;
 
         OCBHWM.limelight.start();
-        OCBHWM.limelight.pipelineSwitch(0);
+        OCBHWM.limelight.pipelineSwitch(2);
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
@@ -74,6 +74,8 @@ public class RedOCBTeleop extends LinearOpMode {
                 Intake.intakeIn();
             } else if (gamepad2.b) {
                 Intake.intakeOut();
+            } else if (gamepad2.left_trigger >0.4 && Intake.intakeFull()){
+                Intake.intakeIn();
             } else {
                 Intake.intakeRest();
             }
@@ -127,13 +129,13 @@ public class RedOCBTeleop extends LinearOpMode {
             }
             if (gamepad2.left_trigger >= 0.4) {
                 Shoota.CheckSpeed(ShootaDesiredVelocity);
-//            } else if (gamepad2.left_bumper) {
-//                if (Intake.intakeFull()) {
-//                    Intake.setIntakeLight(true);
-//                    gamepad2.rumble(100);
-//                } else {
-//                    Intake.setIntakeLight(false);
-//                }
+            } else if (gamepad2.left_bumper) {
+                if (Intake.intakeFull()) {
+                    Intake.setIntakeLight(true);
+                    gamepad2.rumble(100);
+                } else {
+                    Intake.setIntakeLight(false);
+                }
             }
 
 //            LLResult result = OCBHWM.limelight.getLatestResult();
