@@ -15,6 +15,7 @@ import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
 import Modules.Transfer;
+import Modules.Turret;
 
 public class ShootAction implements FailableAction {
     public Telemetry tel;
@@ -56,6 +57,7 @@ public class ShootAction implements FailableAction {
 
     private void initialize() {
         this.startTime = System.currentTimeMillis();
+        OCBHWM.turretServo.setRtp(true);
         switch (this.actionType) {
             case SHOOT:
                 Transfer.kickerForward();
@@ -108,8 +110,10 @@ public class ShootAction implements FailableAction {
         if (!initialized) {
             initialize();
         } else if (countingEmpty && this.emptyTime > 0 && System.currentTimeMillis() >= this.emptyTime + this.shootTime) {
+            OCBHWM.turretServo.setRtp(false);
             return false;
         } else if (this.actionType == STOP) {
+            OCBHWM.turretServo.setRtp(false);
             return false;
         }
         if (OCBHWM.transferClear.getVoltage() <= 0.26) {
@@ -118,10 +122,12 @@ public class ShootAction implements FailableAction {
             startEmptyTime();
         }
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
+            OCBHWM.turretServo.setRtp(false);
             return false;
         }
         //TODO add shooter speed as input
         Shoota.setSpeed(this.shootSpeed);
+        OCBHWM.turretServo.update();
         return true;
     }
 

@@ -39,6 +39,12 @@ public class ShootaTuning extends LinearOpMode {
 
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
+            if (gamepad2.back){
+                OCBHWM.turretServo.setRtp(false);
+            } else if (gamepad2.start){
+                OCBHWM.turretServo.setRtp(true);
+            }
+
             if (gamepad1.back) {
                 OCBHWM.imu.reset();
             }
@@ -96,7 +102,7 @@ public class ShootaTuning extends LinearOpMode {
             }
 
             //Gate & Kicker (Shoot)
-            if (gamepad2.right_trigger > 0.4 && !Shoota.NotInPos) {
+            if (gamepad2.right_trigger > 0.4) {
                 Transfer.gateForward();
                 Transfer.kickerForward();
             } else if (gamepad2.b) {

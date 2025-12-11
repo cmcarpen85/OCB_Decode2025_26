@@ -14,24 +14,24 @@ public class Shoota {
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
         add(40.0, 0.4200);
-        add(42.5, 0.4200);
+        add(42.5, 0.4200);//1030
         add(45.0, 0.4200);
         add(47.5, 0.4200);
         add(50.0, 0.4200);
         add(52.5, 0.4420);
         add(55.0, 0.4640);
-        add(57.5, 0.4690);
+        add(57.5, 0.4690); //1160
         add(60.0, 0.4740);
         add(62.5, 0.4800);
         add(65.0, 0.4855);
         add(67.5, 0.4900);
-        add(70.0, 0.5040);
+        add(70.0, 0.5040);//1240
         add(72.5, 0.5130);
-        add(75.0, 0.5224);
+        add(75.0, 0.5224); // 1280
         add(77.5, 0.5290);
         add(80.0, 0.5325);
         add(82.5, 0.5350);
-        add(85.0, 0.5400);
+        add(85.0, 0.5400); //vel 1320
 
 
     }};
@@ -82,9 +82,10 @@ public class Shoota {
     }
 
     public static void CheckSpeed(double setShootSpeed) {
-        if (OCBHWM.flywheel.getVelocity() > setShootSpeed + 20 || OCBHWM.flywheel.getVelocity() < setShootSpeed - 20) {
+        double setVelocity = setShootSpeed*2444.3+9;
+        if (OCBHWM.flywheel.getVelocity() > setVelocity + 20 || OCBHWM.flywheel.getVelocity() < setVelocity - 20) {
             OCBHWM.indLight.setPosition(.33);
-        } else if (OCBHWM.flywheel.getVelocity() <= setShootSpeed + 20 && OCBHWM.flywheel.getVelocity() >= setShootSpeed - 20) {
+        } else if (OCBHWM.flywheel.getVelocity() <= setVelocity + 20 && OCBHWM.flywheel.getVelocity() >= setVelocity - 20) {
             OCBHWM.indLight.setPosition(.5);
         } else {
             OCBHWM.indLight.setPosition(.33);
@@ -130,11 +131,13 @@ public class Shoota {
                     Hood.setToAngle(Constants.FARSHOTHOODSERVO);
                     Shoota.setSpeed(speed);
                     Shoota.currentTurretTolerance = 2;
+                    CheckSpeed(speed);
                 } else if (result.getTa() >= Constants.CLOSESHOT_TA) {
                     double distance = Shoota.distanceToGoal(result.getTy());
                     Shoota.setSpeed(Shoota.getSpeeds(distance));
                     Hood.setToAngle(Shoota.gethoodAngle(distance));
                     currentTurretTolerance = turretTolerance(distance);
+                    CheckSpeed(Shoota.getSpeeds(distance));
                 }
                 NotInPos = result.getTx() >= currentTurretTolerance || result.getTx() <= -currentTurretTolerance;
             } else {

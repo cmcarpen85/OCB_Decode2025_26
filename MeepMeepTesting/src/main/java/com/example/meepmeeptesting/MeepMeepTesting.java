@@ -65,6 +65,9 @@ public class MeepMeepTesting {
         public double pickRoundedCorner3X = 43;
         public double pickRoundedCorner3Y = -11;
         public double pickRoundedCorner3ORI = 59;
+        public double pickRoundedCorner4X = 36;
+        public double pickRoundedCorner4Y = -8;
+        public double pickRoundedCorner4ORI = 0;
         public double endAutoX = 30;
         public double endAutoY = 1;
     }
@@ -78,12 +81,18 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
+//new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0))
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0)))
-                .splineTo(new Vector2d(PARAMS.pickRoundedCorner1X, PARAMS.pickRoundedCorner1Y), Math.toRadians(PARAMS.pickRoundedCorner1ORI))
-                .splineToSplineHeading(new Pose2d(PARAMS.pickRoundedCorner2X, PARAMS.pickRoundedCorner2Y,Math.toRadians(PARAMS.pickRoundedCorner2ORI)),Math.toRadians(90))
-                .lineToYConstantHeading(PARAMS.pickRoundedCorner3Y)
- .build());
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(-90)))
+//                .splineTo(new Vector2d(PARAMS.pickRoundedCorner1X, PARAMS.pickRoundedCorner1Y), Math.toRadians(PARAMS.pickRoundedCorner1ORI))
+//                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape1X, PARAMS.pickCornerScrape1Y), Math.toRadians(0))
+//                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape2X, PARAMS.pickCornerScrape2Y), Math.toRadians(0))
+//                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape3X, PARAMS.pickCornerScrape3Y), Math.toRadians(0), new TranslationalVelConstraint(15), new ProfileAccelConstraint(-30, 30))
+//                .lineToYConstantHeading(PARAMS.pickRoundedCorner3Y)
+//                .splineToSplineHeading(new Pose2d(PARAMS.pickRoundedCorner4X, PARAMS.pickRoundedCorner4Y, Math.toRadians(PARAMS.pickRoundedCorner4ORI)), Math.toRadians(180))
+                .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
+                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
+                .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
                 .setDarkMode(true)

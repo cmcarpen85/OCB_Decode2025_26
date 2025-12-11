@@ -131,7 +131,7 @@ public class BlueFarAutoWGate extends LinearOpMode {
         while (opModeIsActive()) {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
-                            new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, -1.0),
+                            new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT,1000, -1.0),
                             new SleepAction(1.75),
                             new ShootAction(ShootaActionType.SHOOTSTART, 2800),
                             new ShootAction(ShootaActionType.STOP),

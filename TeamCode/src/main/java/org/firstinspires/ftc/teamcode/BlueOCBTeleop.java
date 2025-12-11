@@ -74,7 +74,7 @@ public class BlueOCBTeleop extends LinearOpMode {
                 Intake.intakeIn();
             } else if (gamepad2.b) {
                 Intake.intakeOut();
-            }else if (gamepad2.left_trigger >0.4 && Intake.intakeFull()){
+            }else if (gamepad2.right_trigger >0.4 && Intake.intakeFull()){
                 Intake.intakeIn();
             } else {
                 Intake.intakeRest();
@@ -128,7 +128,7 @@ public class BlueOCBTeleop extends LinearOpMode {
                 Turret.subtractAngle(Math.abs(gamepad2.right_stick_y * 0.5));
             }
             if (gamepad2.left_trigger >= 0.4) {
-                Shoota.CheckSpeed(ShootaDesiredVelocity);
+//                Shoota.CheckSpeed(ShootaDesiredVelocity);
             } else if (gamepad2.left_bumper) {
                 if (Intake.intakeFull()) {
                     Intake.setIntakeLight(true);
