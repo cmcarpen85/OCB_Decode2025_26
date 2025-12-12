@@ -111,9 +111,12 @@ public class ShootAction implements FailableAction {
             initialize();
         } else if (countingEmpty && this.emptyTime > 0 && System.currentTimeMillis() >= this.emptyTime + this.shootTime) {
             OCBHWM.turretServo.setRtp(false);
+            OCBHWM.turretServo.setPower(0);
             return false;
         } else if (this.actionType == STOP) {
             OCBHWM.turretServo.setRtp(false);
+            OCBHWM.turretServo.setPower(0);
+            Shoota.stop();
             return false;
         }
         if (OCBHWM.transferClear.getVoltage() <= 0.26) {
@@ -123,6 +126,7 @@ public class ShootAction implements FailableAction {
         }
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
             OCBHWM.turretServo.setRtp(false);
+            OCBHWM.turretServo.setPower(0);
             return false;
         }
         //TODO add shooter speed as input

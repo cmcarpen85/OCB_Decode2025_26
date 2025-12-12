@@ -56,34 +56,34 @@ public class PrepShootAction implements FailableAction {
         switch (this.actionType) {
             case PREP_SHOOT:
                 Shoota.setSpeed(this.ShootSpeed);
-                Turret.setToAngle(this.TurretAngle * this.color);
+                Turret.setToAngle(this.TurretAngle * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(this.HoodAngle);
                 break;
 
             case PREP_FAR_SHOOT:
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
-                Turret.setToAngle(Constants.AUTOFARSHOTTURRETANGLE * this.color);
+                Turret.setToAngle(Constants.AUTOFARSHOTTURRETANGLE * this.color + Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(Constants.FARSHOTHOODSERVO);
                 this.ShootSpeed = Constants.FARSHOTSPEED;
                 break;
 
             case PREP_MID_SHOOT:
                 Shoota.setSpeed(Constants.MIDSHOTSPEED);
-                Turret.setToAngle(Constants.MIDSHOTTURRETANGLE * this.color);
+                Turret.setToAngle(Constants.MIDSHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(Constants.MIDSHOTHOODSERVO);
                 this.ShootSpeed = Constants.MIDSHOTSPEED;
                 break;
 
             case PREP_CLOSE_SHOOT:
                 Shoota.setSpeed(Constants.CLOSESHOTSPEED);
-                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE * this.color);
+                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
                 this.ShootSpeed = Constants.CLOSESHOTSPEED;
                 break;
 
             case PREP_STARTING_SHOT:
                 Shoota.setSpeed(Constants.STARTSHOTSPEED);
-                Turret.setToAngle(Constants.STARTSHOTTURRETANGLE * this.color);
+                Turret.setToAngle(Constants.STARTSHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(Constants.STARTSHOTHOODSERVO);
                 this.ShootSpeed = Constants.STARTSHOTSPEED;
                 break;
@@ -111,6 +111,7 @@ public class PrepShootAction implements FailableAction {
 //        }
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
             OCBHWM.turretServo.setRtp(false);
+            OCBHWM.turretServo.setPower(0);
             return false;
         }
         Shoota.setSpeed(this.ShootSpeed);

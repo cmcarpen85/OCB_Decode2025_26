@@ -154,7 +154,7 @@ public class BlueFarAuto extends LinearOpMode {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
                             new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, 1750,-1.0),
-                            new ShootAction(ShootaActionType.SHOOTSTART, 2500),
+                            new ShootAction(ShootaActionType.SHOOTSTART, 2300),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick close spike mark
@@ -171,7 +171,7 @@ public class BlueFarAuto extends LinearOpMode {
                             ),
 
                             //Shoot2
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2500),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
                             new ShootAction(ShootaActionType.STOP),
                             new IntakeAction(IntakeActionType.INTAKE_IN),
 
@@ -191,7 +191,7 @@ public class BlueFarAuto extends LinearOpMode {
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2500),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 2
@@ -207,7 +207,7 @@ public class BlueFarAuto extends LinearOpMode {
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2500),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick Corner Corner 3

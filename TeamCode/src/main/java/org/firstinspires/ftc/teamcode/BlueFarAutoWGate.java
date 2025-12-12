@@ -150,14 +150,15 @@ public class BlueFarAutoWGate extends LinearOpMode {
             Actions.runBlocking(new SequentialAction(
                             //Shoot preload
                             new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT,1750, -1.0),
-                            new ShootAction(ShootaActionType.SHOOTSTART, 2800),
-                            new ShootAction(ShootaActionType.STOP),
+                            new ShootAction(ShootaActionType.SHOOTSTART, 2500),
+
 
                             //Pick mid spike mark
                             new ParallelAction(
+                                    new ShootAction(ShootaActionType.STOP,200),
                                     PickMidSpikeMark.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 1000, -1.0)
+                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
                             ),
 
                             //Prep mid spike mark shoot
@@ -167,11 +168,11 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             ),
 
                             //Shoot1
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2500),
-                            new ShootAction(ShootaActionType.STOP),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
 
                             //Pick close spike mark
                             new ParallelAction(
+                                    new ShootAction(ShootaActionType.STOP,200),
                                     PickCloseSpikeMark.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
@@ -186,11 +187,11 @@ public class BlueFarAutoWGate extends LinearOpMode {
                             ),
 
                             //Shoot2
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2500),
-                            new ShootAction(ShootaActionType.STOP),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
 
                             //Pick Corner Corner 1
                             new ParallelAction(
+                                    new ShootAction(ShootaActionType.STOP,200),
                                     PickCornerRounded.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
@@ -206,11 +207,11 @@ public class BlueFarAutoWGate extends LinearOpMode {
                                     new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
                             ),
                             //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2500),
-                            new ShootAction(ShootaActionType.STOP),
+                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
 
                             //Pick Corner Corner 2
                             new ParallelAction(
+                                    new ShootAction(ShootaActionType.STOP,200),
                                     PickCorner2.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
@@ -218,8 +219,8 @@ public class BlueFarAutoWGate extends LinearOpMode {
 
                             //Prep Corner Corner Shoot
                             new ParallelAction(
-                                    EndDrive.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
+                                    EndDrive.build()
+//                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
                             )
 //                            //Shoot Corner Corner Shoot
 //                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
