@@ -45,6 +45,13 @@ public class ShootaTuning extends LinearOpMode {
                 OCBHWM.turretServo.setRtp(true);
             }
 
+            if (gamepad1.dpad_left){
+                OCBHWM.limelight.pipelineSwitch(0);
+
+            }else if (gamepad1.dpad_right){
+                  OCBHWM.limelight.pipelineSwitch(2);
+            }
+
             if (gamepad1.back) {
                 OCBHWM.imu.reset();
             }

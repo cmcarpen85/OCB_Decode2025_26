@@ -35,13 +35,13 @@ public class MeepMeepTesting {
         public double pickCorner2Y = 1;
         //        pickCornerScrape
         public double pickCornerScrape1X = 22;
-        public double pickCornerScrape1Y = -0.25;
-        public double pickCornerScrape1ORI = 0;
+        public double pickCornerScrape1Y = -2;
+        public double pickCornerScrape1ORI = 30;
         public double pickCornerScrape2X = 36;
-        public double pickCornerScrape2Y = -0.25;
+        public double pickCornerScrape2Y = -2;
         public double pickCornerScrape2ORI = 0;
         public double pickCornerScrape3X = 42.5;
-        public double pickCornerScrape3Y = -0.25;
+        public double pickCornerScrape3Y = -2;
         public double pickCornerScrape3ORI = 0;
 
         //        pickCornerStraight
@@ -83,15 +83,13 @@ public class MeepMeepTesting {
                 .build();
 //new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0))
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(-90)))
-//                .splineTo(new Vector2d(PARAMS.pickRoundedCorner1X, PARAMS.pickRoundedCorner1Y), Math.toRadians(PARAMS.pickRoundedCorner1ORI))
-//                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape1X, PARAMS.pickCornerScrape1Y), Math.toRadians(0))
-//                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape2X, PARAMS.pickCornerScrape2Y), Math.toRadians(0))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0)))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerScrape1X, PARAMS.pickCornerScrape1Y, Math.toRadians(PARAMS.pickCornerScrape1ORI)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape2X, PARAMS.pickCornerScrape2Y), Math.toRadians(PARAMS.pickCornerScrape2ORI))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerScrape3X, PARAMS.pickCornerScrape3Y, Math.toRadians(0)), Math.toRadians(0))
 //                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape3X, PARAMS.pickCornerScrape3Y), Math.toRadians(0), new TranslationalVelConstraint(15), new ProfileAccelConstraint(-30, 30))
 //                .lineToYConstantHeading(PARAMS.pickRoundedCorner3Y)
 //                .splineToSplineHeading(new Pose2d(PARAMS.pickRoundedCorner4X, PARAMS.pickRoundedCorner4Y, Math.toRadians(PARAMS.pickRoundedCorner4ORI)), Math.toRadians(180))
-                .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
-                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)

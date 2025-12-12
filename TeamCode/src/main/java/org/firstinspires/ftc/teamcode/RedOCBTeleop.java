@@ -59,6 +59,12 @@ public class RedOCBTeleop extends LinearOpMode {
                         false
                 );
             }
+            //          if (gamepad1.a){
+//                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
+//            }else if (gamepad1.b){
+//                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
+//            }
+
 
             //Prep Shoota
             if (gamepad2.right_bumper) {
@@ -74,7 +80,7 @@ public class RedOCBTeleop extends LinearOpMode {
                 Intake.intakeIn();
             } else if (gamepad2.b) {
                 Intake.intakeOut();
-            } else if (gamepad2.right_trigger >0.4 && Intake.intakeFull()){
+            } else if (gamepad2.right_trigger > 0.4 && Intake.intakeFull()) {
                 Intake.intakeIn();
             } else {
                 Intake.intakeRest();
@@ -122,10 +128,10 @@ public class RedOCBTeleop extends LinearOpMode {
             }
 
             //Manual Turret Control
-            if (gamepad2.right_stick_x >= 0.4){
-                Turret.addAngle(gamepad2.right_stick_y * 0.5);
-            } else if (gamepad2.right_stick_x <= -0.4){
-                Turret.subtractAngle(Math.abs( gamepad2.right_stick_y * 0.5));
+            if (gamepad2.right_stick_x >= 0.4) {
+                Turret.subtractAngle(Math.abs(gamepad2.right_stick_y * 4));
+            } else if (gamepad2.right_stick_x <= -0.4) {
+                Turret.addAngle(Math.abs(gamepad2.right_stick_y * 4));
             }
             if (gamepad2.left_trigger >= 0.4) {
 //                Shoota.CheckSpeed(ShootaDesiredVelocity);

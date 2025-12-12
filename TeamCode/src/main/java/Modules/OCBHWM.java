@@ -57,6 +57,7 @@ public class OCBHWM {
     public static Servo gateServo;
     public static Servo gateServo2;
     public static CRServo kickerServo;
+    public static Servo tiltServo;
 
     //Sensors/Gains
     public static Limelight3A limelight;
@@ -140,6 +141,7 @@ public class OCBHWM {
 //        gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
         gateServo2 = hardwareMap.get(Servo.class, "gateServo2");
 
+//        tiltServo = hardwareMap.get(Servo.class, "tiltServo");
 
         kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
         kickerServo.setDirection(DcMotorSimple.Direction.REVERSE);

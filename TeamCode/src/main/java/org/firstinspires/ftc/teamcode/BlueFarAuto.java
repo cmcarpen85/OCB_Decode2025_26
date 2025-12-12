@@ -56,15 +56,16 @@ public class BlueFarAuto extends LinearOpMode {
         public double pickCornerYAlt = -10;
         public double pickCorner2X = 43;
         public double pickCorner2Y = 1;
+
         //        pickCornerScrape
         public double pickCornerScrape1X = 22;
-        public double pickCornerScrape1Y = -0.25;
-        public double pickCornerScrape1ORI = 0;
+        public double pickCornerScrape1Y = -2;
+        public double pickCornerScrape1ORI = 30;
         public double pickCornerScrape2X = 36;
-        public double pickCornerScrape2Y = -0.25;
+        public double pickCornerScrape2Y = -2;
         public double pickCornerScrape2ORI = 0;
         public double pickCornerScrape3X = 42.5;
-        public double pickCornerScrape3Y = -0.25;
+        public double pickCornerScrape3Y = -2;
         public double pickCornerScrape3ORI = 0;
 
         //        pickCornerStraight
@@ -86,7 +87,7 @@ public class BlueFarAuto extends LinearOpMode {
         public double pickRoundedCorner2Y = -24;
         public double pickRoundedCorner2ORI = 59;
         public double pickRoundedCorner3X = 43;
-        public double pickRoundedCorner3Y = -8;
+        public double pickRoundedCorner3Y = -10;
         public double pickRoundedCorner3ORI = 59;
         public double pickRoundedCorner4X = 38;
         public double pickRoundedCorner4Y = -8;
@@ -135,12 +136,10 @@ public class BlueFarAuto extends LinearOpMode {
                 .lineToYConstantHeading(PARAMS.pickRoundedCorner3Y)
                 .splineToSplineHeading(new Pose2d(PARAMS.pickRoundedCorner4X, PARAMS.pickRoundedCorner4Y, Math.toRadians(PARAMS.pickRoundedCorner4ORI)), Math.toRadians(180));
 
-
         TrajectoryActionBuilder PickCornerScrape = drive.actionBuilder(shootPos1)
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape1X, PARAMS.pickCornerScrape1Y), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape2X, PARAMS.pickCornerScrape2Y), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape3X, PARAMS.pickCornerScrape3Y), Math.toRadians(0), new TranslationalVelConstraint(15), new ProfileAccelConstraint(-30, 30));
-
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerScrape1X, PARAMS.pickCornerScrape1Y, Math.toRadians(PARAMS.pickCornerScrape1ORI)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape2X, PARAMS.pickCornerScrape2Y), Math.toRadians(PARAMS.pickCornerScrape2ORI))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerScrape3X, PARAMS.pickCornerScrape3Y, Math.toRadians(0)), Math.toRadians(0));
 
         TrajectoryActionBuilder PickCornerStraight = drive.actionBuilder(shootPos1)
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCornerStraight1X, PARAMS.pickCornerStraight1Y), Math.toRadians(0))
@@ -181,6 +180,7 @@ public class BlueFarAuto extends LinearOpMode {
                                     PickCornerRounded.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
+                            new SleepAction(1),
                             //Prep Corner Corner Shoot
                             new ParallelAction(
                                     new SequentialAction(
@@ -199,6 +199,7 @@ public class BlueFarAuto extends LinearOpMode {
                                     PickCornerScrape.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             ),
+                            new SleepAction(1),
                             new IntakeAction(IntakeActionType.INTAKE_REST),
                             //Prep Corner Corner Shoot
                             new ParallelAction(
