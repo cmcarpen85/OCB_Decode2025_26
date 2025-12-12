@@ -32,6 +32,7 @@ public class RedFarAuto extends LinearOpMode {
 
     Vector2d scoreVec = new Vector2d(14, 21);
 
+
     public static class Params {
         public double startX = 0;
         public double startY = 0;
