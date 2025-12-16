@@ -60,12 +60,12 @@ public class BlueOCBTeleop extends LinearOpMode {
                 );
             }
 
-//            if (gamepad1.a){
-//                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
-//            }else if (gamepad1.b){
-//                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
-//            }
-//
+            if (gamepad1.a) {
+                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
+            } else if (gamepad1.b) {
+                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
+            }
+
             //Prep Shoota
             if (gamepad2.right_bumper) {
                 Shoota.setSpeed(ShootaSpeed);
@@ -80,7 +80,7 @@ public class BlueOCBTeleop extends LinearOpMode {
                 Intake.intakeIn();
             } else if (gamepad2.b) {
                 Intake.intakeOut();
-            }else if (gamepad2.right_trigger >0.4 && Intake.intakeFull()){
+            } else if (gamepad2.right_trigger > 0.4 && Intake.intakeFull()) {
                 Intake.intakeIn();
             } else {
                 Intake.intakeRest();
@@ -110,7 +110,7 @@ public class BlueOCBTeleop extends LinearOpMode {
             //Turret Angles
             if (gamepad2.a) {
                 OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
-                Turret.setToAngle(Constants.TELEFARSHOTTURRETANGLE);
+//                Turret.setToAngle(Constants.TELEFARSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 ShootaSpeed = Constants.FARSHOTSPEED;
                 ShootaDesiredVelocity = Constants.FARSHOTVEL;
@@ -128,9 +128,9 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             //Manual Turret Control
-            if (gamepad2.right_stick_x >= 0.4){
-                Turret.subtractAngle(Math.abs( gamepad2.right_stick_y * 4));
-            } else if (gamepad2.right_stick_x <= -0.4){
+            if (gamepad2.right_stick_x >= 0.4) {
+                Turret.subtractAngle(Math.abs(gamepad2.right_stick_y * 4));
+            } else if (gamepad2.right_stick_x <= -0.4) {
                 Turret.addAngle(Math.abs(gamepad2.right_stick_y * 4));
             }
             if (gamepad2.left_trigger >= 0.4) {
@@ -138,7 +138,6 @@ public class BlueOCBTeleop extends LinearOpMode {
             } else if (gamepad2.left_bumper) {
                 if (Intake.intakeFull()) {
                     Intake.setIntakeLight(true);
-                    gamepad2.rumble(100);
                 } else {
                     Intake.setIntakeLight(false);
                 }

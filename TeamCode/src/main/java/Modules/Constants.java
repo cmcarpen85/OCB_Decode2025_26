@@ -48,7 +48,7 @@ public class Constants {
     public static double CLOSESHOTTURRETANGLE = 0;
     public static double STARTSHOTTURRETANGLE = 18; //
     public static double AUTOFARSHOTTURRETANGLE = -88; //-65
-    public static double REDAUTOTURRETOFFEST = 11;
+    public static double REDAUTOTURRETOFFEST = 12;
     public static double TURRETDYNAMIC = 200;
 
     //Transfer
@@ -63,6 +63,6 @@ public class Constants {
     public static double PASSTIME = 300;
 
     //Tilt
-    public static double TILTHOME = 0.05;
-    public static double TILTUP = 0.5;
+    public static double TILTHOME = 0.95;
+    public static double TILTUP = 0.1;
 }

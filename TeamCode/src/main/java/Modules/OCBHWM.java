@@ -141,14 +141,14 @@ public class OCBHWM {
 //        gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
         gateServo2 = hardwareMap.get(Servo.class, "gateServo2");
 
-//        tiltServo = hardwareMap.get(Servo.class, "tiltServo");
+        tiltServo = hardwareMap.get(Servo.class, "tiltServo");
 
         kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
         kickerServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+//        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
+//        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         artifactInIntake = hardwareMap.get(DigitalChannel.class, "artifactInIntake");
         artifactInIntake.setMode(DigitalChannel.Mode.INPUT);
     }

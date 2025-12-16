@@ -59,11 +59,11 @@ public class RedOCBTeleop extends LinearOpMode {
                         false
                 );
             }
-            //          if (gamepad1.a){
-//                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
-//            }else if (gamepad1.b){
-//                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
-//            }
+                      if (gamepad1.a){
+                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
+            }else if (gamepad1.b){
+                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
+            }
 
 
             //Prep Shoota
@@ -110,7 +110,7 @@ public class RedOCBTeleop extends LinearOpMode {
             //Turret Angles
             if (gamepad2.a) {
                 OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
-                Turret.setToAngle(-Constants.TELEFARSHOTTURRETANGLE);
+//                Turret.setToAngle(-Constants.TELEFARSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 ShootaSpeed = Constants.FARSHOTSPEED;
                 ShootaDesiredVelocity = Constants.FARSHOTVEL;
@@ -138,7 +138,6 @@ public class RedOCBTeleop extends LinearOpMode {
             } else if (gamepad2.left_bumper) {
                 if (Intake.intakeFull()) {
                     Intake.setIntakeLight(true);
-                    gamepad2.rumble(100);
                 } else {
                     Intake.setIntakeLight(false);
                 }
