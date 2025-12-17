@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.bylazar.panels.Panels;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.bylazar.telemetry.PanelsTelemetry;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.List;
 
