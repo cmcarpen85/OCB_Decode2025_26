@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import Modules.Constants;
 import Modules.Intake;
@@ -69,8 +72,8 @@ public class BlueOCBTeleop extends LinearOpMode {
             //Prep Shoota
             if (gamepad2.right_bumper) {
                 Shoota.setSpeed(ShootaSpeed);
-            } else if (gamepad2.a) {
-                Shoota.setSpeed(Constants.FARSHOTSPEED);
+            } else if (gamepad2.left_trigger > 0.4) {
+//                Shoota.setSpeed(Constants.FARSHOTSPEED);
             } else {
                 Shoota.stop();
             }
@@ -143,16 +146,26 @@ public class BlueOCBTeleop extends LinearOpMode {
                 }
             }
 
-//            LLResult result = OCBHWM.limelight.getLatestResult();
-//            if (result != null) {
-//                if (result.isValid()) {
-//                    telemetry.addData("Tx", result.getTx());
+            double robotYaw = OCBHWM.imu.getHeading();
+            OCBHWM.limelight.updateRobotOrientation(robotYaw);
+
+            LLResult result = OCBHWM.limelight.getLatestResult();
+            if (result != null) {
+                if (result.isValid()) {
+                    Pose3D botpose_mt2 = result.getBotpose_MT2();
+                    if (botpose_mt2 != null){
+                        telemetry.addData("botpose X",botpose_mt2.getPosition().x);
+                        telemetry.addData("botpose Y",botpose_mt2.getPosition().y);
+                    }
+                    telemetry.addData("Tx", result.getTx());
 //                    telemetry.addData("Ty", result.getTy());
 //                    telemetry.addData("Ta", result.getTa());
 //                    telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
 //                    telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(),result.getTa()));
-//                }
-//            }
+                }
+            }
+
+
             telemetry.addData("turret currently tracking", Shoota.NotInPos);
             telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);

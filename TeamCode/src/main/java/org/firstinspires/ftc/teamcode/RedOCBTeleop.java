@@ -69,8 +69,8 @@ public class RedOCBTeleop extends LinearOpMode {
             //Prep Shoota
             if (gamepad2.right_bumper) {
                 Shoota.setSpeed(ShootaSpeed);
-            } else if (gamepad2.a) {
-                Shoota.setSpeed(Constants.FARSHOTSPEED);
+            } else if (gamepad2.left_trigger > 0.4) {
+//                Shoota.setSpeed(Constants.FARSHOTSPEED);
             } else {
                 Shoota.stop();
             }
