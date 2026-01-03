@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -35,12 +37,16 @@ public class BlueOCBTeleop extends LinearOpMode {
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
-        OCBHWM.turretServo.setRtp(true);
+//        OCBHWM.turretServo.setRtp(true);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
             if (gamepad1.back) {
                 OCBHWM.imu.reset();
+            }
+            if (gamepad2.back){
+                OCBHWM.turretServo.setRtp(true);
             }
 
 //          Slow Mode
@@ -73,6 +79,7 @@ public class BlueOCBTeleop extends LinearOpMode {
             if (gamepad2.right_bumper) {
                 Shoota.setSpeed(ShootaSpeed);
             } else if (gamepad2.left_trigger > 0.4) {
+
 //                Shoota.setSpeed(Constants.FARSHOTSPEED);
             } else {
                 Shoota.stop();
@@ -146,7 +153,7 @@ public class BlueOCBTeleop extends LinearOpMode {
                 }
             }
 
-            double robotYaw = OCBHWM.imu.getHeading();
+            double robotYaw = OCBHWM.imu.getHeading() - OCBHWM.turretServo.getTotalRotation();
             OCBHWM.limelight.updateRobotOrientation(robotYaw);
 
             LLResult result = OCBHWM.limelight.getLatestResult();
@@ -168,6 +175,7 @@ public class BlueOCBTeleop extends LinearOpMode {
 
             telemetry.addData("turret currently tracking", Shoota.NotInPos);
             telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
