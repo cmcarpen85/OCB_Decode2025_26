@@ -51,6 +51,7 @@ public class RTPAxon {
     public double homeAngle;
     public double maxAngle = 148;
     public double minAngle= -148;
+    public KalmanFilter filter;
 
     // Direction enum for servo
     public enum Direction {
@@ -105,9 +106,9 @@ public class RTPAxon {
         targetRotation = totalRotation;
 
         // Default PID coefficients
-        kP = 0.015;
-        kI = 0.0007;
-        kD = 0.0005;
+        kP = 0.02; //0.015
+        kI = 0.001; // 0.0007
+        kD = 0.001; // 0.0005
         integralSum = 0.0;
         lastError = 0.0;
         maxIntegralSum = 100.0;
@@ -116,6 +117,7 @@ public class RTPAxon {
 
         maxPower = 0.95;
         cliffs = 0;
+        filter = new KalmanFilter(Constants.TURRETSYSTEMNOISE,Constants.TURRETFEEDBACKNOISE);
     }
     // endregion
 
@@ -294,7 +296,8 @@ public class RTPAxon {
 
     // Main update loop: updates rotation, computes PID, applies power
     public synchronized void update() {
-        double currentAngle = getCurrentAngle();
+        double currentAngle = filter.filter(getCurrentAngle());
+//        double currentAngle = getCurrentAngle(); // old
         double angleDifference = currentAngle - previousAngle;
 
         // Handle wraparound at 0/360 degrees
@@ -443,6 +446,7 @@ public class RTPAxon {
 
                 telemetry.addData("Starting angle", servo.STARTPOS);
                 telemetry.addData("target rotation", servo.targetRotation);
+                telemetry.addData("current Angle",servo.getCurrentAngle());
                 telemetry.addData("total rotation", servo.totalRotation);
                 telemetry.addLine(servo.log());
                 telemetry.addData("NTRY", servo.ntry);

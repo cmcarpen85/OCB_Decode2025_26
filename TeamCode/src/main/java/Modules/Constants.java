@@ -14,6 +14,9 @@ public class Constants {
     public static double CAMERAHEIGHT = 15.75; //inches
     public static double CAMERAANGLE = 18.989; //degrees
 
+    public static double TURRETFEEDBACKNOISE = 2.5; //degrees
+    public static double TURRETSYSTEMNOISE = 0.1; // degrees
+
 
     @Sorter(sort = 1)
     //HuskyLens
