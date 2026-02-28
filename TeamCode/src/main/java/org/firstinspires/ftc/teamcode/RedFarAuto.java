@@ -108,7 +108,6 @@ public class RedFarAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        OCBHWM.imu.init();
 
         drive = new MecanumDrive(hardwareMap, initialPos);
 

@@ -8,8 +8,10 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.Rev9AxisImu;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.rev.RevSPARKMini;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -22,6 +24,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.RTPAxon;
 
 public class OCBHWM {
@@ -69,36 +72,54 @@ public class OCBHWM {
     public static AnalogInput transferClear;
     public static DigitalChannel artifactInIntake;
 
+    public static GoBildaPinpointDriver pinPoint;
+
     public static double kP = 20;
     public static double kV = 0.7;
-    public static RevIMU imu;
+    public static IMU imu;
     public HardwareMap hardwareMap;
 
 
     public static void hwinit(HardwareMap hardwareMap) {
 
-        imu = new RevIMU(hardwareMap, "imu");
+//        imu = new RevIMU(hardwareMap, "imu");
+
+
+        imu = hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+        imu.initialize(new IMU.Parameters(orientationOnRobot));
+
+
         leftFront = new Motor(hardwareMap, "leftFront", Motor.GoBILDA.RPM_435);
         rightFront = new Motor(hardwareMap, "rightFront", Motor.GoBILDA.RPM_435);
         leftBack = new Motor(hardwareMap, "leftBack", Motor.GoBILDA.RPM_435);
         rightBack = new Motor(hardwareMap, "rightBack", Motor.GoBILDA.RPM_435);
         m_robotDrive = new MecanumDrive(OCBHWM.leftFront, OCBHWM.rightFront, OCBHWM.leftBack, OCBHWM.rightBack);
 
-        leftEncoder = new MotorEx(hardwareMap, "leftFront");
-        rightEncoder = new MotorEx(hardwareMap, "rightFront");
-        centerEncoder = new MotorEx(hardwareMap, "leftBack");
+//        leftEncoder = new MotorEx(hardwareMap, "leftFront");
+//        rightEncoder = new MotorEx(hardwareMap, "rightFront");
+//        centerEncoder = new MotorEx(hardwareMap, "leftBack");
+        pinPoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinPoint");        // calculate multiplier
 
-        // calculate multiplier
-        TICKS_TO_INCHES = WHEEL_DIAMETER * Math.PI / leftEncoder.getCPR();
+        pinPoint.setOffsets(5.889,-1.909,  DistanceUnit.INCH);
+        pinPoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        pinPoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED,
+                GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        pinPoint.resetPosAndIMU();
+
+
+//        TICKS_TO_INCHES = WHEEL_DIAMETER * Math.PI / leftEncoder.getCPR();
 
         // create our odometry object and subsystem
-        m_robotOdometry = new HolonomicOdometry(
-                () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                TRACKWIDTH, CENTER_WHEEL_OFFSET
-        );
-        m_odometry = new OdometrySubsystem(m_robotOdometry);
+//        m_robotOdometry = new HolonomicOdometry(
+//                () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES,
+//                () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES,
+//                () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES,
+//                TRACKWIDTH, CENTER_WHEEL_OFFSET
+//        );
+//        m_odometry = new OdometrySubsystem(m_robotOdometry);
 
         flywheel = new MotorGroup(
                 flywheelL = new Motor(hardwareMap, "flywheelL", Motor.GoBILDA.BARE),
@@ -127,7 +148,7 @@ public class OCBHWM {
         CRturretServo = hardwareMap.get(CRServo.class, "CRturretServo");
         CRturretServo2 = hardwareMap.get(CRServo.class, "CRturretServo2");
         turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
-        turretServo = new RTPAxon(CRturretServo,CRturretServo2,turretFeedback);
+        turretServo = new RTPAxon(CRturretServo, CRturretServo2, turretFeedback);
         turretServo.setRtp(false);
 
 

@@ -119,6 +119,12 @@ public class Shoota {
                 } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
                     Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
                 }
+            } else if (!result.isValid()) {
+                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
+                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
+                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
+                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
+                }
             }
         }
     }
@@ -146,4 +152,7 @@ public class Shoota {
             }
         }
     }
+
+
+
 }

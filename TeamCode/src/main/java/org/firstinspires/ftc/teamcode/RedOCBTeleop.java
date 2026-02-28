@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 import Modules.Constants;
 import Modules.Intake;
 import Modules.OCBHWM;
@@ -19,7 +21,6 @@ public class RedOCBTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        OCBHWM.imu.init();
 //        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
@@ -37,7 +38,7 @@ public class RedOCBTeleop extends LinearOpMode {
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
             if (gamepad1.back) {
-                OCBHWM.imu.reset();
+                OCBHWM.imu.resetYaw();
             }
 
 //          Slow Mode
@@ -46,7 +47,8 @@ public class RedOCBTeleop extends LinearOpMode {
                         (-driverOp.getLeftX() * 0.4),
                         (-driverOp.getLeftY() * 0.4),
                         (-driverOp.getRightX() * 0.4),
-                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+//                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
 
@@ -55,7 +57,8 @@ public class RedOCBTeleop extends LinearOpMode {
                         (-driverOp.getLeftX()),
                         (-driverOp.getLeftY()),
                         (-driverOp.getRightX() * 0.8),
-                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+//                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
             }

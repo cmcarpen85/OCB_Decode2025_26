@@ -2,6 +2,10 @@ package Modules;
 
 import com.arcrobotics.ftclib.geometry.Pose2d;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.opencv.core.Mat;
 
 public class HeadingTracker {
@@ -21,13 +25,16 @@ public class HeadingTracker {
     }
 
     public static void drivetrainDistanceBlue() {
-        Pose2d currentPos = OCBHWM.m_odometry.getPose();
-        double XDistance = Math.abs(blueGoalX - currentPos.getX());
-        double YDistance = Math.abs(blueGoalY - currentPos.getY());
+        Pose2D currentPos = OCBHWM.pinPoint.getPosition();
+        double XDistance = Math.abs(blueGoalX - currentPos.getX(DistanceUnit.INCH));
+        double YDistance = Math.abs(blueGoalY - currentPos.getY(DistanceUnit.INCH));
         double robotDistance = Math.sqrt(Math.pow(XDistance,2) + Math.pow(YDistance,2));
         double angleToGoal = Math.asin(YDistance/robotDistance);
 //        currentPos.getHeading() = angleToGoal;
     }
 
+    public static double gyroDifference() {
+       return OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES)-OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
+    }
 
 }

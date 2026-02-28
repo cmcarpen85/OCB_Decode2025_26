@@ -9,10 +9,14 @@ import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 import java.util.List;
 
 import Modules.Constants;
+import Modules.HeadingTracker;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -27,7 +31,7 @@ public class ShootaTuning extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        OCBHWM.imu.init();
+//        OCBHWM.imu.init();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
         double ShootaSpeed = .6;
@@ -39,11 +43,13 @@ public class ShootaTuning extends LinearOpMode {
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
-        OCBHWM.turretServo.setRtp(true);
+        OCBHWM.turretServo.setRtp(false);
 //        OCBHWM.turretServo.setTargetRotation(Constants.TURRETHOME);
 
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
+            OCBHWM.pinPoint.update();
+            Pose2D pose2D = OCBHWM.pinPoint.getPosition();
             if (gamepad2.back){
                 OCBHWM.turretServo.setRtp(false);
             } else if (gamepad2.start){
@@ -58,7 +64,7 @@ public class ShootaTuning extends LinearOpMode {
             }
 
             if (gamepad1.back) {
-                OCBHWM.imu.reset();
+                OCBHWM.imu.resetYaw();
             }
 
 //            if (gamepad2.dpad_down) {
@@ -73,7 +79,8 @@ public class ShootaTuning extends LinearOpMode {
                         (-driverOp.getLeftX() * 0.4),
                         (-driverOp.getLeftY() * 0.4),
                         (-driverOp.getRightX() * 0.4),
-                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+//                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
 
@@ -82,7 +89,8 @@ public class ShootaTuning extends LinearOpMode {
                         (-driverOp.getLeftX()),
                         (-driverOp.getLeftY()),
                         (-driverOp.getRightX() * 0.8),
-                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+//                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
             }
@@ -180,7 +188,7 @@ public class ShootaTuning extends LinearOpMode {
                     telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(), result.getTa()));
                 }
             }
-            telemetry.addData("turret currently tracking", Shoota.NotInPos);
+//            telemetry.addData("turret currently tracking", Shoota.NotInPos);
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
@@ -188,18 +196,23 @@ public class ShootaTuning extends LinearOpMode {
 //            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
 
 //            telemetry.addData("shoota mode", ShootaMode);
-            telemetry.addData("Shoota set speed", ShootaSpeed);
-            List<Double> velocities = OCBHWM.flywheel.getVelocities();
-            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
-            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
-//            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
-            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
-            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
-            telemetry.addData("Turret Error", OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation());
-            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
-//            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
-//           telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
-//            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
+//            telemetry.addData("Shoota set speed", ShootaSpeed);
+//            List<Double> velocities = OCBHWM.flywheel.getVelocities();
+//            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
+//            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
+////            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
+//            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
+//            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
+//            telemetry.addData("Turret Error", OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation());
+//            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+////            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
+////           telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
+////            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
+            telemetry.addData("pinointX", OCBHWM.pinPoint.getPosX(DistanceUnit.INCH));
+            telemetry.addData("pinointY", OCBHWM.pinPoint.getPosY(DistanceUnit.INCH));
+            telemetry.addData("pinointOri", OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("imuOri", OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.addData("heading Difference", HeadingTracker.gyroDifference());
             telemetry.update();
         }
     }

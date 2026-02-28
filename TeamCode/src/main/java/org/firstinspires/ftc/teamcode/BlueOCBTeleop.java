@@ -7,6 +7,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import Modules.Constants;
@@ -24,7 +25,6 @@ public class BlueOCBTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        OCBHWM.imu.init();
 //        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
@@ -45,9 +45,9 @@ public class BlueOCBTeleop extends LinearOpMode {
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
             if (gamepad1.back) {
-                OCBHWM.imu.reset();
+                OCBHWM.imu.resetYaw();
             }
-            if (gamepad2.back){
+            if (gamepad2.back) {
                 OCBHWM.turretServo.setRtp(true);
             }
 
@@ -57,7 +57,8 @@ public class BlueOCBTeleop extends LinearOpMode {
                         (-driverOp.getLeftX() * 0.4),
                         (-driverOp.getLeftY() * 0.4),
                         (-driverOp.getRightX() * 0.4),
-                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+//                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
 
@@ -66,7 +67,8 @@ public class BlueOCBTeleop extends LinearOpMode {
                         (-driverOp.getLeftX()),
                         (-driverOp.getLeftY()),
                         (-driverOp.getRightX() * 0.8),
-                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+//                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
             }
@@ -155,16 +157,16 @@ public class BlueOCBTeleop extends LinearOpMode {
                 }
             }
 
-            double robotYaw = OCBHWM.imu.getHeading() - OCBHWM.turretServo.getTotalRotation();
+            double robotYaw = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) - OCBHWM.turretServo.getTotalRotation();
             OCBHWM.limelight.updateRobotOrientation(robotYaw);
 
             LLResult result = OCBHWM.limelight.getLatestResult();
             if (result != null) {
                 if (result.isValid()) {
                     Pose3D botpose_mt2 = result.getBotpose_MT2();
-                    if (botpose_mt2 != null){
-                        telemetry.addData("botpose X",botpose_mt2.getPosition().x);
-                        telemetry.addData("botpose Y",botpose_mt2.getPosition().y);
+                    if (botpose_mt2 != null) {
+                        telemetry.addData("botpose X", botpose_mt2.getPosition().x);
+                        telemetry.addData("botpose Y", botpose_mt2.getPosition().y);
                     }
                     telemetry.addData("Tx", result.getTx());
 //                    telemetry.addData("Ty", result.getTy());
