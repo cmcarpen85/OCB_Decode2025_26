@@ -25,13 +25,14 @@ public class HeadingTracker {
         robotY = startY;
         robotOri = startOri;
     }
-// TODO add * -1 to one of the two
+
+    // TODO add * -1 to one of the two
     public static double headingTrackingBlue() {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(blueGoalX - currentPos.getX(DistanceUnit.INCH));
         double YDistance = Math.abs(blueGoalY - currentPos.getY(DistanceUnit.INCH));
-        double robotDistance = Math.sqrt(Math.pow(XDistance,2) + Math.pow(YDistance,2));
-        double angleToGoal = Math.asin(YDistance/robotDistance) * 180 / Math.PI;
+        double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
+        double angleToGoal = Math.asin(YDistance / robotDistance) * 180 / Math.PI;
         return headingDifference(angleToGoal);
     }
 
@@ -39,26 +40,26 @@ public class HeadingTracker {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(redGoalX - currentPos.getX(DistanceUnit.INCH));
         double YDistance = Math.abs(redGoalY - currentPos.getY(DistanceUnit.INCH));
-        double robotDistance = Math.sqrt(Math.pow(XDistance,2) + Math.pow(YDistance,2));
-        double angleToGoal = Math.asin(YDistance/robotDistance) * 180 / Math.PI;
+        double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
+        double angleToGoal = Math.asin(YDistance / robotDistance) * 180 / Math.PI;
         return headingDifference(angleToGoal);
     }
 
     public static double gyroDifference() {
         double pinPointHeading = OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES);
         double turretHeading = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
-       if (Math.abs(pinPointHeading) < 90 && Math.abs(turretHeading) < 90) {
-           return pinPointHeading - turretHeading;
-       } else if (Math.abs(pinPointHeading) >= 90) {
-           double opAngle = -1 * (180 - Math.abs(pinPointHeading) * Math.signum(pinPointHeading));
-           if ((180 - Math.abs(turretHeading)) * (Math.signum(turretHeading)) >= opAngle) {
-           return pinPointHeading - turretHeading;
-           } else {
-            return (180 - Math.abs(turretHeading)) * Math.signum(turretHeading) - (180 - Math.abs(pinPointHeading)) * Math.signum(pinPointHeading);
-           }
-       } else {
-           return (pinPointHeading - turretHeading);
-       }
+        if (Math.abs(pinPointHeading) < 90 && Math.abs(turretHeading) < 90) {
+            return pinPointHeading - turretHeading;
+        } else if (Math.abs(pinPointHeading) >= 90) {
+            double opAngle = -1 * (180 - Math.abs(pinPointHeading) * Math.signum(pinPointHeading));
+            if ((180 - Math.abs(turretHeading)) * (Math.signum(turretHeading)) >= opAngle) {
+                return pinPointHeading - turretHeading;
+            } else {
+                return (180 - Math.abs(turretHeading)) * Math.signum(turretHeading) - (180 - Math.abs(pinPointHeading)) * Math.signum(pinPointHeading);
+            }
+        } else {
+            return (pinPointHeading - turretHeading);
+        }
     }
 
     public static double headingDifference(double desiredHeading) {

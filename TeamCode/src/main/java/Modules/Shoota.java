@@ -82,7 +82,7 @@ public class Shoota {
     }
 
     public static void CheckSpeed(double setShootSpeed) {
-        double setVelocity = setShootSpeed*2444.3+9;
+        double setVelocity = setShootSpeed * 2444.3 + 9;
         if (OCBHWM.flywheel.getVelocity() > setVelocity + 20 || OCBHWM.flywheel.getVelocity() < setVelocity - 20) {
             OCBHWM.indLight.setPosition(.33);
         } else if (OCBHWM.flywheel.getVelocity() <= setVelocity + 20 && OCBHWM.flywheel.getVelocity() >= setVelocity - 20) {
@@ -129,6 +129,17 @@ public class Shoota {
         }
     }
 
+    public static void gyroAdjustTurret() {
+//        double result = -1 * HeadingTracker.gyroDifference();
+        double result = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
+        double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
+        if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
+            Turret.addAngle(Math.abs(TurretError - result));
+        } else if (TurretError - result < -Constants.TURRETANGLETOLERANCE) {
+            Turret.subtractAngle(Math.abs(TurretError - result));
+        }
+    }
+
     public static void cameraSetLaunch(double speed) {
         LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
@@ -152,7 +163,6 @@ public class Shoota {
             }
         }
     }
-
 
 
 }

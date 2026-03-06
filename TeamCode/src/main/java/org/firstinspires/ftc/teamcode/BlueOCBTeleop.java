@@ -177,9 +177,9 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
 
-            telemetry.addData("turret currently tracking", Shoota.NotInPos);
-            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
-            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
+//            telemetry.addData("turret currently tracking", Shoota.NotInPos);
+//            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+//            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
@@ -194,7 +194,7 @@ public class BlueOCBTeleop extends LinearOpMode {
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
-            telemetry.addData("Turret Error", OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation());
+            telemetry.addData("Turret Error", Turret.getTurretError());
 //            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
 //            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
 //            telemetry.addData("heading", OCBHWM.imu.getRotation2d());

@@ -23,6 +23,9 @@ public class Turret {
         }
         return 0;
     }
+    public static double getTurretError(){
+        return OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
+    }
 
     public static double FeedbacktoAngle() {
         return (-55.17 * (OCBHWM.turretFeedback.getVoltage() - 1.6495));
@@ -44,6 +47,7 @@ public class Turret {
         if (OCBHWM.turretFeedback == null) return 0;
         return (OCBHWM.turretFeedback.getVoltage() / 3.3) * 360;
     }
+
 
 
 }

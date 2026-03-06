@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.bylazar.panels.Panels;
 import com.bylazar.telemetry.TelemetryManager;
@@ -40,6 +42,8 @@ public class ShootaTuning extends LinearOpMode {
 
         OCBHWM.limelight.start();
         OCBHWM.limelight.pipelineSwitch(0);
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
@@ -156,7 +160,7 @@ public class ShootaTuning extends LinearOpMode {
             } else if (gamepad2.b) {
                 Turret.setToAngle(-90);
             } else if (gamepad2.right_bumper) {
-                Shoota.cameraAdjustTurret();
+                Shoota.gyroAdjustTurret();
 //                Shoota.cameraSetLaunch(ShootaSpeed);
             }
 
@@ -189,7 +193,7 @@ public class ShootaTuning extends LinearOpMode {
                 }
             }
 //            telemetry.addData("turret currently tracking", Shoota.NotInPos);
-//            telemetry.addData("turret Pos Error",Shoota.PosError);
+            telemetry.addData("turret Pos Error",Turret.getTurretError());
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
 //            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
