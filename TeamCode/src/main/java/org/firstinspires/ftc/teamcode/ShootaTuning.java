@@ -53,6 +53,7 @@ public class ShootaTuning extends LinearOpMode {
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
             OCBHWM.pinPoint.update();
+            Shoota.checkLimelight();
             Pose2D pose2D = OCBHWM.pinPoint.getPosition();
             if (gamepad2.back){
                 OCBHWM.turretServo.setRtp(false);

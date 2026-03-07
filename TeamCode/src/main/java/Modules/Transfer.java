@@ -15,6 +15,10 @@ public class Transfer {
         OCBHWM.transferM.setPower(-Constants.TRANSFERPOWER);
     }
 
+    public static void tranferShoot(double power){
+        OCBHWM.transferM.setPower(power);
+    }
+
     //Gate
     public static void gateForward(){
         OCBHWM.gateServo.setPosition(0);

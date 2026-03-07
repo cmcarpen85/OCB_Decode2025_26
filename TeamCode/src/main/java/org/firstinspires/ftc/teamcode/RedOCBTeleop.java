@@ -37,6 +37,8 @@ public class RedOCBTeleop extends LinearOpMode {
 
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
+            Shoota.checkLimelight();
+            OCBHWM.pinPoint.update();
             if (gamepad1.back) {
                 OCBHWM.imu.resetYaw();
             }

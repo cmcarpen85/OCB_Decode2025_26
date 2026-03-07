@@ -11,6 +11,7 @@ public class Shoota {
     public static boolean NotInPos = true;
     public static boolean Force = false;
     public static double cameraSign = 0;
+    public static LLResult result;
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
         add(40.0, 0.4200);
@@ -81,6 +82,10 @@ public class Shoota {
         OCBHWM.flywheel.set(Constants.COASTSPEED);
     }
 
+    public static void checkLimelight(){
+         result = OCBHWM.limelight.getLatestResult();
+    }
+
     public static void CheckSpeed(double setShootSpeed) {
         double setVelocity = setShootSpeed * 2444.3 + 9;
         if (OCBHWM.flywheel.getVelocity() > setVelocity + 20 || OCBHWM.flywheel.getVelocity() < setVelocity - 20) {
@@ -110,7 +115,6 @@ public class Shoota {
     }
 
     public static void cameraAdjustTurret() {
-        LLResult result = OCBHWM.limelight.getLatestResult();
         double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
         if (result != null) {
             if (result.isValid()) {
@@ -141,7 +145,6 @@ public class Shoota {
     }
 
     public static void cameraSetLaunch(double speed) {
-        LLResult result = OCBHWM.limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
                 if (result.getTa() < Constants.CLOSESHOT_TA) {

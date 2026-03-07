@@ -238,24 +238,24 @@ public class RTPAxon {
 
     // Increment target rotation by a value
     public void changeTargetRotation(double change) {
-        if (targetRotation + change > maxAngle) {
-            targetRotation = maxAngle;
-        } else if (targetRotation + change < minAngle) {
-            targetRotation = minAngle;
-        }else {
+//        if (targetRotation + change > maxAngle) {
+//            targetRotation = maxAngle;
+//        } else if (targetRotation + change < minAngle) {
+//            targetRotation = minAngle;
+//        }else {
             targetRotation += change;
-        }
+//        }
     }
 
     // Set target rotation and reset PID
     public void setTargetRotation(double target) {
-        if (target > maxAngle) {
-            targetRotation = maxAngle;
-        } else if (target < minAngle) {
-            targetRotation = minAngle;
-        } else {
+//        if (target > maxAngle) {
+//            targetRotation = maxAngle;
+//        } else if (target < minAngle) {
+//            targetRotation = minAngle;
+//        } else {
             targetRotation = target;
-        }
+//        }
         resetPID();
     }
 
