@@ -34,6 +34,7 @@ public class Constants {
     public static double CLOSESHOTSPEED = 0.4;
     public static double STARTSHOTSPEED = 0.60;
     public static double AUTOSHOTSPEED = .59;
+    public static double SHOTHEIGHT = 18.75;
 
     @Sorter(sort = 3)
     //Hood

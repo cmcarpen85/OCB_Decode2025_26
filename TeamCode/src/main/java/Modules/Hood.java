@@ -28,7 +28,7 @@ public class Hood {
         }
     }
 
-    public double getCurrentAngle() {
+    public static double getCurrentAngle() {
         if (OCBHWM.hoodFeedback == null) return 0;
         return (OCBHWM.hoodFeedback.getVoltage() / 3.3)*360;
     }

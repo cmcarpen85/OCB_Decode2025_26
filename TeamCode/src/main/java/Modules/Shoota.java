@@ -12,6 +12,8 @@ public class Shoota {
     public static boolean Force = false;
     public static double cameraSign = 0;
     public static LLResult result;
+    public static double shotHeight = 0;
+    public static double distance = 0;
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
         add(40.0, 0.4200);
@@ -82,8 +84,8 @@ public class Shoota {
         OCBHWM.flywheel.set(Constants.COASTSPEED);
     }
 
-    public static void checkLimelight(){
-         result = OCBHWM.limelight.getLatestResult();
+    public static void checkLimelight() {
+        result = OCBHWM.limelight.getLatestResult();
     }
 
     public static void CheckSpeed(double setShootSpeed) {
@@ -134,7 +136,7 @@ public class Shoota {
     }
 
     public static void gyroAdjustTurret() {
-//        double result = -1 * HeadingTracker.gyroDifference();
+//    double result = -1 * HeadingTracker.gyroDifference();
         double result = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
         double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
         if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
@@ -165,6 +167,13 @@ public class Shoota {
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
             }
         }
+    }
+
+    //TODO: distance from goal using bot position
+    public static double launchRPM(){
+        double hoodAngle = Hood.getCurrentAngle();
+        double distance = Shoota.distanceToGoal(result.getTy());
+        return (60 / (Math.PI * 3.78)) * Math.sqrt((386.0885 * Math.pow(distance, 2)) / 2 * Math.pow(Math.cos(hoodAngle), 2) * distance * Math.tan(hoodAngle) - Constants.SHOTHEIGHT);
     }
 
 

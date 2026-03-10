@@ -106,9 +106,9 @@ public class RTPAxon {
         targetRotation = totalRotation;
 
         // Default PID coefficients
-        kP = 0.02; //0.015
-        kI = 0.001; // 0.0007
-        kD = 0.001; // 0.0005
+        kP = 0.015; //0.015, 0.02
+        kI = 0.0007; // 0.0007, 0.001
+        kD = 0.0005; // 0.0005, 0.001
         integralSum = 0.0;
         lastError = 0.0;
         maxIntegralSum = 100.0;
@@ -296,7 +296,7 @@ public class RTPAxon {
 
     // Main update loop: updates rotation, computes PID, applies power
     public synchronized void update() {
-        double currentAngle = filter.filter(getCurrentAngle());
+        double currentAngle = filter.filter(getCurrentAngle(),totalRotation);
 //        double currentAngle = getCurrentAngle(); // old
         double angleDifference = currentAngle - previousAngle;
 

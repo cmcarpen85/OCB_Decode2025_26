@@ -1,0 +1,125 @@
+package org.firstinspires.ftc.teamcode.actions;
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
+
+import Modules.Constants;
+import Modules.Hood;
+import Modules.OCBHWM;
+import Modules.Shoota;
+import Modules.Turret;
+
+public class UpdateAction implements FailableAction {
+    public Telemetry tel;
+
+    private boolean initialized = false;
+    private boolean isFailed = false;
+
+    private final PrepShootActionType actionType;
+    private long duration = -1;
+    private long timeout = 0;
+
+    private long startTime = 0;
+    private double ShootSpeed = 0;
+    private double TurretAngle = 0;
+    private double color = 1;
+    private double HoodAngle = 0;
+
+    public UpdateAction(PrepShootActionType actionType, double color) {
+        this.actionType = actionType;
+        this.color = color;
+        this.duration = 100;
+    }
+
+    public UpdateAction(PrepShootActionType actionType, double ShootSpeed, double TurretAngle, double HoodAngle) {
+        this.actionType = actionType;
+        this.duration = 100;
+        this.ShootSpeed = ShootSpeed;
+        this.TurretAngle = TurretAngle;
+        this.HoodAngle = HoodAngle;
+    }
+
+    public UpdateAction(PrepShootActionType actionType, long milliseconds, double color) {
+        this.actionType = actionType;
+        this.color = color;
+        this.duration = milliseconds;
+    }
+
+    private void initialize() {
+        this.startTime = System.currentTimeMillis();
+        OCBHWM.turretServo.setRtp(true);
+
+        switch (this.actionType) {
+            case PREP_SHOOT:
+                Shoota.setSpeed(this.ShootSpeed);
+                Turret.setToAngle(this.TurretAngle * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Hood.setToAngle(this.HoodAngle);
+                break;
+
+            case PREP_FAR_SHOOT:
+                Shoota.setSpeed(Constants.FARSHOTSPEED);
+                Turret.setToAngle(Constants.AUTOFARSHOTTURRETANGLE * this.color + Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+                this.ShootSpeed = Constants.FARSHOTSPEED;
+                break;
+
+            case PREP_MID_SHOOT:
+                Shoota.setSpeed(Constants.MIDSHOTSPEED);
+                Turret.setToAngle(Constants.MIDSHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Hood.setToAngle(Constants.MIDSHOTHOODSERVO);
+                this.ShootSpeed = Constants.MIDSHOTSPEED;
+                break;
+
+            case PREP_CLOSE_SHOOT:
+                Shoota.setSpeed(Constants.CLOSESHOTSPEED);
+                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
+                this.ShootSpeed = Constants.CLOSESHOTSPEED;
+                break;
+
+            case PREP_STARTING_SHOT:
+                Shoota.setSpeed(Constants.STARTSHOTSPEED);
+                Turret.setToAngle(Constants.STARTSHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Hood.setToAngle(Constants.STARTSHOTHOODSERVO);
+                this.ShootSpeed = Constants.STARTSHOTSPEED;
+                break;
+
+            case STOP:
+                Shoota.stop();
+                break;
+        }
+
+        initialized = true;
+    }
+
+//    private void end() {
+//        Intake.intakeRest();
+//    }
+
+    @Override
+    public boolean run(@NonNull TelemetryPacket packet) {
+        if (!initialized) {
+            initialize();
+        }
+//        if (Math.abs(OCBHWM.turretServo.getTargetRotation()-OCBHWM.turretServo.getTotalRotation())<=1){
+//            OCBHWM.turretServo.setRtp(false);
+//            return false;
+//        }
+        if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
+            OCBHWM.turretServo.setRtp(false);
+            OCBHWM.turretServo.setPower(0);
+            return false;
+        }
+        Shoota.setSpeed(this.ShootSpeed);
+        OCBHWM.turretServo.update();
+        return true;
+    }
+
+    public boolean didFail() {
+        return isFailed;
+    }
+}
