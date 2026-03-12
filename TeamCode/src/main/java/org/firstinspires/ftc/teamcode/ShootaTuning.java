@@ -161,7 +161,8 @@ public class ShootaTuning extends LinearOpMode {
             } else if (gamepad2.b) {
                 Turret.setToAngle(-90);
             } else if (gamepad2.right_bumper) {
-                Shoota.gyroAdjustTurret();
+//                Shoota.gyroAdjustTurret(45);
+                HeadingTracker.headingTrackingBlue();
 //                Shoota.cameraSetLaunch(ShootaSpeed);
             }
 

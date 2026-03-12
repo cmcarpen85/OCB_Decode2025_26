@@ -135,9 +135,9 @@ public class Shoota {
         }
     }
 
-    public static void gyroAdjustTurret() {
+    public static void gyroAdjustTurret(double desiredHeading) {
 //    double result = -1 * HeadingTracker.gyroDifference();
-        double result = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
+        double result = desiredHeading + OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
         double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
         if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
             Turret.addAngle(Math.abs(TurretError - result));
@@ -175,6 +175,5 @@ public class Shoota {
         double distance = Shoota.distanceToGoal(result.getTy());
         return (60 / (Math.PI * 3.78)) * Math.sqrt((386.0885 * Math.pow(distance, 2)) / 2 * Math.pow(Math.cos(hoodAngle), 2) * distance * Math.tan(hoodAngle) - Constants.SHOTHEIGHT);
     }
-
 
 }
