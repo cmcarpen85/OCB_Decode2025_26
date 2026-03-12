@@ -4,13 +4,17 @@ import android.annotation.SuppressLint;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+
 import Modules.Constants;
+import Modules.OCBHWM;
 
 public class RTPAxon {
     // Encoder for servo position feedback
@@ -39,6 +43,7 @@ public class RTPAxon {
     private double kP;
     private double kI;
     private double kD;
+    private double kH;
     private double integralSum;
     private double lastError;
     private double maxIntegralSum;
@@ -50,7 +55,7 @@ public class RTPAxon {
     public int cliffs = 0;
     public double homeAngle;
     public double maxAngle = 148;
-    public double minAngle= -148;
+    public double minAngle = -148;
     public KalmanFilter filter;
 
     // Direction enum for servo
@@ -101,7 +106,7 @@ public class RTPAxon {
             ntry++;
         } while (Math.abs(previousAngle) < 0.2 && (ntry < 50));
 
-        totalRotation = (STARTPOS - Constants.TURRETHOME  );
+        totalRotation = (STARTPOS - Constants.TURRETHOME);
         homeAngle = Constants.TURRETHOME;
         targetRotation = totalRotation;
 
@@ -109,6 +114,7 @@ public class RTPAxon {
         kP = 0.015; //0.015, 0.02
         kI = 0.0007; // 0.0007, 0.001
         kD = 0.0005; // 0.0005, 0.001
+        kH = 0.0015;
         integralSum = 0.0;
         lastError = 0.0;
         maxIntegralSum = 100.0;
@@ -117,7 +123,7 @@ public class RTPAxon {
 
         maxPower = 0.95;
         cliffs = 0;
-        filter = new KalmanFilter(Constants.TURRETSYSTEMNOISE,Constants.TURRETFEEDBACKNOISE);
+        filter = new KalmanFilter(Constants.TURRETSYSTEMNOISE, Constants.TURRETFEEDBACKNOISE);
     }
     // endregion
 
@@ -129,7 +135,7 @@ public class RTPAxon {
     // Set power to servo, respecting direction and maxPower
     public void setPower(double power) {
         this.power = Math.max(-maxPower, Math.min(maxPower, power));
-        if (power > 0){
+        if (power > 0) {
             this.power = Math.max(minPower, power);
         } else if (power < 0) {
             this.power = Math.min(-minPower, power);
@@ -185,7 +191,7 @@ public class RTPAxon {
     }
 
     // Set all PID coefficients
-    public void setPidCoeffs(double kP, double kI, double kD){
+    public void setPidCoeffs(double kP, double kI, double kD) {
         setKP(kP);
         setKI(kI);
         setKD(kD);
@@ -243,7 +249,7 @@ public class RTPAxon {
 //        } else if (targetRotation + change < minAngle) {
 //            targetRotation = minAngle;
 //        }else {
-            targetRotation += change;
+        targetRotation += change;
 //        }
     }
 
@@ -254,7 +260,7 @@ public class RTPAxon {
 //        } else if (target < minAngle) {
 //            targetRotation = minAngle;
 //        } else {
-            targetRotation = target;
+        targetRotation = target;
 //        }
         resetPID();
     }
@@ -296,7 +302,7 @@ public class RTPAxon {
 
     // Main update loop: updates rotation, computes PID, applies power
     public synchronized void update() {
-        double currentAngle = filter.filter(getCurrentAngle(),totalRotation);
+        double currentAngle = filter.filter(getCurrentAngle(), totalRotation);
 //        double currentAngle = getCurrentAngle(); // old
         double angleDifference = currentAngle - previousAngle;
 
@@ -339,12 +345,16 @@ public class RTPAxon {
         double derivative = (error - lastError) / dt;
         lastError = error;
 
+        // Heading feed forward calculation
+        double headingVel = OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        double hTerm = kH * headingVel * Math.signum(error);
+
         // PID output calculation
         double pTerm = kP * error;
         double iTerm = kI * integralSum;
         double dTerm = kD * derivative;
 
-        double output = pTerm + iTerm + dTerm;
+        double output = pTerm + iTerm + dTerm + hTerm;
 
         // Deadzone for output
         final double DEADZONE = 1; // 0.5
@@ -396,9 +406,9 @@ public class RTPAxon {
             while (!isStopRequested()) {
                 servo.update();
 
-                if (gamepad1.start){
+                if (gamepad1.start) {
                     servo.setRtp(false);
-                } else if (gamepad1.right_trigger>0.4){
+                } else if (gamepad1.right_trigger > 0.4) {
                     servo.setRtp(true);
                 }
 
@@ -411,9 +421,9 @@ public class RTPAxon {
                 }
                 if (gamepad1.a) {
                     servo.setTargetRotation(0);
-                } else if (gamepad1.left_bumper){
+                } else if (gamepad1.left_bumper) {
                     servo.setTargetRotation(50);
-                } else if (gamepad1.right_bumper){
+                } else if (gamepad1.right_bumper) {
                     servo.setTargetRotation(-50);
                 }
 
@@ -431,9 +441,9 @@ public class RTPAxon {
                     servo.setKI(Math.max(0, servo.getKI() - 0.0001));
                 }
 
-                if(gamepad1.right_stick_y>0.4){
+                if (gamepad1.right_stick_y > 0.4) {
                     servo.setKD(servo.getKD() + 0.0001);
-                } else if (gamepad1.right_stick_y<-0.4){
+                } else if (gamepad1.right_stick_y < -0.4) {
                     servo.setKD(servo.getKD() - 0.0001);
                 }
 
@@ -446,7 +456,7 @@ public class RTPAxon {
 
                 telemetry.addData("Starting angle", servo.STARTPOS);
                 telemetry.addData("target rotation", servo.targetRotation);
-                telemetry.addData("current Angle",servo.getCurrentAngle());
+                telemetry.addData("current Angle", servo.getCurrentAngle());
                 telemetry.addData("total rotation", servo.totalRotation);
                 telemetry.addLine(servo.log());
                 telemetry.addData("NTRY", servo.ntry);
