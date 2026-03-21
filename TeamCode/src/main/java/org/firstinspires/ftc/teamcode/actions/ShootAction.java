@@ -8,14 +8,12 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
-import org.firstinspires.ftc.teamcode.enums.TransferActionType;
 
 import Modules.Constants;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
 import Modules.Transfer;
-import Modules.Turret;
 
 public class ShootAction implements FailableAction {
     public Telemetry tel;
@@ -60,31 +58,27 @@ public class ShootAction implements FailableAction {
         OCBHWM.turretServo.setRtp(true);
         switch (this.actionType) {
             case SHOOT:
-                Transfer.kickerForward();
-                Transfer.gateForward();
+                Transfer.gateOpen();
                 Transfer.transferIn();
                 Intake.intakeIn();
                 this.shootSpeed = Constants.AUTOSHOTSPEED;
                 break;
             case SHOOTSTART:
-                Transfer.kickerForward();
-                Transfer.gateForward();
+                Transfer.gateOpen();
                 Transfer.transferIn();
                 Intake.intakeIn();
             this.shootSpeed = Constants.STARTSHOTSPEED;
                 break;
 
             case SHOOTFAR:
-                Transfer.kickerForward();
-                Transfer.gateForward();
+                Transfer.gateOpen();
                 Transfer.transferIn();
                 Intake.intakeIn();
                 this.shootSpeed = Constants.AUTOSHOTSPEED;
                 break;
 
             case STOP:
-                Transfer.kickerRest();
-                Transfer.gateRest();
+                Transfer.gateClose();
                 Transfer.transferHold();
                 Intake.intakeRest();
                 Shoota.stop();

@@ -111,9 +111,9 @@ public class RTPAxon {
         targetRotation = totalRotation;
 
         // Default PID coefficients
-        kP = 0.01575; //0.015, 0.02
+        kP = 0.01; //0.015, 0.02
         kI = 0.000725; // 0.0007, 0.001
-        kD = 0.0006; // 0.0005, 0.001
+        kD = 0.0005; // 0.0005, 0.001
         kH = 0.001675; //0.0015
         integralSum = 0.0;
         lastError = 0.0;

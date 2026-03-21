@@ -20,13 +20,15 @@ public class HeadingTracker {
     public static double blueGoalX = 70.55;
     public static double blueGoalY = 61;
 
-    public void initialize(double startX, double startY, double startOri) {
-        robotX = startX;
-        robotY = startY;
-        robotOri = startOri;
+    public static void initializePinPoint(double startX, double startY, double startOri) {
+        OCBHWM.pinPoint.setPosition(new Pose2D(DistanceUnit.INCH,startX, startY, AngleUnit.DEGREES, startOri));
     }
 
-    // TODO add * -1 to one of the two
+    public static void setPinPointXY(double X, double Y) {
+        OCBHWM.pinPoint.setPosX(X, DistanceUnit.INCH);
+        OCBHWM.pinPoint.setPosY(Y, DistanceUnit.INCH);
+    }
+
     public static void headingTrackingBlue() {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(blueGoalX - currentPos.getX(DistanceUnit.INCH));

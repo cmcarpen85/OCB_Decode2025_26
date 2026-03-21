@@ -26,7 +26,7 @@ public class Constants {
     @Sorter(sort = 2)
     //FlyWheel
     public static double COASTSPEED = 0.3;
-    public static double FARSHOTSPEED = 0.642; // 0.635
+    public static double FARSHOTSPEED = 0.648; // 0.635
     public static double FARSHOTSPEEDOPPO = 0.61;
     public static double FARSHOTVEL = 1560;
     public static double MIDSHOTSPEED = 0.475;
@@ -66,7 +66,7 @@ public class Constants {
 
     @Sorter(sort = 5)
     //Transfer
-    public static double TRANSFERPOWER = 0.8; //1
+    public static double TRANSFERPOWER = 1; //1
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 

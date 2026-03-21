@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import Modules.Constants;
+import Modules.HeadingTracker;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -49,7 +50,7 @@ public class RedOCBTeleop extends LinearOpMode {
                         (-driverOp.getLeftX() * 0.4),
                         (-driverOp.getLeftY() * 0.4),
                         (-driverOp.getRightX() * 0.4),
-                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES) + 90,
 //                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
@@ -59,7 +60,7 @@ public class RedOCBTeleop extends LinearOpMode {
                         (-driverOp.getLeftX()),
                         (-driverOp.getLeftY()),
                         (-driverOp.getRightX() * 0.8),
-                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES),
+                        OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES) + 90,
 //                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
                         false
                 );
@@ -93,14 +94,9 @@ public class RedOCBTeleop extends LinearOpMode {
 
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
-                Transfer.gateForward();
-                Transfer.kickerForward();
-            } else if (gamepad2.b) {
-                Transfer.gateReverse();
-                Transfer.kickerReverse();
+                Transfer.gateOpen();
             } else {
-                Transfer.gateRest();
-                Transfer.kickerRest();
+                Transfer.gateClose();
             }
 
             //Transfer Belts
@@ -128,8 +124,10 @@ public class RedOCBTeleop extends LinearOpMode {
             } else if (gamepad2.y) {
                 Turret.setToAngle(0);
             } else if (gamepad2.left_trigger > 0.4) {
-                Shoota.cameraAdjustTurret();
+                Shoota.cameraAdjustTurret("red");
                 Shoota.cameraSetLaunch(ShootaSpeed);
+            }  else {
+                Shoota.cameraAdjustTurret("red");
             }
 
             //Manual Turret Control
@@ -146,6 +144,14 @@ public class RedOCBTeleop extends LinearOpMode {
                 } else {
                     Intake.setIntakeLight(false);
                 }
+            }
+
+            //Worst Case Scenario
+            if (gamepad2.left_stick_button) {
+                OCBHWM.turretServo.setRtp(false);
+            }
+            if (gamepad2.right_stick_button) {
+                Shoota.cameraSetPinPoint();
             }
 
 //            LLResult result = OCBHWM.limelight.getLatestResult();

@@ -58,8 +58,6 @@ public class OCBHWM {
     public static Servo hoodServo;
     public static Servo indLight;
     public static Servo gateServo;
-    public static Servo gateServo2;
-    public static CRServo kickerServo;
     public static Servo tiltServo;
 
     //Sensors/Gains
@@ -130,20 +128,13 @@ public class OCBHWM {
         flywheel.setFeedforwardCoefficients(0, kV);
         flywheelR.setInverted(true);
 
-
         transferM = hardwareMap.get(CRServo.class, "transferM");
         transferM.setPower(0);
-        transferM.setDirection(DcMotorSimple.Direction.REVERSE);
-//        transferM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        transferM.setPower(0);
-//        transferM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        transferM.setDirection(DcMotorSimple.Direction.FORWARD);
 
         intakeM = hardwareMap.get(CRServo.class, "intakeM");
         intakeM.setPower(0);
         intakeM.setDirection(DcMotorSimple.Direction.REVERSE);
-//        intakeM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        intakeM.setPower(0);
-//        intakeM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         CRturretServo = hardwareMap.get(CRServo.class, "CRturretServo");
         CRturretServo2 = hardwareMap.get(CRServo.class, "CRturretServo2");
@@ -159,13 +150,8 @@ public class OCBHWM {
         transferClear = hardwareMap.get(AnalogInput.class, "transferClear");
 
         gateServo = hardwareMap.get(Servo.class, "gateServo");
-//        gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        gateServo2 = hardwareMap.get(Servo.class, "gateServo2");
 
         tiltServo = hardwareMap.get(Servo.class, "tiltServo");
-
-        kickerServo = hardwareMap.get(CRServo.class, "kickerServo");
-        kickerServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 //        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");

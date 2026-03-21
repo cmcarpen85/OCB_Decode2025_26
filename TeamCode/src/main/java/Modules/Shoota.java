@@ -3,6 +3,10 @@ package Modules;
 import com.arcrobotics.ftclib.util.LUT;
 import com.qualcomm.hardware.limelightvision.LLResult;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
+import java.util.Objects;
+
 public class Shoota {
     public static double PrevTurretAng;
     public static double DesiredTurretAng;
@@ -116,7 +120,7 @@ public class Shoota {
         return currentTurretTolerance;
     }
 
-    public static void cameraAdjustTurret() {
+    public static void cameraAdjustTurret(String color) {
         double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
         if (result != null) {
             if (result.isValid()) {
@@ -126,10 +130,15 @@ public class Shoota {
                     Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
                 }
             } else if (!result.isValid()) {
-                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
-                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
+//                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
+//                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
+//                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
+//                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
+//                }
+                if (Objects.equals(color, "red")) {
+                    HeadingTracker.headingTrackingRed();
+                }else {
+                    HeadingTracker.headingTrackingBlue();
                 }
             }
         }
@@ -170,10 +179,15 @@ public class Shoota {
     }
 
     //TODO: distance from goal using bot position
-    public static double launchRPM(){
+    public static double launchRPM() {
         double hoodAngle = Hood.getCurrentAngle();
         double distance = Shoota.distanceToGoal(result.getTy());
         return (60 / (Math.PI * 3.78)) * Math.sqrt((386.0885 * Math.pow(distance, 2)) / 2 * Math.pow(Math.cos(hoodAngle), 2) * distance * Math.tan(hoodAngle) - Constants.SHOTHEIGHT);
     }
 
+    public static void cameraSetPinPoint() {
+        double X = result.getBotpose_MT2().getPosition().x;
+        double Y = result.getBotpose_MT2().getPosition().y;
+        HeadingTracker.setPinPointXY(X, Y);
+    }
 }

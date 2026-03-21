@@ -2,20 +2,13 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.bylazar.panels.Panels;
-import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.bylazar.telemetry.JoinedTelemetry;
-import com.bylazar.telemetry.PanelsTelemetry;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-
-import java.util.List;
 
 import Modules.Constants;
 import Modules.HeadingTracker;
@@ -128,15 +121,9 @@ public class ShootaTuning extends LinearOpMode {
 
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
-                Transfer.gateForward();
-                Transfer.kickerForward();
-            } else if (gamepad2.b) {
-
-                Transfer.gateReverse();
-                Transfer.kickerReverse();
+                Transfer.gateOpen();
             } else {
-                Transfer.gateRest();
-                Transfer.kickerRest();
+                Transfer.gateClose();
             }
 
             //Transfer Belts
@@ -182,6 +169,14 @@ public class ShootaTuning extends LinearOpMode {
                 Turret.subtractAngle(Math.abs(gamepad2.right_stick_y) * 2);
             }
 
+            //Worst Case Scenario
+            if (gamepad2.left_stick_button) {
+                OCBHWM.turretServo.setRtp(false);
+            }
+            if (gamepad2.right_stick_button) {
+                Shoota.cameraSetPinPoint();
+            }
+
             Shoota.CheckSpeed(ShootaDesiredVelocity);
 
             LLResult result = OCBHWM.limelight.getLatestResult();
@@ -218,7 +213,6 @@ public class ShootaTuning extends LinearOpMode {
             telemetry.addData("pinointY", OCBHWM.pinPoint.getPosY(DistanceUnit.INCH));
             telemetry.addData("pinointOri", OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES));
             telemetry.addData("imuOri", OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-            telemetry.addData("heading Difference", HeadingTracker.gyroDifference());
             telemetry.update();
         }
     }

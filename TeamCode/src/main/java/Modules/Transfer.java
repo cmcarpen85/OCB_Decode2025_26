@@ -15,38 +15,16 @@ public class Transfer {
         OCBHWM.transferM.setPower(-Constants.TRANSFERPOWER);
     }
 
-    public static void tranferShoot(double power){
+    public static void transferShoot(double power){
         OCBHWM.transferM.setPower(power);
     }
 
     //Gate
-    public static void gateForward(){
-        OCBHWM.gateServo.setPosition(0);
-        OCBHWM.gateServo2.setPosition(1);
-//        OCBHWM.gateServo.setPower(Constants.GATEPOWER);
-//        OCBHWM.gateServo2.setPower(Constants.GATEPOWER);
-    }
-    public static void gateReverse() {
-        OCBHWM.gateServo.setPosition(1);
-        OCBHWM.gateServo2.setPosition(0);
-//        OCBHWM.gateServo.setPower(-Constants.GATEPOWER);
-//        OCBHWM.gateServo2.setPower(-Constants.GATEPOWER);
-    }
-    public static void gateRest() {
-        OCBHWM.gateServo.setPosition(0.5);
-        OCBHWM.gateServo2.setPosition(0.5);
-//        OCBHWM.gateServo.setPower(0);
-//        OCBHWM.gateServo2.setPower(0);
+    public static void gateOpen(){
+        OCBHWM.gateServo.setPosition(0.38);
     }
 
-    //Kicker
-    public static void kickerForward(){
-        OCBHWM.kickerServo.setPower(Constants.KICKERPOWER);
-    }
-    public static void kickerReverse(){
-        OCBHWM.kickerServo.setPower(-Constants.KICKERPOWER);
-    }
-    public static void kickerRest() {
-        OCBHWM.kickerServo.setPower(0);
+    public static void gateClose() {
+        OCBHWM.gateServo.setPosition(0.55);
     }
 }
