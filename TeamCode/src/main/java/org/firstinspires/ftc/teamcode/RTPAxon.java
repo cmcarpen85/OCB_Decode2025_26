@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 
 import Modules.Constants;
@@ -44,6 +46,8 @@ public class RTPAxon {
     private double kI;
     private double kD;
     private double kH;
+    private double kS;
+    private double kV;
     private double integralSum;
     private double lastError;
     private double maxIntegralSum;
@@ -115,6 +119,8 @@ public class RTPAxon {
         kI = 0.000725; // 0.0007, 0.001
         kD = 0.0005; // 0.0005, 0.001
         kH = 0.001675; //0.0015
+        kS = 0.16;
+        kV = 0.0001;
         integralSum = 0.0;
         lastError = 0.0;
         maxIntegralSum = 100.0;
@@ -346,8 +352,11 @@ public class RTPAxon {
         lastError = error;
 
         // Heading feed forward calculation
-        double headingVel = OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
-        double hTerm = kH * headingVel * Math.signum(error);
+        double baseHeadingVel = OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        double turretHeadingVel = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
+        double hTerm = kH * baseHeadingVel * Math.signum(error);
+        double sTerm = kS * Math.signum(turretHeadingVel);
+        double vTerm = kV * turretHeadingVel;
 
         // PID output calculation
         double pTerm = kP * error;
