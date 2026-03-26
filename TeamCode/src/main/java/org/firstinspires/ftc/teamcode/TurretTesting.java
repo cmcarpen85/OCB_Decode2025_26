@@ -38,6 +38,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+
 import Modules.OCBHWM;
 
 
@@ -71,6 +73,8 @@ public class TurretTesting extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Turret Servo Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Rotation", OCBHWM.turretServo.getTotalRotation());
+            telemetry.addData("Turret Heading",  OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
+            telemetry.addData("Base Heading", OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES));
             telemetry.update();
         }
     }

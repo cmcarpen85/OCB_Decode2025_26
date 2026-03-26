@@ -42,12 +42,12 @@ public class RTPAxon {
     private double targetRotation;
 
     // PID controller coefficients and state
-    private double kP;
-    private double kI;
-    private double kD;
-    private double kH;
-    private double kS;
-    private double kV;
+    public double kP;
+    public double kI;
+    public double kD;
+    public double kH;
+    public double kS;
+    public double kV;
     private double integralSum;
     private double lastError;
     private double maxIntegralSum;
@@ -113,11 +113,11 @@ public class RTPAxon {
         totalRotation = (STARTPOS - Constants.TURRETHOME);
         homeAngle = Constants.TURRETHOME;
         targetRotation = totalRotation;
-
+// TODO tune PID
         // Default PID coefficients
-        kP = 0.01; //0.015, 0.02
-        kI = 0.000725; // 0.0007, 0.001
-        kD = 0.0005; // 0.0005, 0.001
+        kP = 0.0; //0.015, 0.02
+        kI = 0.0; // 0.0007, 0.001
+        kD = 0.0; // 0.0005, 0.001
         kH = 0.001675; //0.0015
         kS = 0.16;
         kV = 0.0001;
