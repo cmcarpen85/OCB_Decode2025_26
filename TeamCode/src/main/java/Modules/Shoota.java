@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Shoota {
 
     public static class Params {
-        public double kVision = 0.8;
+        public double kVision = 0.5;
     }
     public static Params PARAMS = new Params();
     public static double PrevTurretAng;
