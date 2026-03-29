@@ -54,7 +54,7 @@ public class Constants {
     public static double TURRETMAXANGLE = 80;
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
-    public static double TURRETANGLETOLERANCE = 0.5; // 1
+    public static double TURRETANGLETOLERANCE = 2; // 1
     public static double TELEFARSHOTTURRETANGLE = -138;//27.9
     public static double TELEFARSHOTTURRETANGLEOPPO = 83;
     public static double MIDSHOTTURRETANGLE = 40.0; //38

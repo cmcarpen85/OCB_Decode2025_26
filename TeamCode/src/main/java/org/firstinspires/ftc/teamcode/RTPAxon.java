@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -17,8 +19,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit
 
 import Modules.Constants;
 import Modules.OCBHWM;
-
+@Config
 public class RTPAxon {
+
+    public static class Params {
+        public double kP = 0.0055;
+        public double kI =0.001;
+        public double kD = 0.0003;
+        public double kH = 0.001;
+        public double kS = 0.085;
+        public double kV = 0.0000;
+    }
+    public static Params PARAMS = new Params();
     // Encoder for servo position feedback
     private final AnalogInput servoEncoder;
     // Continuous rotation servo
@@ -31,7 +43,7 @@ public class RTPAxon {
     // Maximum allowed power
     private double maxPower;
     // Minimum allowed power
-    private double minPower = 0.12;
+    private double minPower = 0;//0.12
     // Direction of servo movement
     private Direction direction;
     // Last measured angle
@@ -42,12 +54,12 @@ public class RTPAxon {
     private double targetRotation;
 
     // PID controller coefficients and state
-    public double kP;
-    public double kI;
-    public double kD;
-    public double kH;
-    public double kS;
-    public double kV;
+//    public double kP;
+//    public double kI;
+//    public double kD;
+//    public double kH;
+//    public double kS;
+//    public double kV;
     private double integralSum;
     private double lastError;
     private double maxIntegralSum;
@@ -115,19 +127,19 @@ public class RTPAxon {
         targetRotation = totalRotation;
 // TODO tune PID
         // Default PID coefficients
-        kP = 0.0; //0.015, 0.02
-        kI = 0.0; // 0.0007, 0.001
-        kD = 0.0; // 0.0005, 0.001
-        kH = 0.001675; //0.0015
-        kS = 0.16;
-        kV = 0.0001;
+//        PARAMS.kP = 0.005; //0.015, 0.02
+//        PARAMS.kI = 0.0; // 0.0007, 0.001
+//        PARAMS.kD = 0.0005; // 0.0005, 0.001
+//        PARAMS.kH = 0.001675; //0.0015
+//        PARAMS.kS = 0.11;
+//        PARAMS.kV = 0.0001;
         integralSum = 0.0;
         lastError = 0.0;
         maxIntegralSum = 100.0;
         pidTimer = new ElapsedTime();
         pidTimer.reset();
 
-        maxPower = 0.95;
+        maxPower = 0.75;
         cliffs = 0;
         filter = new KalmanFilter(Constants.TURRETSYSTEMNOISE, Constants.TURRETFEEDBACKNOISE);
     }
@@ -182,18 +194,18 @@ public class RTPAxon {
 
     // Set PID P coefficient
     public void setKP(double kP) {
-        this.kP = kP;
+        this.PARAMS.kP = kP;
     }
 
     // Set PID I coefficient and reset integral
     public void setKI(double kI) {
-        this.kI = kI;
+        this.PARAMS.kI = kI;
         resetIntegral();
     }
 
     // Set PID D coefficient
     public void setKD(double kD) {
-        this.kD = kD;
+        this.PARAMS.kD = kD;
     }
 
     // Set all PID coefficients
@@ -205,17 +217,17 @@ public class RTPAxon {
 
     // Get PID P coefficient
     public double getKP() {
-        return kP;
+        return PARAMS.kP;
     }
 
     // Get PID I coefficient
     public double getKI() {
-        return kI;
+        return PARAMS.kI;
     }
 
     // Get PID D coefficient
     public double getKD() {
-        return kD;
+        return PARAMS.kD;
     }
 
     // Set only P coefficient (alias)
@@ -354,16 +366,17 @@ public class RTPAxon {
         // Heading feed forward calculation
         double baseHeadingVel = OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
         double turretHeadingVel = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
-        double hTerm = kH * baseHeadingVel * Math.signum(error);
-        double sTerm = kS * Math.signum(turretHeadingVel);
-        double vTerm = kV * turretHeadingVel;
+        double hTerm = PARAMS.kH * baseHeadingVel;
+
+        double sTerm = PARAMS.kS * Math.signum(error);
+        double vTerm = PARAMS.kV * turretHeadingVel * Math.signum(derivative);
 
         // PID output calculation
-        double pTerm = kP * error;
-        double iTerm = kI * integralSum;
-        double dTerm = kD * derivative;
+        double pTerm = PARAMS.kP * error;
+        double iTerm = PARAMS.kI * integralSum;
+        double dTerm = PARAMS.kD * derivative;
 
-        double output = pTerm + iTerm + dTerm + hTerm;
+        double output = pTerm + iTerm + dTerm + (hTerm+sTerm+vTerm);
 
         // Deadzone for output
         final double DEADZONE = 1; // 0.5
@@ -391,7 +404,7 @@ public class RTPAxon {
                 totalRotation,
                 targetRotation,
                 power,
-                kP, kI, kD,
+                PARAMS.kP, PARAMS.kI, PARAMS.kD,
                 targetRotation - totalRotation,
                 integralSum
         );

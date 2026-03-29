@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 
 import Modules.Constants;
 import Modules.HeadingTracker;
@@ -41,7 +42,7 @@ public class BlueOCBTeleop extends LinearOpMode {
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
 //        OCBHWM.turretServo.setRtp(true);
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
 
         while (!isStopRequested()) {
             OCBHWM.turretServo.update();
@@ -138,7 +139,8 @@ public class BlueOCBTeleop extends LinearOpMode {
                 Shoota.cameraAdjustTurret("blue");
                 Shoota.cameraSetLaunch(ShootaSpeed);
             } else {
-                Shoota.cameraAdjustTurret("blue");
+//                Shoota.cameraAdjustTurret("blue");
+                Shoota.gyroAdjustTurret(-45);
             }
 
             //Manual Turret Control
@@ -203,6 +205,8 @@ public class BlueOCBTeleop extends LinearOpMode {
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Error", Turret.getTurretError());
+//            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+//            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
 //            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
 //            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
 //            telemetry.addData("heading", OCBHWM.imu.getRotation2d());

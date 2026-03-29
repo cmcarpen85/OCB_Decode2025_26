@@ -1,13 +1,20 @@
 package Modules;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.util.LUT;
 import com.qualcomm.hardware.limelightvision.LLResult;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.RTPAxon;
 
 import java.util.Objects;
-
+@Config
 public class Shoota {
+
+    public static class Params {
+        public double kVision = 0.8;
+    }
+    public static Params PARAMS = new Params();
     public static double PrevTurretAng;
     public static double DesiredTurretAng;
     public static double PosError = 0;
@@ -122,19 +129,20 @@ public class Shoota {
 
     public static void cameraAdjustTurret(String color) {
         double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
+        Shoota.checkLimelight();
         if (result != null) {
             if (result.isValid()) {
                 if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
+                    Turret.addAngle(Math.abs(TurretError - PARAMS.kVision * result.getTx()));
                 } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
+                    Turret.subtractAngle(Math.abs(TurretError - PARAMS.kVision* result.getTx()));
                 }
             } else if (!result.isValid()) {
-//                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
-//                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
-//                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-//                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
-//                }
+                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
+                    Turret.addAngle(Math.abs(TurretError - PARAMS.kVision * result.getTx()));
+                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
+                    Turret.subtractAngle(Math.abs(TurretError - PARAMS.kVision * result.getTx()));
+                }
                 if (Objects.equals(color, "red")) {
                     HeadingTracker.headingTrackingRed();
                 }else {

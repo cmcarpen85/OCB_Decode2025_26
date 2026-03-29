@@ -39,6 +39,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+import org.firstinspires.ftc.teamcode.Datalogging.DatalogExample_v01;
+import org.firstinspires.ftc.teamcode.Datalogging.Datalogger;
 
 import Modules.OCBHWM;
 
@@ -48,34 +50,104 @@ public class TurretTesting extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    Datalog datalog;
 
     @Override
     public void runOpMode() {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
         OCBHWM.hwinit(hardwareMap);
         OCBHWM.turretServo.setRtp(false);
 
+        datalog = new Datalog("datalog_turret");
+
+        datalog.opModeStatus.set("INIT");
+        datalog.writeLine();
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Turret Servo Power", OCBHWM.turretServo.getPower());
+        telemetry.addData("Turret Rotation", OCBHWM.turretServo.getTotalRotation());
+        telemetry.update();
+
+
+
         // Wait for the game to start (driver presses START)
         waitForStart();
+        datalog.opModeStatus.set("RUNNING");
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            for (double i = 0; i < 5000; i++) {
-                OCBHWM.turretServo.setPower( i/5000);
-            }
+            for (double i = 0; opModeIsActive(); i++)
+            {
+                datalog.loopCounter.set(i);
+                OCBHWM.turretServo.setPower( i/1000);
+                OCBHWM.turretServo.update();
 
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Turret Servo Power", OCBHWM.turretServo.getPower());
-            telemetry.addData("Turret Rotation", OCBHWM.turretServo.getTotalRotation());
-            telemetry.addData("Turret Heading",  OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
-            telemetry.addData("Base Heading", OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES));
-            telemetry.update();
+                datalog.turretEncoder.set("%.3f",OCBHWM.turretServo.getTotalRotation());
+                datalog.turretHeading.set(OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
+                datalog.servoPower.set(OCBHWM.turretServo.getPower());
+
+                // The logged timestamp is taken when writeLine() is called.
+                datalog.writeLine();
+
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+                telemetry.addData("Turret Servo Power", OCBHWM.turretServo.getPower());
+                telemetry.addData("Turret Rotation", OCBHWM.turretServo.getTotalRotation());
+                telemetry.addData("Turret Heading",  OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
+                telemetry.addData("Base Heading", OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES));
+                telemetry.update();
+
+                sleep(5);
+            }
+        }
+    }
+
+    public static class Datalog
+    {
+        // The underlying datalogger object - it cares only about an array of loggable fields
+        private final Datalogger datalogger;
+
+        // These are all of the fields that we want in the datalog.
+        // Note that order here is NOT important. The order is important in the setFields() call below
+        public Datalogger.GenericField opModeStatus = new Datalogger.GenericField("OpModeStatus");
+        public Datalogger.GenericField loopCounter = new Datalogger.GenericField("Loop Counter");
+
+        public Datalogger.GenericField turretEncoder = new Datalogger.GenericField("Turret Enc.");
+        public Datalogger.GenericField servoPower = new Datalogger.GenericField("Turret Pow.");
+
+        public Datalogger.GenericField turretHeading = new Datalogger.GenericField("Turret Head.");
+
+
+        public Datalog(String name)
+        {
+            // Build the underlying datalog object
+            datalogger = new Datalogger.Builder()
+
+                    // Pass through the filename
+                    .setFilename(name)
+
+                    // Request an automatic timestamp field
+                    .setAutoTimestamp(Datalogger.AutoTimestamp.DECIMAL_SECONDS)
+
+                    // Tell it about the fields we care to log.
+                    // Note that order *IS* important here! The order in which we list
+                    // the fields is the order in which they will appear in the log.
+                    .setFields(
+                            opModeStatus,
+                            loopCounter,
+                            turretEncoder,
+                            servoPower,
+                            turretHeading
+                    )
+                    .build();
+        }
+
+        // Tell the datalogger to gather the values of the fields
+        // and write a new line in the log.
+        public void writeLine()
+        {
+            datalogger.writeLine();
         }
     }
 }
