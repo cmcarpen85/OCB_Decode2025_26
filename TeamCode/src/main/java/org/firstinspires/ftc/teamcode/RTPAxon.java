@@ -382,6 +382,7 @@ public class RTPAxon {
             aTerm = PARAMS.kA * accel;
         }
 
+
         // PID output calculation
         double pTerm = PARAMS.kP * error;
         double iTerm = PARAMS.kI * integralSum;
