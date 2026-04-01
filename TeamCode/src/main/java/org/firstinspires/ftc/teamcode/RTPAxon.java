@@ -5,16 +5,12 @@ import android.annotation.SuppressLint;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 
 import Modules.Constants;
@@ -26,9 +22,11 @@ public class RTPAxon {
         public double kP = 0.0055;
         public double kI =0.001;
         public double kD = 0.0003;
-        public double kH = 0.001;
+        public double kH = 0.0001;//0.001
         public double kS = 0.085;
-        public double kV = 0.0000;
+        public double kA = 0.00001;
+
+        public double accelErrorTolerance = 10;
     }
     public static Params PARAMS = new Params();
     // Encoder for servo position feedback
@@ -62,6 +60,9 @@ public class RTPAxon {
 //    public double kV;
     private double integralSum;
     private double lastError;
+    private double lastTargetVelocity;
+    public double lastVelocityError;
+    private double lastBaseVelocity;
     private double maxIntegralSum;
     private ElapsedTime pidTimer;
 
@@ -135,6 +136,9 @@ public class RTPAxon {
 //        PARAMS.kV = 0.0001;
         integralSum = 0.0;
         lastError = 0.0;
+         lastBaseVelocity = 0;
+        lastVelocityError = 0;
+        lastTargetVelocity = 0;
         maxIntegralSum = 100.0;
         pidTimer = new ElapsedTime();
         pidTimer.reset();
@@ -365,18 +369,25 @@ public class RTPAxon {
 
         // Heading feed forward calculation
         double baseHeadingVel = OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
-        double turretHeadingVel = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
         double hTerm = PARAMS.kH * baseHeadingVel;
+        double turretHeadingVel = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
+
+        double accel = (derivative - lastVelocityError) / dt;
+        lastVelocityError = derivative;
 
         double sTerm = PARAMS.kS * Math.signum(error);
-        double vTerm = PARAMS.kV * turretHeadingVel * Math.signum(derivative);
+
+        double aTerm = 0;
+        if (Math.signum(derivative) ==  Math.signum(accel) && Math.signum(accel) == Math.signum(error)) {
+            aTerm = PARAMS.kA * accel;
+        }
 
         // PID output calculation
         double pTerm = PARAMS.kP * error;
         double iTerm = PARAMS.kI * integralSum;
         double dTerm = PARAMS.kD * derivative;
 
-        double output = pTerm + iTerm + dTerm + (hTerm+sTerm+vTerm);
+        double output = pTerm + iTerm + dTerm + (hTerm+sTerm+aTerm);
 
         // Deadzone for output
         final double DEADZONE = 1; // 0.5

@@ -139,8 +139,8 @@ public class BlueOCBTeleop extends LinearOpMode {
                 Shoota.cameraAdjustTurret("blue");
                 Shoota.cameraSetLaunch(ShootaSpeed);
             } else {
-//                Shoota.cameraAdjustTurret("blue");
-                Shoota.gyroAdjustTurret(-45);
+            Shoota.cameraAdjustTurret("blue");
+//                Shoota.gyroAdjustTurret(-45);
             }
 
             //Manual Turret Control
