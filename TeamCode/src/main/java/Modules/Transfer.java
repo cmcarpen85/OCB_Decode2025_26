@@ -21,10 +21,10 @@ public class Transfer {
 
     //Gate
     public static void gateOpen(){
-        OCBHWM.gateServo.setPosition(0.38);
+        OCBHWM.gateServo.setPosition(Constants.GATECLAWOPEN);
     }
 
     public static void gateClose() {
-        OCBHWM.gateServo.setPosition(0.55);
+        OCBHWM.gateServo.setPosition(Constants.GATECLAWCLOSE);
     }
 }

@@ -156,10 +156,14 @@ public class Shoota {
 //    double result = -1 * HeadingTracker.gyroDifference();
         double result = desiredHeading + OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
         double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
-        if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
+        if (TurretError - result > Constants.TURRETANGLEROUGHTOLERANCE) {
             Turret.addAngle(Math.abs(TurretError - result));
-        } else if (TurretError - result < -Constants.TURRETANGLETOLERANCE) {
+        } else if (TurretError - result < -Constants.TURRETANGLEROUGHTOLERANCE) {
             Turret.subtractAngle(Math.abs(TurretError - result));
+        } else if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
+            Turret.addAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
+        } else if (TurretError - result < -Constants.TURRETANGLETOLERANCE) {
+            Turret.subtractAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
         }
     }
 

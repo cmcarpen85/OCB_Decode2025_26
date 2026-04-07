@@ -55,6 +55,8 @@ public class Constants {
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
     public static double TURRETANGLETOLERANCE = 2; // 1
+    public static double TURRETANGLEROUGHTOLERANCE = 8;
+    public static double TURRETCLOSECONSTANT = 0.5;
     public static double TELEFARSHOTTURRETANGLE = -138;//27.9
     public static double TELEFARSHOTTURRETANGLEOPPO = 83;
     public static double MIDSHOTTURRETANGLE = 40.0; //38
@@ -67,6 +69,8 @@ public class Constants {
     @Sorter(sort = 5)
     //Transfer
     public static double TRANSFERPOWER = 1; //1
+    public static double GATECLAWOPEN = 0.38;
+    public static double GATECLAWCLOSE = 0.5;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 
