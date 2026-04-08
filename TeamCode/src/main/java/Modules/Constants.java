@@ -54,8 +54,8 @@ public class Constants {
     public static double TURRETMAXANGLE = 80;
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
-    public static double TURRETANGLETOLERANCE = 2; // 1
-    public static double TURRETANGLEROUGHTOLERANCE = 8;
+    public static double TURRETANGLETOLERANCE = 5; // 1
+    public static double TURRETANGLEROUGHTOLERANCE = 5;
     public static double TURRETCLOSECONSTANT = 0.5;
     public static double TELEFARSHOTTURRETANGLE = -138;//27.9
     public static double TELEFARSHOTTURRETANGLEOPPO = 83;
@@ -70,7 +70,7 @@ public class Constants {
     //Transfer
     public static double TRANSFERPOWER = 1; //1
     public static double GATECLAWOPEN = 0.38;
-    public static double GATECLAWCLOSE = 0.5;
+    public static double GATECLAWCLOSE = 0.52;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 

@@ -8,12 +8,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.RTPAxon;
 
 import java.util.Objects;
+
 @Config
 public class Shoota {
 
     public static class Params {
         public double kVision = 0.5;
     }
+
     public static Params PARAMS = new Params();
     public static double PrevTurretAng;
     public static double DesiredTurretAng;
@@ -132,20 +134,24 @@ public class Shoota {
         Shoota.checkLimelight();
         if (result != null) {
             if (result.isValid()) {
-                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(TurretError - PARAMS.kVision * result.getTx()));
+                if (TurretError - result.getTx() > Constants.TURRETANGLEROUGHTOLERANCE) {
+                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
+                } else if (TurretError - result.getTx() < -Constants.TURRETANGLEROUGHTOLERANCE) {
+                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
+                } else if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
+                    Turret.addAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result.getTx()));
                 } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(TurretError - PARAMS.kVision* result.getTx()));
+                    Turret.subtractAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result.getTx()));
                 }
             } else if (!result.isValid()) {
-                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
-                    Turret.addAngle(Math.abs(TurretError - PARAMS.kVision * result.getTx()));
-                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-                    Turret.subtractAngle(Math.abs(TurretError - PARAMS.kVision * result.getTx()));
-                }
+//                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
+//                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
+//                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
+//                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
+//                }
                 if (Objects.equals(color, "red")) {
                     HeadingTracker.headingTrackingRed();
-                }else {
+                } else {
                     HeadingTracker.headingTrackingBlue();
                 }
             }
@@ -154,18 +160,33 @@ public class Shoota {
 
     public static void gyroAdjustTurret(double desiredHeading) {
 //    double result = -1 * HeadingTracker.gyroDifference();
-        double result = desiredHeading + OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
-        double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
-        if (TurretError - result > Constants.TURRETANGLEROUGHTOLERANCE) {
-            Turret.addAngle(Math.abs(TurretError - result));
-        } else if (TurretError - result < -Constants.TURRETANGLEROUGHTOLERANCE) {
-            Turret.subtractAngle(Math.abs(TurretError - result));
-        } else if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
-            Turret.addAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
-        } else if (TurretError - result < -Constants.TURRETANGLETOLERANCE) {
-            Turret.subtractAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
-        }
+        double result = desiredHeading - OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        double TurretServoError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
+        if (result - TurretServoError > Constants.TURRETANGLEROUGHTOLERANCE) {
+            Turret.addAngle(Math.abs(result - TurretServoError));
+        } else if (result - TurretServoError < -Constants.TURRETANGLEROUGHTOLERANCE) {
+            Turret.subtractAngle(Math.abs(result - TurretServoError));
+        } //else if (result-TurretServoError > Constants.TURRETANGLETOLERANCE) {
+//            Turret.addAngle(Constants.TURRETCLOSECONSTANT * Math.abs(result-TurretServoError));
+//        } else if (result-TurretServoError < -Constants.TURRETANGLETOLERANCE) {
+//            Turret.subtractAngle(Constants.TURRETCLOSECONSTANT * Math.abs(result-TurretServoError));
+//        }
     }
+// old
+//    public static void gyroAdjustTurret(double desiredHeading) {
+////    double result = -1 * HeadingTracker.gyroDifference();
+//        double result = desiredHeading + OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+//        double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
+//        if (TurretError - result > Constants.TURRETANGLEROUGHTOLERANCE) {
+//            Turret.addAngle(Math.abs(TurretError - result));
+//        } else if (TurretError - result < -Constants.TURRETANGLEROUGHTOLERANCE) {
+//            Turret.subtractAngle(Math.abs(TurretError - result));
+//        } else if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
+//            Turret.addAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
+//        } else if (TurretError - result < -Constants.TURRETANGLETOLERANCE) {
+//            Turret.subtractAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
+//        }
+//    }
 
     public static void cameraSetLaunch(double speed) {
         if (result != null) {

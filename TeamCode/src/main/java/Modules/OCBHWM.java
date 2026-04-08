@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.RTPAxon;
+import org.firstinspires.ftc.teamcode.RTPAxonChase;
 
 public class OCBHWM {
 
@@ -54,7 +55,7 @@ public class OCBHWM {
     //Servos
     public static CRServo CRturretServo;
     public static CRServo CRturretServo2;
-    public static RTPAxon turretServo;
+    public static RTPAxonChase turretServo;
     public static Servo hoodServo;
     public static Servo indLight;
     public static Servo gateServo;
@@ -139,7 +140,7 @@ public class OCBHWM {
         CRturretServo = hardwareMap.get(CRServo.class, "CRturretServo");
         CRturretServo2 = hardwareMap.get(CRServo.class, "CRturretServo2");
         turretFeedback = hardwareMap.get(AnalogInput.class, "turretFeedback");
-        turretServo = new RTPAxon(CRturretServo, CRturretServo2, turretFeedback);
+        turretServo = new RTPAxonChase(CRturretServo, CRturretServo2, turretFeedback);
         turretServo.setRtp(false);
 
 

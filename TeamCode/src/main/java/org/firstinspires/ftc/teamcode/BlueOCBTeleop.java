@@ -188,8 +188,8 @@ public class BlueOCBTeleop extends LinearOpMode {
 
 
 //            telemetry.addData("turret currently tracking", Shoota.NotInPos);
-//            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
-//            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
+            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
