@@ -44,7 +44,7 @@ public class HeadingTracker {
         double XDistance = Math.abs(redGoalX - currentPos.getX(DistanceUnit.INCH));
         double YDistance = Math.abs(redGoalY - currentPos.getY(DistanceUnit.INCH));
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
-        double angleToGoal = Math.asin(YDistance / robotDistance) * 180 / Math.PI;
+        double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
         Shoota.gyroAdjustTurret(angleToGoal);
 //        return headingDifference(angleToGoal);
     }
