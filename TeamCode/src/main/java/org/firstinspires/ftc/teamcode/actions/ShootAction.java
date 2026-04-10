@@ -58,27 +58,27 @@ public class ShootAction implements FailableAction {
         OCBHWM.turretServo.setRtp(true);
         switch (this.actionType) {
             case SHOOT:
-                Transfer.gateOpen();
+                Transfer.clawOpen();
                 Transfer.transferIn();
                 Intake.intakeIn();
                 this.shootSpeed = Constants.AUTOSHOTSPEED;
                 break;
             case SHOOTSTART:
-                Transfer.gateOpen();
+                Transfer.clawOpen();
                 Transfer.transferIn();
                 Intake.intakeIn();
             this.shootSpeed = Constants.STARTSHOTSPEED;
                 break;
 
             case SHOOTFAR:
-                Transfer.gateOpen();
+                Transfer.clawOpen();
                 Transfer.transferIn();
                 Intake.intakeIn();
                 this.shootSpeed = Constants.AUTOSHOTSPEED;
                 break;
 
             case STOP:
-                Transfer.gateClose();
+                Transfer.clawClose();
                 Transfer.transferHold();
                 Intake.intakeRest();
                 Shoota.stop();

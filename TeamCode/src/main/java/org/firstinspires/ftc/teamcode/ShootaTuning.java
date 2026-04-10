@@ -121,9 +121,9 @@ public class ShootaTuning extends LinearOpMode {
 
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
-                Transfer.gateOpen();
+                Transfer.clawOpen();
             } else {
-                Transfer.gateClose();
+                Transfer.clawClose();
             }
 
             //Transfer Belts

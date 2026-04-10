@@ -9,7 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+
+import java.util.List;
 
 import Modules.Constants;
 import Modules.HeadingTracker;
@@ -106,9 +107,9 @@ public class BlueOCBTeleop extends LinearOpMode {
 
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
-                Transfer.gateOpen();
+                Transfer.clawOpen();
             } else {
-                Transfer.gateClose();
+                Transfer.clawClose();
             }
 
             //Transfer Belts
@@ -139,8 +140,8 @@ public class BlueOCBTeleop extends LinearOpMode {
                 Shoota.cameraAdjustTurret("blue");
                 Shoota.cameraSetLaunch(ShootaSpeed);
             } else {
-            Shoota.cameraAdjustTurret("blue");
-//                Shoota.gyroAdjustTurret(-45);
+//            Shoota.cameraAdjustTurret("blue");
+                HeadingTracker.headingTrackingBlue();
             }
 
             //Manual Turret Control
@@ -187,9 +188,9 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
 
-//            telemetry.addData("turret currently tracking", Shoota.NotInPos);
+////            telemetry.addData("turret currently tracking", Shoota.NotInPos);
             telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
-            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
+//            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
@@ -198,18 +199,15 @@ public class BlueOCBTeleop extends LinearOpMode {
 
 //            telemetry.addData("shoota mode", ShootaMode);
 //            telemetry.addData("Shoota set speed", ShootaSpeed);
-//            List<Double> velocities = OCBHWM.flywheel.getVelocities();
-//            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
-//            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
+            List<Double> velocities = OCBHWM.flywheel.getVelocities();
+            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
+            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Error", Turret.getTurretError());
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
-//            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
-//            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
-//            telemetry.addData("heading", OCBHWM.imu.getRotation2d());
             telemetry.update();
         }
     }

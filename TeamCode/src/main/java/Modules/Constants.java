@@ -40,12 +40,12 @@ public class Constants {
     //Hood
     public static double HOODHOME = 0.05;
     public static double HOODMINSERVOVALUE = 0.04;
-    public static double HOODMAXSERVOVALUE = .6089;
+    public static double HOODMAXSERVOVALUE = .905;
     public static double HOODTARGETTOLERANCE = 1;
-    public static double FARSHOTHOODSERVO = 0.608;
+    public static double FARSHOTHOODSERVO = 0.905;
     public static double MIDSHOTHOODSERVO = .3594;
     public static double CLOSESHOTHOODSERVO = 0.05;
-    public static double STARTSHOTHOODSERVO = 0.608;
+    public static double STARTSHOTHOODSERVO = 0.905;
 
     @Sorter(sort = 4)
     //Turret
@@ -70,7 +70,7 @@ public class Constants {
     //Transfer
     public static double TRANSFERPOWER = 1; //1
     public static double GATECLAWOPEN = 0.38;
-    public static double GATECLAWCLOSE = 0.52;
+    public static double GATECLAWCLOSE = 0.55;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 

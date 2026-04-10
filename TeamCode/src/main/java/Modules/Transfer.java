@@ -20,11 +20,11 @@ public class Transfer {
     }
 
     //Gate
-    public static void gateOpen(){
+    public static void clawOpen(){
         OCBHWM.gateServo.setPosition(Constants.GATECLAWOPEN);
     }
 
-    public static void gateClose() {
+    public static void clawClose() {
         OCBHWM.gateServo.setPosition(Constants.GATECLAWCLOSE);
     }
 }

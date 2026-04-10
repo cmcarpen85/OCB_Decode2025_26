@@ -7,7 +7,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.enums.TransferActionType;
 
-import Modules.Intake;
 import Modules.Transfer;
 
 public class TransferAction implements FailableAction {
@@ -48,6 +47,14 @@ public class TransferAction implements FailableAction {
 
             case TRANSFER_HOLD:
                 Transfer.transferHold();
+                break;
+
+            case CLAW_OPEN:
+                Transfer.clawOpen();
+                break;
+
+            case CLAW_CLOSE:
+                Transfer.clawClose();
                 break;
         }
 

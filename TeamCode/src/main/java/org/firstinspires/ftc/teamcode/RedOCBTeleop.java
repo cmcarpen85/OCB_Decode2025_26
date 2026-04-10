@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import Modules.Constants;
-import Modules.HeadingTracker;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -94,9 +93,9 @@ public class RedOCBTeleop extends LinearOpMode {
 
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
-                Transfer.gateOpen();
+                Transfer.clawOpen();
             } else {
-                Transfer.gateClose();
+                Transfer.clawClose();
             }
 
             //Transfer Belts

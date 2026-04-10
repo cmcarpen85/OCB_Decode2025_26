@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.util.LUT;
 import com.qualcomm.hardware.limelightvision.LLResult;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Rotation;
 import org.firstinspires.ftc.teamcode.RTPAxon;
 
 import java.util.Objects;
@@ -57,25 +58,25 @@ public class Shoota {
     }
 
     static LUT<Double, Double> hoodAngle = new LUT<Double, Double>() {{
-        add(40.0, 0.050);
-        add(42.5, 0.098);
-        add(45.0, 0.141);
-        add(47.5, 0.171);
-        add(50.0, 0.193);
-        add(52.5, 0.248);
-        add(55.0, 0.296);
-        add(57.5, 0.305);
-        add(60.0, 0.318);
-        add(62.5, 0.368);
-        add(65.0, 0.431);
-        add(67.5, 0.480);
-        add(70.0, 0.521);
-        add(72.5, 0.525);
-        add(75.0, 0.530);
-        add(77.5, 0.539);
-        add(80.0, 0.546);
-        add(82.5, 0.550);
-        add(85.0, 0.555);
+        add(40.0, 0.050); // 0.050
+        add(42.5, 0.081); // 0.098
+        add(45.0, 0.154); // 0.141
+        add(47.5, 0.205); // 0.171
+        add(50.0, 0.242); // 0.193
+        add(52.5, 0.335); // 0.248
+        add(55.0, 0.416); // 0.296
+        add(57.5, 0.432); // 0.305
+        add(60.0, 0.454); // 0.318
+        add(62.5, 0.539); // 0.368
+        add(65.0, 0.645); // 0.431
+        add(67.5, 0.728); // 0.480
+        add(70.0, 0.797); // 0.521
+        add(72.5, 0.804); // 0.525
+        add(75.0, 0.812); // 0.530
+        add(77.5, 0.823); // 0.539
+        add(80.0, 0.840); // 0.546
+        add(82.5, 0.846); // 0.550
+        add(85.0, 0.855); // 0.555
 
 
     }};
@@ -130,21 +131,17 @@ public class Shoota {
     }
 
     public static void cameraAdjustTurret(String color) {
-        double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
+        double TargetRotation = OCBHWM.turretServo.getTargetRotation();
+        double TurretError = (OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation());
         Shoota.checkLimelight();
         if (result != null) {
             if (result.isValid()) {
-                if (TurretError - result.getTx() > Constants.TURRETANGLEROUGHTOLERANCE) {
-                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
-                } else if (TurretError - result.getTx() < -Constants.TURRETANGLEROUGHTOLERANCE) {
-                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
-}
+                if (-1*result.getTx() - TurretError > Constants.TURRETANGLEROUGHTOLERANCE) {
+                    Turret.addAngle(Math.abs(-1*result.getTx() - TurretError));
+                } else if (-1*result.getTx() - TurretError < -Constants.TURRETANGLEROUGHTOLERANCE) {
+                    Turret.subtractAngle(Math.abs(-1*result.getTx() - TurretError));
+                }
             } else if (!result.isValid()) {
-//                if (TurretError - result.getTx() > Constants.TURRETANGLETOLERANCE) {
-//                    Turret.addAngle(Math.abs(TurretError - result.getTx()));
-//                } else if (TurretError - result.getTx() < -Constants.TURRETANGLETOLERANCE) {
-//                    Turret.subtractAngle(Math.abs(TurretError - result.getTx()));
-//                }
                 if (Objects.equals(color, "red")) {
                     HeadingTracker.headingTrackingRed();
                 } else {
