@@ -31,18 +31,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
-import org.firstinspires.ftc.teamcode.Datalogging.DatalogExample_v01;
 import org.firstinspires.ftc.teamcode.Datalogging.Datalogger;
 
+import java.util.List;
+
+import Modules.Constants;
 import Modules.OCBHWM;
+import Modules.Shoota;
 
 
 @TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
@@ -81,21 +80,30 @@ public class TurretTesting extends LinearOpMode {
             for (double i = 0; opModeIsActive(); i++)
             {
                 datalog.loopCounter.set(i);
-                OCBHWM.turretServo.setPower( i/1000);
-                OCBHWM.turretServo.update();
+//                OCBHWM.turretServo.setPower( i/1000);
+                List<Double> velocities = OCBHWM.flywheel.getVelocities();
+                telemetry.addData("Left Flywheel Velocity", velocities.get(0));
+                telemetry.addData("Right Flywheel Velocity", velocities.get(1));
+//                OCBHWM.turretServo.update();
+                Shoota.setSpeed(Constants.FARSHOTSPEED);
 
-                datalog.turretEncoder.set("%.3f",OCBHWM.turretServo.getTotalRotation());
-                datalog.turretHeading.set(OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
-                datalog.servoPower.set(OCBHWM.turretServo.getPower());
+//                datalog.Velocity1.set("%.3f",OCBHWM.turretServo.getTotalRotation());
+//                datalog.ShooterPower.set(OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
+//                datalog.Velocity2.set(OCBHWM.turretServo.getPower());
+                datalog.Velocity1.set(velocities.get(0));
+                datalog.Velocity2.set(velocities.get(1));
+//                datalog.ShooterDesiredVel.set(OCBHWM.flywheel.getVelocity());
+
+
 
                 // The logged timestamp is taken when writeLine() is called.
                 datalog.writeLine();
 
                 telemetry.addData("Status", "Run Time: " + runtime.toString());
-                telemetry.addData("Turret Servo Power", OCBHWM.turretServo.getPower());
-                telemetry.addData("Turret Rotation", OCBHWM.turretServo.getTotalRotation());
-                telemetry.addData("Turret Heading",  OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
-                telemetry.addData("Base Heading", OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES));
+//                telemetry.addData("Turret Servo Power", OCBHWM.turretServo.getPower());
+//                telemetry.addData("Turret Rotation", OCBHWM.turretServo.getTotalRotation());
+//                telemetry.addData("Turret Heading",  OCBHWM.imu.getRobotYawPitchRollAngles().getYaw());
+//                telemetry.addData("Base Heading", OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES));
                 telemetry.update();
 
                 sleep(5);
@@ -112,11 +120,10 @@ public class TurretTesting extends LinearOpMode {
         // Note that order here is NOT important. The order is important in the setFields() call below
         public Datalogger.GenericField opModeStatus = new Datalogger.GenericField("OpModeStatus");
         public Datalogger.GenericField loopCounter = new Datalogger.GenericField("Loop Counter");
+        public Datalogger.GenericField Velocity1 = new Datalogger.GenericField("Velocity 1");
+        public Datalogger.GenericField Velocity2 = new Datalogger.GenericField("Velocity 2");
 
-        public Datalogger.GenericField turretEncoder = new Datalogger.GenericField("Turret Enc.");
-        public Datalogger.GenericField servoPower = new Datalogger.GenericField("Turret Pow.");
-
-        public Datalogger.GenericField turretHeading = new Datalogger.GenericField("Turret Head.");
+//        public Datalogger.GenericField ShooterDesiredVel = new Datalogger.GenericField("Turret Head.");
 
 
         public Datalog(String name)
@@ -136,9 +143,9 @@ public class TurretTesting extends LinearOpMode {
                     .setFields(
                             opModeStatus,
                             loopCounter,
-                            turretEncoder,
-                            servoPower,
-                            turretHeading
+                            Velocity1,
+                            Velocity2
+//                            ShooterDesiredVel
                     )
                     .build();
         }
