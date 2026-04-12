@@ -2,6 +2,8 @@ package Modules;
 
 public class Transfer {
 
+    public static double TransferShootPower = 1;
+
     //Transfer
     public static void transferIn(){
         OCBHWM.transferM.setPower(Constants.TRANSFERPOWER);
@@ -15,8 +17,8 @@ public class Transfer {
         OCBHWM.transferM.setPower(-Constants.TRANSFERPOWER);
     }
 
-    public static void transferShoot(double power){
-        OCBHWM.transferM.setPower(power);
+    public static void transferShoot(){
+        OCBHWM.transferM.setPower(Transfer.TransferShootPower);
     }
 
     //Gate

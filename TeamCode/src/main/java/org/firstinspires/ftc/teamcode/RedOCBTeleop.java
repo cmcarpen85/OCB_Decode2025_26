@@ -64,11 +64,11 @@ public class RedOCBTeleop extends LinearOpMode {
                         false
                 );
             }
-                      if (gamepad1.a){
-                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
-            }else if (gamepad1.b){
-                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
-            }
+//                      if (gamepad1.a){
+//                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
+//            }else if (gamepad1.b){
+//                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
+//            }
 
 
             //Prep Shoota

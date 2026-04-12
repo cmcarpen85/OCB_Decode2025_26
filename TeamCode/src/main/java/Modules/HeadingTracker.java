@@ -1,5 +1,6 @@
 package Modules;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -9,16 +10,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.opencv.core.Mat;
 
 import java.util.function.ToDoubleBiFunction;
-
+@Config
 public class HeadingTracker {
     public double robotOri;
     public double turretOri;
     public double robotX;
     public double robotY;
-    public static double redGoalX = 70.55;
-    public static double redGoalY = -61;
-    public static double blueGoalX = 70.55;
-    public static double blueGoalY = 61;
+    public static double redGoalX = 63.84;//70.55
+    public static double redGoalY = -57.64;//-61
+    public static double blueGoalX = 63.84;//70.55
+    public static double blueGoalY = 57.64;//61
+    public static double distanceToGoal = 0;
 
     public static void initializePinPoint(double startX, double startY, double startOri) {
         OCBHWM.pinPoint.setPosition(new Pose2D(DistanceUnit.INCH,startX, startY, AngleUnit.DEGREES, startOri));
@@ -29,24 +31,46 @@ public class HeadingTracker {
         OCBHWM.pinPoint.setPosY(Y, DistanceUnit.INCH);
     }
 
-    public static void headingTrackingBlue() {
+    public static void headingTrackingBlue(boolean enableFlywheel) {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(blueGoalX - currentPos.getX(DistanceUnit.INCH));
         double YDistance = Math.abs(blueGoalY - currentPos.getY(DistanceUnit.INCH));
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
+        HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
         Shoota.gyroAdjustTurret(angleToGoal);
+
+        if (enableFlywheel){
+        Shoota.setSpeed(Shoota.getSpeeds(robotDistance-12));
+        }
+        if (robotDistance-12>Constants.FARSHOTDISTANCE){
+            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+            Transfer.TransferShootPower=Constants.FARSHOTTRANSFERPOWER;
+        } else{
+            Transfer.TransferShootPower=1;
+            Hood.setToAngle(Shoota.gethoodAngle(robotDistance-12));
+        }
 //        return headingDifference(angleToGoal);
     }
 
-    public static void headingTrackingRed() {
+    public static void headingTrackingRed(boolean enableFlywheel) {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(redGoalX - currentPos.getX(DistanceUnit.INCH));
         double YDistance = Math.abs(redGoalY - currentPos.getY(DistanceUnit.INCH));
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
+        HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal = -1* Math.asin(YDistance / robotDistance) * 180 / Math.PI;
         Shoota.gyroAdjustTurret(angleToGoal);
-//        return headingDifference(angleToGoal);
+        if (enableFlywheel){
+            Shoota.setSpeed(Shoota.getSpeeds(robotDistance-10));
+        }
+        if (robotDistance-10>Constants.FARSHOTDISTANCE){
+            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+            Transfer.TransferShootPower=Constants.FARSHOTTRANSFERPOWER;
+        } else{
+            Transfer.TransferShootPower=1;
+            Hood.setToAngle(Shoota.gethoodAngle(robotDistance-10));
+        }
     }
 
     public static double gyroDifference() {

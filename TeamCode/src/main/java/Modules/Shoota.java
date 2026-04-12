@@ -49,6 +49,7 @@ public class Shoota {
         add(80.0, 0.5325);
         add(82.5, 0.5350);
         add(85.0, 0.5400); //vel 1320
+        add(90.0,Constants.FARSHOTSPEED);
 
 
     }};
@@ -77,6 +78,7 @@ public class Shoota {
         add(80.0, 0.840); // 0.546
         add(82.5, 0.846); // 0.550
         add(85.0, 0.855); // 0.555
+        add(90.0,Constants.FARSHOTHOODSERVO);
 
 
     }};
@@ -143,9 +145,9 @@ public class Shoota {
                 }
             } else if (!result.isValid()) {
                 if (Objects.equals(color, "red")) {
-                    HeadingTracker.headingTrackingRed();
+                    HeadingTracker.headingTrackingRed(false);
                 } else {
-                    HeadingTracker.headingTrackingBlue();
+                    HeadingTracker.headingTrackingBlue(false);
                 }
             }
         }

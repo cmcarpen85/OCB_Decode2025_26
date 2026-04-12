@@ -25,10 +25,12 @@ public class Constants {
 
     @Sorter(sort = 2)
     //FlyWheel
-    public static double COASTSPEED = 0.3;
+    public static double COASTSPEED = 0.4;
     public static double FARSHOTSPEED = 0.648; // 0.635
     public static double FARSHOTSPEEDOPPO = 0.61;
     public static double FARSHOTVEL = 1560;
+    public static double FARSHOTDISTANCE = 85;
+    public static double FARSHOTTRANSFERPOWER = 0.6;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
     public static double CLOSESHOTSPEED = 0.4;
@@ -55,7 +57,7 @@ public class Constants {
     public static double TURRETMINSERVOVALUE = 0;
     public static double TURRETMAXSERVOVALUE = 1;
     public static double TURRETANGLETOLERANCE = 5; // 1
-    public static double TURRETANGLEROUGHTOLERANCE = 2;
+    public static double TURRETANGLEROUGHTOLERANCE = 1;
     public static double TURRETCLOSECONSTANT = 0.5;
     public static double TELEFARSHOTTURRETANGLE = -138;//27.9
     public static double TELEFARSHOTTURRETANGLEOPPO = 83;

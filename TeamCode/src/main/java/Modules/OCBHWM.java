@@ -59,7 +59,6 @@ public class OCBHWM {
     public static Servo hoodServo;
     public static Servo indLight;
     public static Servo gateServo;
-    public static Servo tiltServo;
 
     //Sensors/Gains
     public static Limelight3A limelight;
@@ -152,7 +151,6 @@ public class OCBHWM {
 
         gateServo = hardwareMap.get(Servo.class, "gateServo");
 
-        tiltServo = hardwareMap.get(Servo.class, "tiltServo");
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 //        huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
