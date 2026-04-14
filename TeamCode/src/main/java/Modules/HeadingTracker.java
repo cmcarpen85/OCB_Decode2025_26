@@ -95,8 +95,8 @@ public class HeadingTracker {
 //        }
     }
 
-    public static double headingDifference(double desiredHeading) {
-        double turretHeading = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
+    public static double headingDifferenceTurret(double desiredHeading) {
+        double turretHeading = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         if (Math.abs(desiredHeading) < 90 && Math.abs(turretHeading) < 90) {
             return desiredHeading - turretHeading;
         } else if (Math.abs(desiredHeading) >= 90) {
@@ -109,5 +109,24 @@ public class HeadingTracker {
         } else {
             return (desiredHeading - turretHeading);
         }
+    }
+
+    public static double headingDifferenceBase(double desiredHeading) {
+        double BaseHeading = OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES);
+        double desiredHeadingPlus180 = desiredHeading-180;
+
+        if (Math.signum(desiredHeading) == Math.signum(BaseHeading)){
+            return desiredHeading-BaseHeading;
+        } else if (Math.signum(desiredHeading) != Math.signum(BaseHeading) && Math.abs(BaseHeading)>=Math.abs(desiredHeadingPlus180) ){
+            return desiredHeading - BaseHeading;
+        } else if (Math.signum(desiredHeading) != Math.signum(BaseHeading) && Math.abs(BaseHeading)>=Math.abs(desiredHeadingPlus180) ){
+            return desiredHeading - BaseHeading;
+        }
+
+
+
+
+        return desiredHeading - BaseHeading;
+
     }
 }

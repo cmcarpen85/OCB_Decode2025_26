@@ -29,6 +29,7 @@ public class RedOCBTeleop extends LinearOpMode {
         double ShootaSpeed = .6;
         double ShootaDesiredVelocity = 0;
         boolean Tracking = false;
+        HeadingTracker.manualAimOffset=0;
 
         OCBHWM.limelight.start();
         OCBHWM.limelight.pipelineSwitch(2);
@@ -38,9 +39,14 @@ public class RedOCBTeleop extends LinearOpMode {
         OCBHWM.turretServo.setRtp(true);
 
         while (!isStopRequested()) {
+            driverOp.readButtons();
+            OperatorOp.readButtons();
+
             OCBHWM.turretServo.update();
             Shoota.checkLimelight();
             OCBHWM.pinPoint.update();
+
+
             if (gamepad1.back) {
                 OCBHWM.imu.resetYaw();
             }
@@ -101,34 +107,40 @@ public class RedOCBTeleop extends LinearOpMode {
             }
 
             //Transfer Belts
-            if (gamepad2.right_trigger >= 0.4 || gamepad2.left_bumper) {
+            if (gamepad2.right_trigger >= 0.4) {
+                Transfer.transferShoot();
+            } else if(gamepad2.left_bumper){
                 Transfer.transferIn();
-            } else if (gamepad2.b) {
+            }else if (gamepad2.b) {
                 Transfer.transferOut();
             } else {
                 Transfer.transferHold();
             }
 
+
             //Turret Angles
             if (gamepad2.a) {
                 OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
-//                Turret.setToAngle(-Constants.TELEFARSHOTTURRETANGLE);
+//                Turret.setToAngle(Constants.TELEFARSHOTTURRETANGLE);
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 ShootaSpeed = Constants.FARSHOTSPEED;
                 ShootaDesiredVelocity = Constants.FARSHOTVEL;
             } else if (gamepad2.x) {
                 OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
-                Turret.setToAngle(-Constants.TELEFARSHOTTURRETANGLEOPPO);
+                Turret.setToAngle(Constants.TELEFARSHOTTURRETANGLEOPPO);
                 Shoota.setSpeed(Constants.FARSHOTSPEEDOPPO);
                 ShootaSpeed = Constants.FARSHOTSPEEDOPPO;
                 ShootaDesiredVelocity = Constants.FARSHOTVEL;
             } else if (gamepad2.y) {
                 Turret.setToAngle(0);
             } else if (gamepad2.left_trigger > 0.4) {
-                Shoota.cameraAdjustTurret("red");
-                Shoota.cameraSetLaunch(ShootaSpeed);
-            }  else {
-                Shoota.cameraAdjustTurret("red");
+//                Shoota.cameraAdjustTurret("blue");
+//                Shoota.cameraSetLaunch(ShootaSpeed);
+                HeadingTracker.headingTrackingRed(true);
+            } else {
+//            Shoota.cameraAdjustTurret("blue");
+                HeadingTracker.headingTrackingRed(false);
+                Shoota.coast();
             }
 
             //Manual Turret Control
@@ -190,6 +202,7 @@ public class RedOCBTeleop extends LinearOpMode {
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Error", OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation());
+            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
 //            telemetry.addData("Hood Feedback voltage",OCBHWM.hoodFeedback.getVoltage());
 //            telemetry.addData("Transfer Sensor voltage",OCBHWM.transferClear.getVoltage());
 //            telemetry.addData("heading", OCBHWM.imu.getRotation2d());

@@ -31,6 +31,7 @@ public class ChaseOCBTeleop extends LinearOpMode {
         double ShootaSpeed = .6;
         double ShootaDesiredVelocity = 0;
         boolean Tracking = false;
+        HeadingTracker.manualAimOffset=0;
 
         OCBHWM.limelight.start();
         OCBHWM.limelight.pipelineSwitch(0);
@@ -43,9 +44,13 @@ public class ChaseOCBTeleop extends LinearOpMode {
 
 
         while (!isStopRequested()) {
+            driverOp.readButtons();
+            OperatorOp.readButtons();
+
             OCBHWM.turretServo.update();
 //            Shoota.checkLimelight();
             OCBHWM.pinPoint.update();
+
             if (gamepad1.back) {
                 OCBHWM.pinPoint.setHeading(0,AngleUnit.DEGREES);
             }
@@ -122,9 +127,9 @@ public class ChaseOCBTeleop extends LinearOpMode {
             }
 
             //manual aim adjust
-            if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
+            if(driverOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
                 HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
-            } else if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+            } else if(driverOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
                 HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
             }
 
@@ -183,8 +188,9 @@ public class ChaseOCBTeleop extends LinearOpMode {
 //            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
             telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
+            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
-//            telemetry.addData("Turret Error", Turret.getTurretError());
+            telemetry.addData("Turret Error", Turret.getTurretError());
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
             telemetry.update();

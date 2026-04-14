@@ -35,6 +35,7 @@ public class BlueOCBTeleop extends LinearOpMode {
         double ShootaSpeed = .6;
         double ShootaDesiredVelocity = 0;
         boolean Tracking = false;
+        HeadingTracker.manualAimOffset=0;
 
         OCBHWM.limelight.start();
         OCBHWM.limelight.pipelineSwitch(0);
@@ -47,9 +48,13 @@ public class BlueOCBTeleop extends LinearOpMode {
 
 
         while (!isStopRequested()) {
+            driverOp.readButtons();
+            OperatorOp.readButtons();
+
             OCBHWM.turretServo.update();
 //            Shoota.checkLimelight();
             OCBHWM.pinPoint.update();
+
             if (gamepad1.back) {
                 OCBHWM.imu.resetYaw();
             }
@@ -202,7 +207,7 @@ public class BlueOCBTeleop extends LinearOpMode {
 
 
 ////            telemetry.addData("turret currently tracking", Shoota.NotInPos);
-//            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
 //            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
@@ -218,10 +223,12 @@ public class BlueOCBTeleop extends LinearOpMode {
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
-//            telemetry.addData("Turret Error", Turret.getTurretError());
+            telemetry.addData("Turret Error", Turret.getTurretError());
+            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
+
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
-//            telemetry.update();
+            telemetry.update();
         }
     }
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -44,6 +45,9 @@ public class ShootaTuning extends LinearOpMode {
 //        OCBHWM.turretServo.setTargetRotation(Constants.TURRETHOME);
 
         while (!isStopRequested()) {
+            driverOp.readButtons();
+            OperatorOp.readButtons();
+
             OCBHWM.turretServo.update();
             OCBHWM.pinPoint.update();
             Shoota.checkLimelight();
@@ -174,6 +178,14 @@ public class ShootaTuning extends LinearOpMode {
                 Turret.subtractAngle(Math.abs(gamepad2.right_stick_y) * 2);
             }
 
+            //manual aim adjust
+            if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
+            } else if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
+            }
+
+
             //Worst Case Scenario
             if (gamepad2.left_stick_button) {
                 OCBHWM.turretServo.setRtp(false);
@@ -195,6 +207,7 @@ public class ShootaTuning extends LinearOpMode {
 //                }
 //            }
 //            telemetry.addData("turret currently tracking", Shoota.NotInPos);
+            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
             telemetry.addData("turret Pos Error",Turret.getTurretError());
             telemetry.addData("turret commanded pos", OCBHWM.turretServo.getTargetRotation());
             telemetry.addData("Distance To goal",HeadingTracker.distanceToGoal);
