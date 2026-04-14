@@ -17,10 +17,12 @@ public class HeadingTracker {
     public double robotX;
     public double robotY;
     public static double redGoalX = 63.84;//70.55
-    public static double redGoalY = -57.64;//-61
+    public static double redGoalY = -58.8;//-57.64
     public static double blueGoalX = 63.84;//70.55
-    public static double blueGoalY = 57.64;//61
+    public static double blueGoalY = 58.8;//57.64
     public static double distanceToGoal = 0;
+    public static double aimOffset = 0;
+    public static double aimOffsetGAIN = 0.025;
 
     public static void initializePinPoint(double startX, double startY, double startOri) {
         OCBHWM.pinPoint.setPosition(new Pose2D(DistanceUnit.INCH,startX, startY, AngleUnit.DEGREES, startOri));
@@ -38,17 +40,17 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
-        Shoota.gyroAdjustTurret(angleToGoal);
-
+        HeadingTracker.aimOffset = -aimOffsetGAIN*(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES));
+        Shoota.gyroAdjustTurret(angleToGoal+aimOffset);
         if (enableFlywheel){
-        Shoota.setSpeed(Shoota.getSpeeds(robotDistance-12));
+        Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
-        if (robotDistance-12>Constants.FARSHOTDISTANCE){
-            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+        if (robotDistance>Constants.FARSHOTDISTANCE){
+//            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
             Transfer.TransferShootPower=Constants.FARSHOTTRANSFERPOWER;
         } else{
             Transfer.TransferShootPower=1;
-            Hood.setToAngle(Shoota.gethoodAngle(robotDistance-12));
+            Hood.setToAngle(Shoota.gethoodAngle(robotDistance));
         }
 //        return headingDifference(angleToGoal);
     }
@@ -60,34 +62,36 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal = -1* Math.asin(YDistance / robotDistance) * 180 / Math.PI;
-        Shoota.gyroAdjustTurret(angleToGoal);
+        HeadingTracker.aimOffset = aimOffsetGAIN*(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES));
+        Shoota.gyroAdjustTurret(angleToGoal+aimOffset);
         if (enableFlywheel){
-            Shoota.setSpeed(Shoota.getSpeeds(robotDistance-10));
+            Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
-        if (robotDistance-10>Constants.FARSHOTDISTANCE){
+        if (robotDistance>Constants.FARSHOTDISTANCE){
             Hood.setToAngle(Constants.FARSHOTHOODSERVO);
             Transfer.TransferShootPower=Constants.FARSHOTTRANSFERPOWER;
         } else{
             Transfer.TransferShootPower=1;
-            Hood.setToAngle(Shoota.gethoodAngle(robotDistance-10));
+            Hood.setToAngle(Shoota.gethoodAngle(robotDistance));
         }
     }
 
     public static double gyroDifference() {
         double pinPointHeading = OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES);
-        double turretHeading = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
-        if (Math.abs(pinPointHeading) < 90 && Math.abs(turretHeading) < 90) {
-            return pinPointHeading - turretHeading;
-        } else if (Math.abs(pinPointHeading) >= 90) {
-            double opAngle = -1 * (180 - Math.abs(pinPointHeading) * Math.signum(pinPointHeading));
-            if ((180 - Math.abs(turretHeading)) * (Math.signum(turretHeading)) >= opAngle) {
-                return pinPointHeading - turretHeading;
-            } else {
-                return (180 - Math.abs(turretHeading)) * Math.signum(turretHeading) - (180 - Math.abs(pinPointHeading)) * Math.signum(pinPointHeading);
-            }
-        } else {
-            return (pinPointHeading - turretHeading);
-        }
+        double turretHeading = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        return turretHeading - pinPointHeading;
+//        if (Math.abs(pinPointHeading) < 90 && Math.abs(turretHeading) < 90) {
+//            return pinPointHeading - turretHeading;
+//        } else if (Math.abs(pinPointHeading) >= 90) {
+//            double opAngle = -1 * (180 - Math.abs(pinPointHeading) * Math.signum(pinPointHeading));
+//            if ((180 - Math.abs(turretHeading)) * (Math.signum(turretHeading)) >= opAngle) {
+//                return pinPointHeading - turretHeading;
+//            } else {
+//                return (180 - Math.abs(turretHeading)) * Math.signum(turretHeading) - (180 - Math.abs(pinPointHeading)) * Math.signum(pinPointHeading);
+//            }
+//        } else {
+//            return (pinPointHeading - turretHeading);
+//        }
     }
 
     public static double headingDifference(double desiredHeading) {

@@ -376,7 +376,7 @@ public class RTPAxonChase {
         double output = pTerm + iTerm + dTerm + (hTerm+sTerm+aTerm);
 
         // Deadzone for output
-        final double DEADZONE = 1; // 0.5
+        final double DEADZONE = 0.5; // 0.5
         if (Math.abs(error) > DEADZONE) {
             double power = Math.min(maxPower, Math.abs(output)) * Math.signum(output);
             setPower(power);
