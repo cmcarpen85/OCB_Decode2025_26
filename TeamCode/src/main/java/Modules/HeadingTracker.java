@@ -22,7 +22,8 @@ public class HeadingTracker {
     public static double blueGoalY = 58.8;//57.64
     public static double distanceToGoal = 0;
     public static double aimOffset = 0;
-    public static double aimOffsetGAIN = 0.025;
+    public static double aimOffsetGAIN = 0.018;
+    public static double manualAimOffset = 0;
 
     public static void initializePinPoint(double startX, double startY, double startOri) {
         OCBHWM.pinPoint.setPosition(new Pose2D(DistanceUnit.INCH,startX, startY, AngleUnit.DEGREES, startOri));
@@ -40,13 +41,13 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
-        HeadingTracker.aimOffset = -aimOffsetGAIN*(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES));
-        Shoota.gyroAdjustTurret(angleToGoal+aimOffset);
+//        HeadingTracker.aimOffset = aimOffsetGAIN*Math.max(Math.abs(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES)),90)*Math.signum(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES));
+        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset);
         if (enableFlywheel){
         Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
         if (robotDistance>Constants.FARSHOTDISTANCE){
-//            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
             Transfer.TransferShootPower=Constants.FARSHOTTRANSFERPOWER;
         } else{
             Transfer.TransferShootPower=1;
@@ -62,8 +63,8 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal = -1* Math.asin(YDistance / robotDistance) * 180 / Math.PI;
-        HeadingTracker.aimOffset = aimOffsetGAIN*(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES));
-        Shoota.gyroAdjustTurret(angleToGoal+aimOffset);
+//        HeadingTracker.aimOffset = -aimOffsetGAIN*Math.max(Math.abs(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES)),90)*Math.signum(angleToGoal-currentPos.getHeading(AngleUnit.DEGREES));
+        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset);
         if (enableFlywheel){
             Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }

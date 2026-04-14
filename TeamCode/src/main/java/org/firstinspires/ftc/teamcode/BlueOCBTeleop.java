@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -113,9 +114,11 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             //Transfer Belts
-            if (gamepad2.right_trigger >= 0.4 || gamepad2.left_bumper) {
+            if (gamepad2.right_trigger >= 0.4) {
+                Transfer.transferShoot();
+            } else if(gamepad2.left_bumper){
                 Transfer.transferIn();
-            } else if (gamepad2.b) {
+            }else if (gamepad2.b) {
                 Transfer.transferOut();
             } else {
                 Transfer.transferHold();
@@ -152,6 +155,14 @@ public class BlueOCBTeleop extends LinearOpMode {
             } else if (gamepad2.right_stick_x <= -0.4) {
                 Turret.addAngle(Math.abs(gamepad2.right_stick_y * 4));
             }
+
+            //manual aim adjust
+            if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
+            } else if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
+            }
+
             if (gamepad2.left_trigger >= 0.4) {
 //                Shoota.CheckSpeed(ShootaDesiredVelocity);
             } else if (gamepad2.left_bumper) {

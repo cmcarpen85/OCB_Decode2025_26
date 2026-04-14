@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 import Modules.Constants;
+import Modules.HeadingTracker;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -135,6 +137,14 @@ public class RedOCBTeleop extends LinearOpMode {
             } else if (gamepad2.right_stick_x <= -0.4) {
                 Turret.addAngle(Math.abs(gamepad2.right_stick_y * 4));
             }
+
+            //manual aim adjust
+            if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
+            } else if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
+            }
+
             if (gamepad2.left_trigger >= 0.4) {
 //                Shoota.CheckSpeed(ShootaDesiredVelocity);
             } else if (gamepad2.left_bumper) {

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -120,6 +121,12 @@ public class ChaseOCBTeleop extends LinearOpMode {
                 Turret.addAngle(Math.abs(gamepad2.right_stick_y * 4));
             }
 
+            //manual aim adjust
+            if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
+            } else if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
+            }
 
             if (gamepad1.left_trigger >= 0.4) {
 //                Shoota.CheckSpeed(ShootaDesiredVelocity);
