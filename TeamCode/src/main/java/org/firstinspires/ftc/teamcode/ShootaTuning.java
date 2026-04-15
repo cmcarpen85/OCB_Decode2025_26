@@ -126,8 +126,10 @@ public class ShootaTuning extends LinearOpMode {
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
                 Transfer.clawOpen();
-            } else {
+            } else if (gamepad2.left_bumper){
                 Transfer.clawClose();
+            } else {
+                Transfer.clawHold();
             }
 
             //Transfer Belts
@@ -163,9 +165,9 @@ public class ShootaTuning extends LinearOpMode {
             }
 
             if (-gamepad2.left_stick_y >= 0.4 && OCBHWM.hoodServo.getPosition() < Constants.HOODMAXSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.001);
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() + 0.005);
             } else if (-gamepad2.left_stick_y <= -0.4 && OCBHWM.hoodServo.getPosition() > Constants.HOODMINSERVOVALUE) {
-                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.001);
+                OCBHWM.hoodServo.setPosition(OCBHWM.hoodServo.getPosition() - 0.005);
             }
 
 //            if (gamepad2.dpad_left && OCBHWM.turretServo.getPosition() > Constants.TURRETMINSERVOVALUE) {

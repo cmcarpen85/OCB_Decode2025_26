@@ -30,26 +30,18 @@ public class Shoota {
     public static double distance = 0;
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
-        add(32.0, 0.400);
-        add(34.5, 0.400);//1030
-        add(38.0, 0.400);
-        add(39.5, 0.400);
-        add(42.0, 0.400);
-        add(44.5, 0.4220);
-        add(48.0, 0.4440);
-        add(49.5, 0.4490); //1160
-        add(52.0, 0.4540);
-        add(54.5, 0.4600);
-        add(57.0, 0.4655);
-        add(59.5, 0.4700);
-        add(62.0, 0.4840);//1240
-        add(64.5, 0.4930);
-        add(67.0, 0.5024); // 1280
-        add(69.5, 0.5090);
-        add(72.0, 0.5125);
-        add(74.5, 0.5150);
-        add(77.0, 0.5200); //vel 1320
-//        add(90.0,Constants.FARSHOTSPEED);
+        //Close Zone
+        add(112.0, 0.5545);
+        add(103.0, 0.5502);
+        add(97.0, 0.5308);
+        add(91.0, 0.5166);
+        add(86.0, 0.4801);
+        add(41.0, 0.3878);
+        add(49.0, 0.3928);
+        add(58.0, 0.4042);
+        add(68.0, 0.4341);
+        add(78.0, 0.45);
+        add(87.0, 0.477);
 
         // Far Zone
         add(127.0, 0.598); // 0.521
@@ -61,31 +53,24 @@ public class Shoota {
         add(143.0, 0.6285);
         add(151.0, 0.6314);
     }};
+
     public static double getSpeeds(double distance) {
         return speeds.getClosest(distance);
     }
 
     static LUT<Double, Double> hoodAngle = new LUT<Double, Double>() {{
-        add(32.0, 0.050); // 0.050
-        add(34.5, 0.081); // 0.098
-        add(38.0, 0.154); // 0.141
-        add(39.5, 0.205); // 0.171
-        add(42.0, 0.242); // 0.193
-        add(44.5, 0.335); // 0.248
-        add(48.0, 0.416); // 0.296
-        add(49.5, 0.432); // 0.305
-        add(52.0, 0.454); // 0.318
-        add(54.5, 0.539); // 0.368
-        add(57.0, 0.645); // 0.431
-        add(59.5, 0.728); // 0.480
-        add(62.0, 0.797); // 0.521
-        add(64.5, 0.804); // 0.525
-        add(67.0, 0.812); // 0.530
-        add(69.5, 0.823); // 0.539
-        add(72.0, 0.840); // 0.546
-        add(74.5, 0.846); // 0.550
-        add(77.0, 0.855); // 0.555
-//        add(90.0,Constants.FARSHOTHOODSERVO);
+        //Close Zone
+        add(112.0, 0.905);
+        add(103.0, 0.905);
+        add(97.0, 0.905);
+        add(91.0, 0.905);
+        add(86.0, 0.7228);
+        add(41.0, 0.2128);
+        add(49.0, 0.4233);
+        add(58.0, 0.4983);
+        add(68.0, 0.5989);
+        add(78.0, 0.76);
+        add(87.0, 0.76);
 
         // Far Zone
         add(127.0, 0.905); // 0.480
@@ -97,6 +82,7 @@ public class Shoota {
         add(143.0, 0.905); // 0.555
         add(151.0, 0.905); // 0.555
     }};
+
     public static double gethoodAngle(double distance) {
         return hoodAngle.getClosest(distance);
     }
@@ -153,10 +139,10 @@ public class Shoota {
         Shoota.checkLimelight();
         if (result != null) {
             if (result.isValid()) {
-                if (-1*result.getTx() - TurretError > Constants.TURRETANGLEROUGHTOLERANCE) {
-                    Turret.addAngle(Math.abs(-1*result.getTx() - TurretError));
-                } else if (-1*result.getTx() - TurretError < -Constants.TURRETANGLEROUGHTOLERANCE) {
-                    Turret.subtractAngle(Math.abs(-1*result.getTx() - TurretError));
+                if (-1 * result.getTx() - TurretError > Constants.TURRETANGLEROUGHTOLERANCE) {
+                    Turret.addAngle(Math.abs(-1 * result.getTx() - TurretError));
+                } else if (-1 * result.getTx() - TurretError < -Constants.TURRETANGLEROUGHTOLERANCE) {
+                    Turret.subtractAngle(Math.abs(-1 * result.getTx() - TurretError));
                 }
             } else if (!result.isValid()) {
                 if (Objects.equals(color, "red")) {

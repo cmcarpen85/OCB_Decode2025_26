@@ -102,8 +102,10 @@ public class RedOCBTeleop extends LinearOpMode {
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
                 Transfer.clawOpen();
-            } else {
+            } else if (gamepad2.left_bumper){
                 Transfer.clawClose();
+            } else {
+                Transfer.clawHold();
             }
 
             //Transfer Belts

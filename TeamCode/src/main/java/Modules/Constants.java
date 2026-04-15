@@ -30,6 +30,7 @@ public class Constants {
     public static double FARSHOTSPEEDOPPO = 0.61;
     public static double FARSHOTVEL = 1560;
     public static double FARSHOTDISTANCE = 114;
+    public static double MIDSHOTDISTANCE = 85;
     public static double FARSHOTTRANSFERPOWER = 0.6;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
@@ -72,7 +73,8 @@ public class Constants {
     //Transfer
     public static double TRANSFERPOWER = 1; //1
     public static double GATECLAWOPEN = 0.38;
-    public static double GATECLAWCLOSE = 0.55;
+    public static double GATECLAWCLOSE = 0.6;
+    public static double GATECLAWHOLD = 0.51;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 

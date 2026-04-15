@@ -29,4 +29,8 @@ public class Transfer {
     public static void clawClose() {
         OCBHWM.gateServo.setPosition(Constants.GATECLAWCLOSE);
     }
+
+    public static void clawHold() {
+        OCBHWM.gateServo.setPosition(Constants.GATECLAWHOLD);
+    }
 }
