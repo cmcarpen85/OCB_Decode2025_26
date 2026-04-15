@@ -51,11 +51,11 @@ public class HeadingTracker {
         Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
         if (robotDistance>Constants.FARSHOTDISTANCE){
-//            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
             Transfer.TransferShootPower=Constants.FARSHOTTRANSFERPOWER;
         } else{
             Transfer.TransferShootPower=1;
-//            Hood.setToAngle(Shoota.gethoodAngle(robotDistance));
+            Hood.setToAngle(Shoota.gethoodAngle(robotDistance));
         }
 //        return headingDifference(angleToGoal);
     }
