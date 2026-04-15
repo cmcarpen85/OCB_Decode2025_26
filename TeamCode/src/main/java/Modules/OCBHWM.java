@@ -76,18 +76,26 @@ public class OCBHWM {
     public static double kV = 0.7;
     public static IMU imu;
     public HardwareMap hardwareMap;
+    public static boolean Initialized = false;
 
 
     public static void hwinit(HardwareMap hardwareMap) {
 
 //        imu = new RevIMU(hardwareMap, "imu");
+        if(!Initialized){
+            imu = hardwareMap.get(IMU.class, "imu");
+            RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+            RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+            RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+            imu.initialize(new IMU.Parameters(orientationOnRobot));
 
+            pinPoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinPoint");        // calculate multiplier
+            pinPoint.setOffsets(5.889,-1.909,  DistanceUnit.INCH);
+            pinPoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+            pinPoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+            pinPoint.resetPosAndIMU();
+        }
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
-        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
-        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
 
 
         leftFront = new Motor(hardwareMap, "leftFront", Motor.GoBILDA.RPM_435);
@@ -99,13 +107,7 @@ public class OCBHWM {
 //        leftEncoder = new MotorEx(hardwareMap, "leftFront");
 //        rightEncoder = new MotorEx(hardwareMap, "rightFront");
 //        centerEncoder = new MotorEx(hardwareMap, "leftBack");
-        pinPoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinPoint");        // calculate multiplier
 
-        pinPoint.setOffsets(5.889,-1.909,  DistanceUnit.INCH);
-        pinPoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        pinPoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED,
-                GoBildaPinpointDriver.EncoderDirection.REVERSED);
-        pinPoint.resetPosAndIMU();
 
 
 //        TICKS_TO_INCHES = WHEEL_DIAMETER * Math.PI / leftEncoder.getCPR();
@@ -157,5 +159,6 @@ public class OCBHWM {
 //        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         artifactInIntake = hardwareMap.get(DigitalChannel.class, "artifactInIntake");
         artifactInIntake.setMode(DigitalChannel.Mode.INPUT);
+        Initialized = true;
     }
 }

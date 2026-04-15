@@ -167,13 +167,13 @@ public class RedOCBTeleop extends LinearOpMode {
                 }
             }
 
-            //Worst Case Scenario
-            if (gamepad2.left_stick_button) {
-                OCBHWM.turretServo.setRtp(false);
-            }
-            if (gamepad2.right_stick_button) {
-                Shoota.cameraSetPinPoint();
-            }
+//            //Worst Case Scenario
+//            if (gamepad2.left_stick_button) {
+//                OCBHWM.turretServo.setRtp(false);
+//            }
+//            if (gamepad2.right_stick_button) {
+//                Shoota.cameraSetPinPoint();
+//            }
 
 //            LLResult result = OCBHWM.limelight.getLatestResult();
 //            if (result != null) {
