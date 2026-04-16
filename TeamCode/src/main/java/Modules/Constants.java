@@ -1,10 +1,12 @@
 package Modules;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.configurables.annotations.Sorter;
 
 @Configurable
+@Config
 public class Constants {
     @Sorter(sort = 0)
     //camara
@@ -26,7 +28,7 @@ public class Constants {
     @Sorter(sort = 2)
     //FlyWheel
     public static double MAXHDPOWER = 0.01;
-    public static double MAXHDAIM = 1.5;
+    public static double MAXHDAIM = 1;
     public static double COASTSPEED = 0.4;
     public static double FARSHOTSPEED = 0.648; // 0.635
     public static double FARSHOTSPEEDOPPO = 0.61;
@@ -74,9 +76,9 @@ public class Constants {
     @Sorter(sort = 5)
     //Transfer
     public static double TRANSFERPOWER = 1; //1
-    public static double GATECLAWOPEN = 0.38;
-    public static double GATECLAWCLOSE = 0.6;
-    public static double GATECLAWHOLD = 0.51;
+    public static double GATECLAWOPEN = 0.48;
+    public static double GATECLAWCLOSE = 0.65;
+    public static double GATECLAWHOLD = 0.6;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 
