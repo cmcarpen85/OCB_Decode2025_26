@@ -25,6 +25,8 @@ public class Constants {
 
     @Sorter(sort = 2)
     //FlyWheel
+    public static double MAXHDPOWER = 0.01;
+    public static double MAXHDAIM = 1.5;
     public static double COASTSPEED = 0.4;
     public static double FARSHOTSPEED = 0.648; // 0.635
     public static double FARSHOTSPEEDOPPO = 0.61;

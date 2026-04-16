@@ -44,7 +44,7 @@ public class BlueOCBTeleop extends LinearOpMode {
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
-//        OCBHWM.turretServo.setRtp(true);
+        OCBHWM.turretServo.setRtp(true);
 
 
         while (!isStopRequested()) {

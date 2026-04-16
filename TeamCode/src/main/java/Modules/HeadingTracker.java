@@ -24,7 +24,9 @@ public class HeadingTracker {
     public static double aimOffset = 0;
     public static double aimOffsetGAIN = 0.018;
     public static double manualAimOffset = 0;
-
+    public static double hDAimOffset = 0;
+    public static double hDPowerOffset = 0;
+    public static double headingDiff = 0;
     public static void initializePinPoint(double startX, double startY, double startOri) {
         OCBHWM.pinPoint.setPosition(new Pose2D(DistanceUnit.INCH,startX, startY, AngleUnit.DEGREES, startOri));
     }
@@ -41,6 +43,8 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
+         HeadingTracker.headingDiff = headingDifferenceBase(angleToGoal);
+        setLaunchOffsets(headingDiff);
         if (robotDistance >= Constants.MIDSHOTDISTANCE && robotDistance < Constants.FARSHOTDISTANCE) {
             HeadingTracker.aimOffset = 4;
         } else {
@@ -48,7 +52,7 @@ public class HeadingTracker {
         }
         Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + aimOffset);
         if (enableFlywheel){
-        Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
+        Shoota.setSpeed(Shoota.getSpeeds(robotDistance)+hDPowerOffset);
         }
         if (robotDistance>Constants.FARSHOTDISTANCE){
             Hood.setToAngle(Constants.FARSHOTHOODSERVO);
@@ -121,20 +125,20 @@ public class HeadingTracker {
 
     public static double headingDifferenceBase(double desiredHeading) {
         double BaseHeading = OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES);
-        double desiredHeadingPlus180 = desiredHeading-180;
+        double desiredHeadingPlus180 = desiredHeading - 180;
 
         if (Math.signum(desiredHeading) == Math.signum(BaseHeading)){
             return desiredHeading-BaseHeading;
-        } else if (Math.signum(desiredHeading) != Math.signum(BaseHeading) && Math.abs(BaseHeading)>=Math.abs(desiredHeadingPlus180) ){
+        } else if (Math.signum(desiredHeading) != Math.signum(BaseHeading) && Math.abs(BaseHeading)<=Math.abs(desiredHeadingPlus180)){
             return desiredHeading - BaseHeading;
-        } else if (Math.signum(desiredHeading) != Math.signum(BaseHeading) && Math.abs(BaseHeading)>=Math.abs(desiredHeadingPlus180) ){
-            return desiredHeading - BaseHeading;
+        }  else {
+           return  360 - Math.abs(desiredHeading - BaseHeading);
         }
-
-
-
-
-        return desiredHeading - BaseHeading;
-
     }
+
+    public static void setLaunchOffsets(double headingDifference){
+        hDPowerOffset = (Math.abs(headingDifference) * Constants.MAXHDPOWER)/180;
+        hDAimOffset = Math.abs(90 - Math.abs(headingDifference)) * Math.signum(headingDifference) * Constants.MAXHDAIM / 90;
+    }
+
 }

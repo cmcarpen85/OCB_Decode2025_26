@@ -80,9 +80,9 @@ public class ChaseOCBTeleop extends LinearOpMode {
             }
 
             //Gate & Kicker (Shoot)
-            if (gamepad2.right_trigger > 0.4) {
+            if (gamepad1.right_trigger > 0.4) {
                 Transfer.clawOpen();
-            } else if (gamepad2.left_bumper){
+            } else if (gamepad1.left_bumper){
                 Transfer.clawClose();
             } else {
                 Transfer.clawHold();
@@ -193,6 +193,9 @@ public class ChaseOCBTeleop extends LinearOpMode {
             telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Error", Turret.getTurretError());
+            telemetry.addData("heading Diff", HeadingTracker.headingDiff);
+            telemetry.addData("HD Aim offset", HeadingTracker.hDAimOffset);
+            telemetry.addData("HD Pow offset", HeadingTracker.hDPowerOffset);
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
             telemetry.update();
