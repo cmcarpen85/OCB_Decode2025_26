@@ -36,13 +36,13 @@ public class BlueFarAutoWorlds extends LinearOpMode {
         public double startOri = 0;
 
         //SM = Spike Mark
+        public double pickCloseSMX = -36.6;
+        public double pickCloseSMY = 37.1;
         public double intakeDriveX = 0;
         public double intakeDriveY = 21;
         public double shoot1X = -55.6;
         public double shoot1Y = 12;
         public double shoot1Ori = 64.3;
-        public double pickCloseSMX = -36.6;
-        public double pickCloseSMY = 37.1;
         public double secretTunnel1X = -40.6;
         public double secretTunnel1Y = 47.4;
         public double secretTunnel1Ori = 64.3;
@@ -65,8 +65,10 @@ public class BlueFarAutoWorlds extends LinearOpMode {
     Vector2d scoreVec = new Vector2d(14, 21);
 
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
-    Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0));
     Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(0));
+    Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori));
+    Pose2d secretTunnelPos = new Pose2d(PARAMS.pickSecretTunnelX, PARAMS.pickSecretTunnelY, Math.toRadians(PARAMS.pickSecretTunnelOri));
+    Pose2d shootPos2 = new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori));
     Pose2d leavelaunchZone = new Pose2d(PARAMS.leaveLaunchZoneX, PARAMS.leaveLaunchZoneY, Math.toRadians(0));
 
 
@@ -77,14 +79,17 @@ public class BlueFarAutoWorlds extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap, startPos);
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(startPos)
-//                .splineToSplineHeading(new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY,Math.toRadians(-15)), Math.toRadians(-15))
-//                .splineToSplineHeading(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)), Math.toRadians(-15), new TranslationalVelConstraint(60), new ProfileAccelConstraint(-30, 30));
                 .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(90))
                 .lineToYConstantHeading(PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY)*PARAMS.intakeDriveY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30));
 
-        TrajectoryActionBuilder DriveToShootCloseSPKM = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX , PARAMS.pickCloseSMY+ Math.signum(PARAMS.pickCloseSMX)*PARAMS.intakeDriveY, Math.toRadians(90)))
-                .setTangent(Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(-180));
+        TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(pickCloseSM)
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)),PARAMS.shoot1Ori);
+
+        TrajectoryActionBuilder DriveToSecretTunnel = drive.actionBuilder(shootPos1)
+                .splineToSplineHeading(new Pose2d(PARAMS.pickSecretTunnelX,PARAMS.pickSecretTunnelY,Math.toRadians(PARAMS.pickSecretTunnelOri)),Math.toRadians(PARAMS.pickSecretTunnelOri));
+
+        TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(secretTunnelPos)
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori)),PARAMS.shoot2ori);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -106,7 +111,7 @@ public class BlueFarAutoWorlds extends LinearOpMode {
 
                             //Prep close spike mark shoot
                             new ParallelAction(
-                                    DriveToShootCloseSPKM.build(),
+//                                    DriveToShootCloseSPKM.build(),
                                     new PrepShootAction(PrepShootActionType.PREP_SHOOT,100)
                             ),
 

@@ -10,66 +10,31 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
     public static class Params {
-        public double startX = 0;
-        public double startY = 0;
-        public double startOri = -90;
+        public double startX = -64.1575;
+        public double startY = 16.499;
+        public double startOri = 0;
 
         //SM = Spike Mark
-        public double pickMidSMX = 16.5;
-        public double pickMidSMY = -45.75;
-        public double openGateX = 40;
-        public double openGateY = -57;
-        public double intakeDriveX = 27;
-        public double intakeDriveY = 0;
-        public double shoot1X = 2;
-        public double shoot1Y = -8;
-        public double pickCloseSMX = 14.5;
-        public double pickCloseSMY = -25;
+        public double pickCloseSMX = -36.6;
+        public double pickCloseSMY = 37.1;
+        public double intakeDriveX = 0;
+        public double intakeDriveY = 21;
+        public double shoot1X = -55.6;
+        public double shoot1Y = 12;
+        public double shoot1Ori = 64.3;
+        public double secretTunnel1X = -40.6;
+        public double secretTunnel1Y = 47.4;
+        public double secretTunnel1Ori = 64.3;
+        public double pickSecretTunnelX = -32.8;
+        public double pickSecretTunnelY = 60.9;
+        public double pickSecretTunnelOri = 22.5;
+        public double shoot2X = -62;
+        public double shoot2Y = 21.4;
+        public double shoot2ori = 90;
+        public double pickCornerX = -63.2;
+        public double pickCornerY = 57.5;
         public double leaveLaunchZoneX = 0;
-        public double leaveLaunchZoneY = -24;
-        public double pickCornerX = 25;
-        public double pickCornerY = -3; //-10
-        public double pickCornerXAlt = 38;
-        public double pickCornerYAlt = -10;
-        public double pickCorner2X = 43;
-        public double pickCorner2Y = 1;
-        //        pickCornerScrape
-        public double pickCornerScrape1X = 22;
-        public double pickCornerScrape1Y = -2;
-        public double pickCornerScrape1ORI = 30;
-        public double pickCornerScrape2X = 36;
-        public double pickCornerScrape2Y = -2;
-        public double pickCornerScrape2ORI = 0;
-        public double pickCornerScrape3X = 42.5;
-        public double pickCornerScrape3Y = -2;
-        public double pickCornerScrape3ORI = 0;
-
-        //        pickCornerStraight
-        public double pickCornerStraight1X = 20;
-        public double pickCornerStraight1Y = -11;
-        public double pickCornerStraight1ORI = 0;
-        public double pickCornerStraight2X = 34;
-        public double pickCornerStraight2Y = -5;
-        public double pickCornerStraight2ORI = 0;
-        public double pickCornerStraight3X = 42;
-        public double pickCornerStraight3Y = -5;
-        public double pickCornerStraight3ORI = 0;
-
-        //        pickRoundedCorner
-        public double pickRoundedCorner1X = 17.5;
-        public double pickRoundedCorner1Y = -23;
-        public double pickRoundedCorner1ORI = -25;
-        public double pickRoundedCorner2X = 43;
-        public double pickRoundedCorner2Y = -24;
-        public double pickRoundedCorner2ORI = 59;
-        public double pickRoundedCorner3X = 43;
-        public double pickRoundedCorner3Y = -11;
-        public double pickRoundedCorner3ORI = 59;
-        public double pickRoundedCorner4X = 36;
-        public double pickRoundedCorner4Y = -8;
-        public double pickRoundedCorner4ORI = 0;
-        public double endAutoX = 30;
-        public double endAutoY = 1;
+        public double leaveLaunchZoneY = 0;
     }
 
     public static Params PARAMS = new Params();
@@ -83,13 +48,13 @@ public class MeepMeepTesting {
                 .build();
 //new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0))
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerScrape1X, PARAMS.pickCornerScrape1Y, Math.toRadians(PARAMS.pickCornerScrape1ORI)), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape2X, PARAMS.pickCornerScrape2Y), Math.toRadians(PARAMS.pickCornerScrape2ORI))
-                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerScrape3X, PARAMS.pickCornerScrape3Y, Math.toRadians(0)), Math.toRadians(0))
-//                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerScrape3X, PARAMS.pickCornerScrape3Y), Math.toRadians(0), new TranslationalVelConstraint(15), new ProfileAccelConstraint(-30, 30))
-//                .lineToYConstantHeading(PARAMS.pickRoundedCorner3Y)
-//                .splineToSplineHeading(new Pose2d(PARAMS.pickRoundedCorner4X, PARAMS.pickRoundedCorner4Y, Math.toRadians(PARAMS.pickRoundedCorner4ORI)), Math.toRadians(180))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(0)))
+                .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(90))
+                .lineToYConstantHeading(PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY)*PARAMS.intakeDriveY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(64.3)),64.3)
+//                .splineTo(new Vector2d(PARAMS.secretTunnel1X,PARAMS.secretTunnel1Y),Math.toRadians(PARAMS.secretTunnel1Ori))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickSecretTunnelX,PARAMS.pickSecretTunnelY,Math.toRadians(PARAMS.pickSecretTunnelOri)),Math.toRadians(PARAMS.pickSecretTunnelOri))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori)),PARAMS.shoot2ori)
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
