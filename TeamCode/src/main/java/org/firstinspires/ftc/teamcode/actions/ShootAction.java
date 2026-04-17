@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
 
 import Modules.Constants;
+import Modules.HeadingTracker;
 import Modules.Intake;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -50,6 +51,7 @@ public class ShootAction implements FailableAction {
         this.duration = milliseconds;
         this.shootTime = 1000;
         this.shootSpeed = speed;
+        shootSpeed = speed;
 
     }
 
@@ -58,30 +60,18 @@ public class ShootAction implements FailableAction {
         OCBHWM.turretServo.setRtp(true);
         switch (this.actionType) {
             case SHOOT:
+                HeadingTracker.FlywheelEnable = true ;
                 Transfer.clawOpen();
-                Transfer.transferIn();
+                Transfer.transferShoot();
                 Intake.intakeIn();
-                this.shootSpeed = Constants.AUTOSHOTSPEED;
-                break;
-            case SHOOTSTART:
-                Transfer.clawOpen();
-                Transfer.transferIn();
-                Intake.intakeIn();
-            this.shootSpeed = Constants.STARTSHOTSPEED;
-                break;
-
-            case SHOOTFAR:
-                Transfer.clawOpen();
-                Transfer.transferIn();
-                Intake.intakeIn();
-                this.shootSpeed = Constants.AUTOSHOTSPEED;
                 break;
 
             case STOP:
-                Transfer.clawClose();
+                HeadingTracker.FlywheelEnable = false;
+                Transfer.clawHold();
                 Transfer.transferHold();
                 Intake.intakeRest();
-                Shoota.stop();
+                Shoota.coast();
                 break;
         }
 
@@ -103,29 +93,28 @@ public class ShootAction implements FailableAction {
     public boolean run(@NonNull TelemetryPacket packet) {
         if (!initialized) {
             initialize();
-        } else if (countingEmpty && this.emptyTime > 0 && System.currentTimeMillis() >= this.emptyTime + this.shootTime) {
-            OCBHWM.turretServo.setRtp(false);
-            OCBHWM.turretServo.setPower(0);
-            return false;
-        } else if (this.actionType == STOP) {
-            OCBHWM.turretServo.setRtp(false);
-            OCBHWM.turretServo.setPower(0);
-            Shoota.stop();
-            return false;
-        }
-        if (OCBHWM.transferClear.getVoltage() <= 0.26) {
-            this.countingEmpty = false;
-        } else if (OCBHWM.transferClear.getVoltage() > 0.26 && !countingEmpty) {
-            startEmptyTime();
-        }
+        }// else if (countingEmpty && this.emptyTime > 0 && System.currentTimeMillis() >= this.emptyTime + this.shootTime) {
+//            OCBHWM.turretServo.setRtp(false);
+//            OCBHWM.turretServo.setPower(0);
+//            return false;
+//        } else if (this.actionType == STOP) {
+//            OCBHWM.turretServo.setRtp(false);
+//            OCBHWM.turretServo.setPower(0);
+//            Shoota.stop();
+//            return false;
+//        }
+//        if (OCBHWM.transferClear.getVoltage() <= 0.26) {
+//            this.countingEmpty = false;
+//        } else if (OCBHWM.transferClear.getVoltage() > 0.26 && !countingEmpty) {
+//            startEmptyTime();
+//        }
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
-            OCBHWM.turretServo.setRtp(false);
-            OCBHWM.turretServo.setPower(0);
+            Transfer.transferHold();
+            Intake.intakeRest();
+            Transfer.clawHold();
             return false;
         }
-        //TODO add shooter speed as input
-        Shoota.setSpeed(this.shootSpeed);
-        OCBHWM.turretServo.update();
+
         return true;
     }
 

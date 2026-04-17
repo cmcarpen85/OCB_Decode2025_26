@@ -41,15 +41,18 @@ public class IntakeAction implements FailableAction {
             case INTAKE_IN:
                 Intake.autoIntakeIn();
                 Transfer.transferIn();
+                Transfer.clawClose();
                 break;
             case INTAKE_HOLD:
                 Intake.intakeHold();
+                Transfer.clawClose();
                 break;
             case INTAKE_OUT:
                 Intake.intakeOut();
                 break;
             case INTAKE_REST:
                 Intake.intakeRest();
+                Transfer.clawHold();
                 break;
         }
 

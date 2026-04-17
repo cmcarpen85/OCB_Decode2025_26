@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 
 import Modules.Constants;
+import Modules.HeadingTracker;
 import Modules.Hood;
 import Modules.OCBHWM;
 import Modules.Shoota;
@@ -49,15 +50,17 @@ public class PrepShootAction implements FailableAction {
         this.duration = milliseconds;
     }
 
+    public PrepShootAction(PrepShootActionType actionType, long milliseconds) {
+        this.actionType = actionType;
+        this.duration = milliseconds;
+    }
+
     private void initialize() {
         this.startTime = System.currentTimeMillis();
-        OCBHWM.turretServo.setRtp(true);
 
         switch (this.actionType) {
             case PREP_SHOOT:
-                Shoota.setSpeed(this.ShootSpeed);
-                Turret.setToAngle(this.TurretAngle * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
-                Hood.setToAngle(this.HoodAngle);
+                HeadingTracker.FlywheelEnable = true;
                 break;
 
             case PREP_FAR_SHOOT:
@@ -89,6 +92,7 @@ public class PrepShootAction implements FailableAction {
                 break;
 
             case STOP:
+                HeadingTracker.FlywheelEnable = false;
                 Shoota.stop();
                 break;
         }
@@ -110,12 +114,10 @@ public class PrepShootAction implements FailableAction {
 //            return false;
 //        }
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
-            OCBHWM.turretServo.setRtp(false);
-            OCBHWM.turretServo.setPower(0);
+//            Shoota.setSpeed(Constants.COASTSPEED);
             return false;
         }
-        Shoota.setSpeed(this.ShootSpeed);
-        OCBHWM.turretServo.update();
+//        Shoota.setSpeed(this.ShootSpeed);
         return true;
     }
 

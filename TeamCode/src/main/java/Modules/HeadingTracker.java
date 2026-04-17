@@ -27,6 +27,7 @@ public class HeadingTracker {
     public static double hDAimOffset = 0;
     public static double hDPowerOffset = 0;
     public static double headingDiff = 0;
+    public static boolean FlywheelEnable = false;
     public static void initializePinPoint(double startX, double startY, double startOri) {
         OCBHWM.pinPoint.setPosition(new Pose2D(DistanceUnit.INCH,startX, startY, AngleUnit.DEGREES, startOri));
     }
@@ -52,7 +53,8 @@ public class HeadingTracker {
         }
         Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + aimOffset);
         if (enableFlywheel){
-        Shoota.setSpeed(Shoota.getSpeeds(robotDistance)+hDPowerOffset);
+//        Shoota.setSpeed(Shoota.getSpeeds(robotDistance)+hDPowerOffset);
+            Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
         if (robotDistance>Constants.FARSHOTDISTANCE){
             Hood.setToAngle(Constants.FARSHOTHOODSERVO);

@@ -16,10 +16,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.actions.IntakeAction;
 import org.firstinspires.ftc.teamcode.actions.PrepShootAction;
 import org.firstinspires.ftc.teamcode.actions.ShootAction;
+import org.firstinspires.ftc.teamcode.actions.UpdateAction;
 import org.firstinspires.ftc.teamcode.enums.IntakeActionType;
 import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
+import org.firstinspires.ftc.teamcode.enums.UpdateActionType;
 
+import Modules.HeadingTracker;
 import Modules.OCBHWM;
 
 @Config
@@ -27,15 +30,10 @@ import Modules.OCBHWM;
 public class BlueFarAutoWorlds extends LinearOpMode {
 
 
-    Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
-    MecanumDrive drive;
-
-    Vector2d scoreVec = new Vector2d(14, 21);
-
     public static class Params {
-        public double startX = 0;
-        public double startY = 0;
-        public double startOri = -90;
+        public double startX = -64.1575;
+        public double startY = 16.499;
+        public double startOri = 0;
 
         //SM = Spike Mark
         public double intakeDriveX = 0;
@@ -61,6 +59,10 @@ public class BlueFarAutoWorlds extends LinearOpMode {
     }
 
     public static Params PARAMS = new Params();
+    Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
+    MecanumDrive drive;
+
+    Vector2d scoreVec = new Vector2d(14, 21);
 
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
     Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0));
@@ -71,40 +73,41 @@ public class BlueFarAutoWorlds extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-
-        drive = new MecanumDrive(hardwareMap, initialPos);
+        HeadingTracker.setPinPointXY(-64.1575, 16.499);
+        drive = new MecanumDrive(hardwareMap, startPos);
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(startPos)
 //                .splineToSplineHeading(new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY,Math.toRadians(-15)), Math.toRadians(-15))
 //                .splineToSplineHeading(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)), Math.toRadians(-15), new TranslationalVelConstraint(60), new ProfileAccelConstraint(-30, 30));
-                .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
-                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30));
+                .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(90))
+                .lineToYConstantHeading(PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY)*PARAMS.intakeDriveY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30));
 
-        TrajectoryActionBuilder DriveToShootCloseSPKM = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)))
-                .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
+        TrajectoryActionBuilder DriveToShootCloseSPKM = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX , PARAMS.pickCloseSMY+ Math.signum(PARAMS.pickCloseSMX)*PARAMS.intakeDriveY, Math.toRadians(90)))
+                .setTangent(Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(-180));
 
         waitForStart();
         while (opModeIsActive()) {
             OCBHWM.turretServo.update();
             Actions.runBlocking(
+                    new ParallelAction(new UpdateAction(UpdateActionType.UPDATE,"blue"),
                     new SequentialAction(
                             //Shoot preload
-                            new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, 1750,-1.0),
-                            new ShootAction(ShootaActionType.SHOOTSTART, 2300),
+                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1500),
+                            new ShootAction(ShootaActionType.SHOOT, 1000),
                             new ShootAction(ShootaActionType.STOP),
 
                             //Pick close spike mark
                             new ParallelAction(
                                     PickCloseSpikeMark.build(),
                                     new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
+                                    new PrepShootAction(PrepShootActionType.PREP_SHOOT, 100)
                             ),
 
                             //Prep close spike mark shoot
                             new ParallelAction(
                                     DriveToShootCloseSPKM.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
+                                    new PrepShootAction(PrepShootActionType.PREP_SHOOT,100)
                             ),
 
                             //Shoot2
@@ -153,7 +156,7 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                     new IntakeAction(IntakeActionType.INTAKE_IN)
                             )
                     )
-            );
+            ));
             sleep(30000);
         }
     }

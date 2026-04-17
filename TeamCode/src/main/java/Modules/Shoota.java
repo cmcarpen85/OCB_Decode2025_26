@@ -21,6 +21,7 @@ public class Shoota {
     public static double PrevTurretAng;
     public static double DesiredTurretAng;
     public static double PosError = 0;
+    public static double CurrentShootPower = 0;
     public static double currentTurretTolerance = 1;
     public static boolean NotInPos = true;
     public static boolean Force = false;
@@ -105,14 +106,17 @@ public class Shoota {
     //Flywheel
     public static void setSpeed(double speed) {
         OCBHWM.flywheel.set(speed);
+        CurrentShootPower = speed;
     }
 
     public static void stop() {
         OCBHWM.flywheel.stopMotor();
+        CurrentShootPower = 0;
     }
 
     public static void coast() {
         OCBHWM.flywheel.set(Constants.COASTSPEED);
+        CurrentShootPower = Constants.COASTSPEED;
     }
 
     public static void checkLimelight() {

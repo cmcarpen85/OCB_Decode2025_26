@@ -39,6 +39,7 @@ public class TransferAction implements FailableAction {
         switch (this.actionType) {
             case TRANSFER_IN:
                 Transfer.transferIn();
+                Transfer.clawClose();
                 break;
 
             case TRANSFER_OUT:
@@ -47,6 +48,7 @@ public class TransferAction implements FailableAction {
 
             case TRANSFER_HOLD:
                 Transfer.transferHold();
+                Transfer.clawHold();
                 break;
 
             case CLAW_OPEN:
