@@ -50,6 +50,7 @@ public class HeadingTracker {
             HeadingTracker.aimOffset = 4;
         } else {
             HeadingTracker.aimOffset = 0;
+
         }
         Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + aimOffset);
         if (enableFlywheel){
