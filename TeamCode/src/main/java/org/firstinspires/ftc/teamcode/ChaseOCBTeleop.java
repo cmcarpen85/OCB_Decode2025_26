@@ -25,7 +25,6 @@ public class ChaseOCBTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        HeadingTracker.setPinPointXY(-64.1575, 16.499);
 //        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
@@ -42,7 +41,7 @@ public class ChaseOCBTeleop extends LinearOpMode {
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(true);
-
+        HeadingTracker.setPinPointXY(-64.1575, 16.499);
 
         while (!isStopRequested()) {
             driverOp.readButtons();
@@ -148,14 +147,15 @@ public class ChaseOCBTeleop extends LinearOpMode {
 
             //Worst Case Scenario
             if (gamepad2.left_stick_button) {
+                OCBHWM.turretServo.setPower(0);
                 OCBHWM.turretServo.setRtp(false);
             }
             if (gamepad2.right_stick_button) {
                 Shoota.cameraSetPinPoint();
             }
 
-//            double robotYaw = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) + 180;
-//            OCBHWM.limelight.updateRobotOrientation(robotYaw);
+            double robotYaw = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) + 180;
+            OCBHWM.limelight.updateRobotOrientation(robotYaw);
 
 //            LLResult result = OCBHWM.limelight.getLatestResult();
 //            if (result != null) {

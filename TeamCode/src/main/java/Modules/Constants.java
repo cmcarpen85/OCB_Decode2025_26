@@ -35,7 +35,7 @@ public class Constants {
     public static double FARSHOTVEL = 1560;
     public static double FARSHOTDISTANCE = 114;
     public static double MIDSHOTDISTANCE = 85;
-    public static double FARSHOTTRANSFERPOWER = 0.6;
+    public static double FARSHOTTRANSFERPOWER = 0.65;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
     public static double CLOSESHOTSPEED = 0.4;
@@ -76,9 +76,9 @@ public class Constants {
     @Sorter(sort = 5)
     //Transfer
     public static double TRANSFERPOWER = 1; //1
-    public static double GATECLAWOPEN = 0.48;
-    public static double GATECLAWCLOSE = 0.65;
-    public static double GATECLAWHOLD = 0.6;
+    public static double GATECLAWOPEN = 0.525;
+    public static double GATECLAWCLOSE = 0.59;
+    public static double GATECLAWHOLD = 0.57;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 

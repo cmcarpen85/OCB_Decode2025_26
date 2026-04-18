@@ -23,7 +23,13 @@ public class HeadingTracker {
     public static double redGoalY = -58.8;//-57.64
     public static double blueGoalX = 63.84;//70.55
     public static double blueGoalY = 58.8;//57.64
+
+    public static double turretShiftDistance = 2.215;// in Inches
+
+    public static double turretShiftX = 0;
+    public static double turretShiftY = 0;
     public static double distanceToGoal = 0;
+    public static double visionAimOffset = 0;
     public static double aimOffset = 0;
     public static double aimOffsetGAIN = 0.018;
     public static double manualAimOffset = 0;
@@ -44,13 +50,14 @@ public class HeadingTracker {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(blueGoalX - currentPos.getX(DistanceUnit.INCH));
         double YDistance = Math.abs(blueGoalY - currentPos.getY(DistanceUnit.INCH));
-        double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
+        setTurretShiftOffsets();
+        double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
          HeadingTracker.headingDiff = headingDifferenceBase(angleToGoal);
         setLaunchOffsets(headingDiff);
-        if (robotDistance >= Constants.MIDSHOTDISTANCE && robotDistance < Constants.FARSHOTDISTANCE) {
-            HeadingTracker.aimOffset = 4;
+        if (robotDistance < Constants.FARSHOTDISTANCE) {
+            HeadingTracker.aimOffset = 2;
         } else {
             HeadingTracker.aimOffset = 0;
         }
@@ -73,7 +80,8 @@ public class HeadingTracker {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(redGoalX - currentPos.getX(DistanceUnit.INCH));
         double YDistance = Math.abs(redGoalY - currentPos.getY(DistanceUnit.INCH));
-        double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
+        setTurretShiftOffsets();
+        double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal = -1* Math.asin(YDistance / robotDistance) * 180 / Math.PI;
         if (robotDistance >= Constants.MIDSHOTDISTANCE && robotDistance < Constants.FARSHOTDISTANCE) {
@@ -97,7 +105,8 @@ public class HeadingTracker {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
         double XDistance = Math.abs(blueGoalX  - (currentPos.getX(DistanceUnit.INCH)+ robotStartX));
         double YDistance = Math.abs(blueGoalY  - (currentPos.getY(DistanceUnit.INCH)+ robotStartY));
-        double robotDistance = Math.sqrt(Math.pow(XDistance, 2) + Math.pow(YDistance, 2));
+        setTurretShiftOffsets();
+        double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
         HeadingTracker.headingDiff = headingDifferenceBase(angleToGoal);
@@ -177,6 +186,11 @@ public class HeadingTracker {
     public static void setLaunchOffsets(double headingDifference){
         hDPowerOffset = (Math.abs(headingDifference) * Constants.MAXHDPOWER)/180;
         hDAimOffset = Math.abs(90 - Math.abs(headingDifference)) * Math.signum(headingDifference) * Constants.MAXHDAIM / 90;
+    }
+    public static void setTurretShiftOffsets(){
+        double pinPointHeading = OCBHWM.pinPoint.getHeading(AngleUnit.RADIANS);
+        turretShiftY = -1*Math.sin(pinPointHeading)*turretShiftDistance;
+        turretShiftX = -1*Math.cos(pinPointHeading)*turretShiftDistance;
     }
 
 }

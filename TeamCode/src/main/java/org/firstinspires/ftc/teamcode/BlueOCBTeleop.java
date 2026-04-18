@@ -30,7 +30,6 @@ public class BlueOCBTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        HeadingTracker.setPinPointXY(-64.1575, 16.499);
 //        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
@@ -38,6 +37,7 @@ public class BlueOCBTeleop extends LinearOpMode {
         double ShootaDesiredVelocity = 0;
         boolean Tracking = false;
         HeadingTracker.manualAimOffset=0;
+        HeadingTracker.setPinPointXY(-64.1575, 16.499);
 
         OCBHWM.limelight.start();
         OCBHWM.limelight.pipelineSwitch(0);
@@ -231,6 +231,8 @@ public class BlueOCBTeleop extends LinearOpMode {
             telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
             telemetry.addData("xPos", OCBHWM.pinPoint.getPosX(DistanceUnit.INCH));
             telemetry.addData("yPos", OCBHWM.pinPoint.getPosY(DistanceUnit.INCH));
+            telemetry.addData("turret shift x",HeadingTracker.turretShiftX);
+            telemetry.addData("turret shift y",HeadingTracker.turretShiftY);
 
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));

@@ -32,34 +32,35 @@ public class Shoota {
 
     static LUT<Double, Double> speeds = new LUT<Double, Double>() {{
         //Close Zone
-        add(41.0, 0.3878);
-        add(45.0, 0.391);
-        add(49.0, 0.3928);
-        add(54.0, 0.3974);
-        add(58.0, 0.4042);
-        add(63.0, 0.418);
-        add(68.0, 0.4341);
-        add(73.0, 0.442);
-        add(78.0, 0.45);
-        add(82.0, 0.465);
-        add(86.0, 0.4801);
-        add(87.0, 0.477);
-        add(91.0, 0.5166);
-        add(94.0, 0.524);
-        add(97.0, 0.5308);
-        add(103.0, 0.5502);
-        add(108.0, 0.552);
-        add(112.0, 0.5545);
+        add(40.0,0.3878);
+        add(41.0, 0.391);
+        add(45.0, 0.3928);
+        add(49.0, 0.3974);
+        add(54.0, 0.4042);
+        add(58.0, 0.418);
+        add(63.0, 0.4341);
+        add(68.0, 0.442);
+        add(73.0, 0.45);
+        add(78.0, 0.465);
+        add(82.0, 0.4801);
+        add(86.0, 0.477);
+        add(87.0, 0.5166);
+        add(91.0, 0.524);
+        add(94.0, 0.5308);
+        add(97.0,  0.5502);
+        add(103.0, 0.552);
+        add(108.0, 0.5545);
+        add(112.0,0.5555);
         // Far Zone
-        add(123.0, 0.59); // 0.525
-        add(127.0, 0.598); // 0.521
-        add(131.0, 0.608); // 0.530
-        add(136.0, 0.608); // 0.539
-        add(139.0, 0.6122); // 0.546
-        add(140.0, 0.6073); // 0.555
-        add(143.0, 0.6285);
-        add(147.0, 0.63);
-        add(151.0, 0.6314);
+        add(123.0, 0.582); // 0.59
+        add(127.0, 0.590); // 0.598
+        add(131.0, 0.600); // 0.608
+        add(136.0, 0.605); // 0.608
+        add(139.0, 0.610); // 0.6122
+        add(140.0, 0.612); // 0.6073
+        add(143.0, 0.6285); // 0.6285
+        add(147.0, 0.63); // 0.63
+        add(151.0, 0.6314); // 0.6314
     }};
 
     public static double getSpeeds(double distance) {
@@ -235,6 +236,6 @@ public class Shoota {
     public static void cameraSetPinPoint() {
         double X = result.getBotpose_MT2().getPosition().x;
         double Y = result.getBotpose_MT2().getPosition().y;
-        HeadingTracker.setPinPointXY(X, Y);
+        HeadingTracker.setPinPointXY(X+HeadingTracker.turretShiftX, Y+HeadingTracker.turretShiftY);
     }
 }

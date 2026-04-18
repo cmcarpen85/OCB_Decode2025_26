@@ -94,6 +94,7 @@ public class OCBHWM {
             pinPoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
             pinPoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
             pinPoint.resetPosAndIMU();
+            Initialized = true;
         }
 
 
@@ -159,6 +160,5 @@ public class OCBHWM {
 //        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
         artifactInIntake = hardwareMap.get(DigitalChannel.class, "artifactInIntake");
         artifactInIntake.setMode(DigitalChannel.Mode.INPUT);
-        Initialized = true;
     }
 }
