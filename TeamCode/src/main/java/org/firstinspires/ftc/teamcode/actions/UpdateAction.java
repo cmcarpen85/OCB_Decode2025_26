@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 import org.firstinspires.ftc.teamcode.enums.UpdateActionType;
 
@@ -46,6 +47,7 @@ public class UpdateAction implements FailableAction {
     private void initialize() {
         this.startTime = System.currentTimeMillis();
         OCBHWM.turretServo.setRtp(true);
+        HeadingTracker.setPinpointStart(-64.1575, 16.499);
         OCBHWM.pinPoint.update();
         initialized = true;
     }
@@ -72,10 +74,13 @@ public class UpdateAction implements FailableAction {
         if (Objects.equals(color, "red")) {
             HeadingTracker.headingTrackingRed(FlywheelEnable);
         } else if (Objects.equals(color, "blue")){
-            HeadingTracker.headingTrackingBlue(FlywheelEnable);
+            HeadingTracker.headingTrackingBlueAuto(true);
         }
         OCBHWM.pinPoint.update();
         OCBHWM.turretServo.update();
+
+        packet.put("PinpointX",String.valueOf( OCBHWM.pinPoint.getPosX(DistanceUnit.INCH)));
+        packet.put("PinpointY",String.valueOf( OCBHWM.pinPoint.getPosY(DistanceUnit.INCH)));
         return true;
     }
 

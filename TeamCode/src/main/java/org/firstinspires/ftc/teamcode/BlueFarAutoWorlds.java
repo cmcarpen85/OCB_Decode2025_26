@@ -72,96 +72,115 @@ public class BlueFarAutoWorlds extends LinearOpMode {
     Pose2d leavelaunchZone = new Pose2d(PARAMS.leaveLaunchZoneX, PARAMS.leaveLaunchZoneY, Math.toRadians(0));
 
 
+
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        HeadingTracker.setPinPointXY(-64.1575, 16.499);
+//        HeadingTracker.setPinPointXY(-64.1575, 16.499);
         drive = new MecanumDrive(hardwareMap, startPos);
+//        HeadingTracker.setPinPointXY(-64.1575, 16.499);
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(startPos)
                 .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(90))
-                .lineToYConstantHeading(PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY)*PARAMS.intakeDriveY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30));
+                .lineToYConstantHeading(PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30));
+
 
         TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(pickCloseSM)
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)),PARAMS.shoot1Ori);
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90)), Math.toRadians(64.3 - 180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
         TrajectoryActionBuilder DriveToSecretTunnel = drive.actionBuilder(shootPos1)
-                .splineToSplineHeading(new Pose2d(PARAMS.pickSecretTunnelX,PARAMS.pickSecretTunnelY,Math.toRadians(PARAMS.pickSecretTunnelOri)),Math.toRadians(PARAMS.pickSecretTunnelOri));
+                .setTangent(Math.toRadians(90))
+//                .splineTo(new Vector2d(PARAMS.secretTunnel1X,PARAMS.secretTunnel1Y),Math.toRadians(PARAMS.secretTunnel1Ori))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickSecretTunnelX, PARAMS.pickSecretTunnelY, Math.toRadians(PARAMS.pickSecretTunnelOri)), Math.toRadians(PARAMS.pickSecretTunnelOri));
 
         TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(secretTunnelPos)
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori)),PARAMS.shoot2ori);
+                .setTangent(Math.toRadians(PARAMS.pickSecretTunnelOri - 180))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori)), Math.toRadians(-150));
+
+        TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos2)
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(90));
+
+        TrajectoryActionBuilder DriveToShoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(90)))
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori)), Math.toRadians(-90));
+
+        TrajectoryActionBuilder EndAuto = drive.actionBuilder(shootPos2)
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(90));
 
         waitForStart();
         while (opModeIsActive()) {
             OCBHWM.turretServo.update();
             Actions.runBlocking(
-                    new ParallelAction(new UpdateAction(UpdateActionType.UPDATE,"blue"),
-                    new SequentialAction(
-                            //Shoot preload
-                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1500),
-                            new ShootAction(ShootaActionType.SHOOT, 1000),
-                            new ShootAction(ShootaActionType.STOP),
+                    new ParallelAction(new UpdateAction(UpdateActionType.UPDATE, "blue"),
+                            new SequentialAction(
+                                    //Shoot preload
+                                    new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1500),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
 
-                            //Pick close spike mark
-                            new ParallelAction(
-                                    PickCloseSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new PrepShootAction(PrepShootActionType.PREP_SHOOT, 100)
-                            ),
-
-                            //Prep close spike mark shoot
-                            new ParallelAction(
-//                                    DriveToShootCloseSPKM.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_SHOOT,100)
-                            ),
-
-                            //Shoot2
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
-                            new ShootAction(ShootaActionType.STOP),
-                            new IntakeAction(IntakeActionType.INTAKE_IN),
-
-                            //Pick Corner Corner 1
-                            new ParallelAction(
-//                                    PickCornerRounded.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
-                            ),
-                            new SleepAction(1),
-                            //Prep Corner Corner Shoot
-                            new ParallelAction(
-                                    new SequentialAction(
-                                            new SleepAction(0.25),
-                                            new IntakeAction(IntakeActionType.INTAKE_REST)
+                                    //Pick close spike mark
+                                    new ParallelAction(
+                                            PickCloseSpikeMark.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN),
+                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000)
                                     ),
-//                                    DriveToShootRounded.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
-                            ),
-                            //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
-                            new ShootAction(ShootaActionType.STOP),
 
-                            //Pick Corner Corner 2
-                            new ParallelAction(
-//                                    PickCornerScrape.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
-                            ),
-                            new SleepAction(1),
-                            new IntakeAction(IntakeActionType.INTAKE_REST),
-                            //Prep Corner Corner Shoot
-                            new ParallelAction(
-//                                    DriveToShootScrape.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
-                            ),
-                            //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
-                            new ShootAction(ShootaActionType.STOP),
+                                    //Prep close spike mark shoot
+                                    new ParallelAction(
+                                            DriveToShoot1.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000)
+                                    ),
 
-                            //Pick Corner Corner 3
-                            new ParallelAction(
+                                    //Shoot2
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
+                                    new IntakeAction(IntakeActionType.INTAKE_IN),
+
+                                    //Pick secret tunnel 1
+                                    new ParallelAction(
+                                            DriveToSecretTunnel.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    ),
+                                    new SleepAction(1),
+                                    //Prep secret tunnel Shoot
+                                    new ParallelAction(
+                                            new SequentialAction(
+                                                    new SleepAction(0.25),
+                                                    new IntakeAction(IntakeActionType.INTAKE_REST)
+                                            ),
+                                    DriveToShoot2.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 1000, -1.0)
+                                    ),
+                                    //Shoot secret tunnel Shoot
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
+
+                                    //Pick corner 1
+                                    new ParallelAction(
+                                    PickCorner1.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    ),
+                                    new IntakeAction(IntakeActionType.INTAKE_REST),
+                                    //Prep Corner Corner Shoot
+                                    new ParallelAction(
+                                    DriveToShoot3.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, -1.0)
+                                    ),
+                                    //Shoot Corner Corner Shoot
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
+
+                                    //Pick Corner Corner 3
+                                    new ParallelAction(
 //                                    PickCornerStraight.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
+                                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    )
                             )
-                    )
-            ));
+                    ));
             sleep(30000);
         }
     }

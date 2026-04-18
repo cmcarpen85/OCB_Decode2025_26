@@ -51,10 +51,13 @@ public class MeepMeepTesting {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(0)))
                 .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(90))
                 .lineToYConstantHeading(PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY)*PARAMS.intakeDriveY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(64.3)),64.3)
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90)),Math.toRadians(64.3-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
+                                .setTangent(Math.toRadians(90))
 //                .splineTo(new Vector2d(PARAMS.secretTunnel1X,PARAMS.secretTunnel1Y),Math.toRadians(PARAMS.secretTunnel1Ori))
                 .splineToSplineHeading(new Pose2d(PARAMS.pickSecretTunnelX,PARAMS.pickSecretTunnelY,Math.toRadians(PARAMS.pickSecretTunnelOri)),Math.toRadians(PARAMS.pickSecretTunnelOri))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori)),PARAMS.shoot2ori)
+                        .setTangent(Math.toRadians(PARAMS.pickSecretTunnelOri-180))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot2X, PARAMS.shoot2Y, Math.toRadians(PARAMS.shoot2ori)),Math.toRadians(-150))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)

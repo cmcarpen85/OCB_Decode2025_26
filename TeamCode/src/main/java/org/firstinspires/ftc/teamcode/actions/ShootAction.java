@@ -68,10 +68,10 @@ public class ShootAction implements FailableAction {
 
             case STOP:
                 HeadingTracker.FlywheelEnable = false;
-                Transfer.clawHold();
+                Transfer.clawClose();
                 Transfer.transferHold();
                 Intake.intakeRest();
-                Shoota.coast();
+//                Shoota.coast();
                 break;
         }
 
@@ -111,7 +111,7 @@ public class ShootAction implements FailableAction {
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
             Transfer.transferHold();
             Intake.intakeRest();
-            Transfer.clawHold();
+            Transfer.clawClose();
             return false;
         }
 
