@@ -355,17 +355,10 @@ public class RTPAxonChase {
         // Heading feed forward calculation
         double baseHeadingVel = OCBHWM.pinPoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
         double hTerm = PARAMS.kH * baseHeadingVel;
-        double turretHeadingVel = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw();
-
-        double accel = (derivative - lastVelocityError) / dt;
         lastVelocityError = derivative;
 
         double sTerm = PARAMS.kS * Math.signum(error);
 
-        double aTerm = 0;
-        if (Math.signum(derivative) ==  Math.signum(accel) && Math.signum(accel) == Math.signum(error)) {
-            aTerm = PARAMS.kA * accel;
-        }
 
 
         // PID output calculation
@@ -373,7 +366,7 @@ public class RTPAxonChase {
         double iTerm = PARAMS.kI * integralSum;
         double dTerm = PARAMS.kD * derivative;
 
-        double output = pTerm + iTerm + dTerm + (hTerm+sTerm+aTerm);
+        double output = pTerm + iTerm + dTerm + (hTerm+sTerm);
 
         // Deadzone for output
         final double DEADZONE = 0.5; // 0.5

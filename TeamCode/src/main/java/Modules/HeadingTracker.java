@@ -2,6 +2,7 @@ package Modules;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.arcrobotics.ftclib.util.LUT;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -19,10 +20,10 @@ public class HeadingTracker {
     public static double robotStartX = 0;
     public static double robotStartY = 0;
     public static double robotStartOri = 0;
-    public static double redGoalX = 63.84;//70.55
-    public static double redGoalY = -58.8;//-57.64
-    public static double blueGoalX = 63.84;//70.55
-    public static double blueGoalY = 58.8;//57.64
+    public static double redGoalX = 70.16;//63.84
+    public static double redGoalY = -57.8;//-58.8
+    public static double blueGoalX = 70.16;//63.84
+    public static double blueGoalY = 57.8;//-58.8
 
     public static double turretShiftDistance = 2.215;// in Inches
 
@@ -37,6 +38,32 @@ public class HeadingTracker {
     public static double hDPowerOffset = 0;
     public static double headingDiff = 0;
     public static boolean FlywheelEnable = false;
+
+    static LUT<Double, Double> XaimOffset = new LUT<Double, Double>() {{
+        //Close Zone
+        add(0.0,5.0);
+        add(5.0, 4.5);
+        add(10.0, 4.0);
+        add(15.0, 3.5);
+        add(20.0, 3.0);
+        add(25.0, 2.5);
+        add(30.0, 2.0);
+        add(35.0, 1.5);
+        add(40.0, 1.0);
+        add(45.0, 0.5);
+        add(50.0, 0.0);
+        add(55.0, 0.0);
+        add(60.0, 0.0);
+
+    }};
+
+    public static double getAimOffset(double Xdistance) {
+        return XaimOffset.getClosest(Xdistance);
+    }
+
+
+
+
     public static void initializePinPoint(double startX, double startY, double startOri) {
         OCBHWM.pinPoint.setPosition(new Pose2D(DistanceUnit.INCH,startX, startY, AngleUnit.DEGREES, startOri));
     }
@@ -54,16 +81,11 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
-         HeadingTracker.headingDiff = headingDifferenceBase(angleToGoal);
-        setLaunchOffsets(headingDiff);
-        if (robotDistance < Constants.FARSHOTDISTANCE) {
-            HeadingTracker.aimOffset = 2;
-        } else {
-            HeadingTracker.aimOffset = 0;
-        }
-        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + aimOffset);
+//         HeadingTracker.headingDiff = headingDifferenceBase(angleToGoal);
+//        setLaunchOffsets(headingDiff);
+        double currentXAimOffset = HeadingTracker.getAimOffset(XDistance+turretShiftX);
+        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + currentXAimOffset);
         if (enableFlywheel){
-//        Shoota.setSpeed(Shoota.getSpeeds(robotDistance)+hDPowerOffset);
             Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
         if (robotDistance>Constants.FARSHOTDISTANCE){
@@ -73,7 +95,6 @@ public class HeadingTracker {
             Transfer.TransferShootPower=1;
             Hood.setToAngle(Shoota.gethoodAngle(robotDistance));
         }
-//        return headingDifference(angleToGoal);
     }
 
     public static void headingTrackingRed(boolean enableFlywheel) {
@@ -84,12 +105,8 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal = -1* Math.asin(YDistance / robotDistance) * 180 / Math.PI;
-        if (robotDistance >= Constants.MIDSHOTDISTANCE && robotDistance < Constants.FARSHOTDISTANCE) {
-            HeadingTracker.aimOffset = -4;
-        } else {
-            HeadingTracker.aimOffset = 0;
-        }
-        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + aimOffset);
+        double currentXAimOffset = HeadingTracker.getAimOffset(XDistance+turretShiftX);
+        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + currentXAimOffset);
         if (enableFlywheel){
             Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
@@ -109,14 +126,8 @@ public class HeadingTracker {
         double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal =  Math.asin(YDistance / robotDistance) * 180 / Math.PI;
-        HeadingTracker.headingDiff = headingDifferenceBase(angleToGoal);
-        setLaunchOffsets(headingDiff);
-        if (robotDistance >= Constants.MIDSHOTDISTANCE && robotDistance < Constants.FARSHOTDISTANCE) {
-            HeadingTracker.aimOffset = 4;
-        } else {
-            HeadingTracker.aimOffset = 0;
-        }
-        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + aimOffset);
+        double currentXAimOffset = HeadingTracker.getAimOffset(XDistance+turretShiftX);
+        Shoota.gyroAdjustTurret(angleToGoal+manualAimOffset + currentXAimOffset);
         if (enableFlywheel){
 //        Shoota.setSpeed(Shoota.getSpeeds(robotDistance)+hDPowerOffset);
             Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
@@ -128,7 +139,6 @@ public class HeadingTracker {
             Transfer.TransferShootPower=1;
             Hood.setToAngle(Shoota.gethoodAngle(robotDistance));
         }
-//        return headingDifference(angleToGoal);
     }
 
     public static void setPinpointStart(double X , double Y){
