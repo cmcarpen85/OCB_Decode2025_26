@@ -198,6 +198,8 @@ public class ChaseOCBTeleop extends LinearOpMode {
             telemetry.addData("turret angle", OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
             telemetry.addData("Turret Axon Total Rotation", OCBHWM.turretServo.totalRotationAxon);
             telemetry.addData("Turret feedback", OCBHWM.turretFeedback.getVoltage() / 3.3* 360);
+            telemetry.addData("AxonCliffs", OCBHWM.turretServo.AxonCliffs);
+            telemetry.addData("Snapback", OCBHWM.turretServo.SnapBack);
 
 //            telemetry.addData("heading Diff", HeadingTracker.headingDiff);
 //            telemetry.addData("HD Aim offset", HeadingTracker.hDAimOffset);

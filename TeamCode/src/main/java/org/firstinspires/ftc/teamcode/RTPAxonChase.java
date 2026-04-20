@@ -73,7 +73,7 @@ public class RTPAxonChase {
     public boolean SnapBack = false;
     public double homeAngle;
     public double AxonHomeAngle;
-    public double maxAngle = 270;
+    public double maxAngle = 470;
     public double minAngle = -150;
     public KalmanFilter filter;
     public KalmanFilter Axonfilter;
@@ -168,6 +168,7 @@ public class RTPAxonChase {
 //        }
         if (SnapBack){
             this.power = -1*this.power;
+            this.power = 0;
         }
 
         servo.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
@@ -337,7 +338,7 @@ public class RTPAxonChase {
 //        double currentAngle = getCurrentAngle(); // old
         double angleDifference = currentAngle - previousAngle;
 
-        double currentAxonAngle = Axonfilter.filter(getCurrentAxonAngle());
+        double currentAxonAngle = getCurrentAxonAngle();
         double AxonAngleDifference = currentAxonAngle - previousAngleAxon;
 
          //Handle wraparound at 0/360 degrees
@@ -350,14 +351,14 @@ public class RTPAxonChase {
         }
         if (AxonAngleDifference > 180) {
             AxonAngleDifference -= 360;
-            AxonCliffs--;
+            AxonCliffs = AxonCliffs -1 ;
         } else if (AxonAngleDifference < -180) {
             AxonAngleDifference += 360;
-            AxonCliffs++;
+            AxonCliffs = AxonCliffs + 1;
         }
 
         // Update total rotation with wraparound correction
-        totalRotation = currentAngle - homeAngle;
+        totalRotation = currentAngle - homeAngle + cliffs *360;
         previousAngle = currentAngle;
 
         totalRotationAxon = currentAxonAngle - AxonHomeAngle + AxonCliffs * 360;
@@ -365,10 +366,12 @@ public class RTPAxonChase {
 
         if (totalRotationAxon>maxAngle || totalRotationAxon<minAngle){
             SnapBack = true;
-        }
-        if(SnapBack && Math.abs(lastError)<5){
+        } else if (totalRotationAxon<maxAngle || totalRotationAxon>minAngle){
             SnapBack = false;
         }
+//        if(SnapBack && Math.abs(lastError)<5){
+//            SnapBack = false;
+//        }
 
         if (!rtp) return;
 

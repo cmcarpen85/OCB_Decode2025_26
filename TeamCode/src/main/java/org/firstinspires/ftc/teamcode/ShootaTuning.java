@@ -39,6 +39,8 @@ public class ShootaTuning extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
+        HeadingTracker.setPinpointStart(-64.1575, 16.499);
+
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(true);
