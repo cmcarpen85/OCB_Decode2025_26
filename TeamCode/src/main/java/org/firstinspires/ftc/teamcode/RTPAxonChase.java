@@ -52,7 +52,7 @@ public class RTPAxonChase {
 
     // Accumulated rotation in degrees
     private double totalRotation;
-    private double totalRotationAxon;
+    public double totalRotationAxon;
 
     // Target rotation in degrees
     private double targetRotation;
@@ -74,7 +74,7 @@ public class RTPAxonChase {
     public double homeAngle;
     public double AxonHomeAngle;
     public double maxAngle = 270;
-    public double minAngle = -270;
+    public double minAngle = -150;
     public KalmanFilter filter;
     public KalmanFilter Axonfilter;
 
@@ -360,7 +360,7 @@ public class RTPAxonChase {
         totalRotation = currentAngle - homeAngle;
         previousAngle = currentAngle;
 
-        totalRotationAxon = currentAxonAngle - homeAngle + cliffs * 360;
+        totalRotationAxon = currentAxonAngle - AxonHomeAngle + AxonCliffs * 360;
         previousAngleAxon = currentAxonAngle;
 
         if (totalRotationAxon>maxAngle || totalRotationAxon<minAngle){
