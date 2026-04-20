@@ -40,8 +40,8 @@ public class ChaseOCBTeleop extends LinearOpMode {
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
-        OCBHWM.turretServo.setRtp(true);
-        HeadingTracker.setPinPointXY(-64.1575, 16.499);
+        OCBHWM.turretServo.setRtp(false);
+        HeadingTracker.setPinpointStart(-64.1575, 16.499);
 
         while (!isStopRequested()) {
             driverOp.readButtons();
@@ -194,9 +194,12 @@ public class ChaseOCBTeleop extends LinearOpMode {
             telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Error", Turret.getTurretError());
-            telemetry.addData("heading Diff", HeadingTracker.headingDiff);
-            telemetry.addData("HD Aim offset", HeadingTracker.hDAimOffset);
-            telemetry.addData("HD Pow offset", HeadingTracker.hDPowerOffset);
+            telemetry.addData("Turret Total Rotation", OCBHWM.turretServo.getTotalRotation());
+            telemetry.addData("turret angle", OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+
+//            telemetry.addData("heading Diff", HeadingTracker.headingDiff);
+//            telemetry.addData("HD Aim offset", HeadingTracker.hDAimOffset);
+//            telemetry.addData("HD Pow offset", HeadingTracker.hDPowerOffset);
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
             telemetry.update();

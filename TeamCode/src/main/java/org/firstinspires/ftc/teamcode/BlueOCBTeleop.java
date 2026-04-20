@@ -37,7 +37,7 @@ public class BlueOCBTeleop extends LinearOpMode {
         double ShootaDesiredVelocity = 0;
         boolean Tracking = false;
         HeadingTracker.manualAimOffset=0;
-        HeadingTracker.setPinPointXY(-64.1575, 16.499);
+        HeadingTracker.setPinpointStart(-64.1575, 16.499);
 
         OCBHWM.limelight.start();
         OCBHWM.limelight.pipelineSwitch(0);

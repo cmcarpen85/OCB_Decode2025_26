@@ -48,8 +48,12 @@ public class RTPAxonChase {
     private Direction direction;
     // Last measured angle
     private double previousAngle;
+    private double previousAngleAxon;
+
     // Accumulated rotation in degrees
     private double totalRotation;
+    private double totalRotationAxon;
+
     // Target rotation in degrees
     private double targetRotation;
     private double integralSum;
@@ -62,12 +66,17 @@ public class RTPAxonChase {
 
     // Initialization and debug fields
     public double STARTPOS;
+    public double AxonStartPos;
     public int ntry = 0;
     public int cliffs = 0;
+    public int AxonCliffs = 0;
+    public boolean SnapBack = false;
     public double homeAngle;
-    public double maxAngle = 148;
-    public double minAngle = -148;
+    public double AxonHomeAngle;
+    public double maxAngle = 270;
+    public double minAngle = -270;
     public KalmanFilter filter;
+    public KalmanFilter Axonfilter;
 
     // Direction enum for servo
     public enum Direction {
@@ -105,8 +114,10 @@ public class RTPAxonChase {
         // Try to get a valid starting position
         do {
             STARTPOS = getCurrentAngle();
-            if (Math.abs(STARTPOS) > 1) {
+            AxonStartPos = getCurrentAxonAngle();
+            if (Math.abs(STARTPOS) > 1 && Math.abs(AxonStartPos)>1) {
                 previousAngle = getCurrentAngle();
+                previousAngleAxon = getCurrentAxonAngle();
             } else {
                 try {
                     Thread.sleep(50);
@@ -115,6 +126,9 @@ public class RTPAxonChase {
             }
             ntry++;
         } while (Math.abs(previousAngle) < 0.2 && (ntry < 50));
+
+        totalRotationAxon = (AxonStartPos - Constants.TURRETHOME);
+        AxonHomeAngle = Constants.TURRETHOME;
 
         totalRotation = 0;
         homeAngle = previousAngle;
@@ -130,7 +144,9 @@ public class RTPAxonChase {
 
         maxPower = 0.75;
         cliffs = 0;
+        AxonCliffs = 0;
         filter = new KalmanFilter(Constants.TURRETSYSTEMNOISE, Constants.TURRETFEEDBACKNOISE);
+        Axonfilter = new KalmanFilter(Constants.TURRETSYSTEMNOISE, Constants.TURRETFEEDBACKNOISE);
     }
 
     // endregion
@@ -143,13 +159,17 @@ public class RTPAxonChase {
     // Set power to servo, respecting direction and maxPower
     public void setPower(double power) {
         this.power = Math.max(-maxPower, Math.min(maxPower, power));
-        if (power > 0) {
-            this.power = Math.max(minPower, power);
-        } else if (power < 0) {
-            this.power = Math.min(-minPower, power);
-        } else {
-            this.power = power;
+//        if (power > 0) {
+//            this.power = Math.max(minPower, power);
+//        } else if (power < 0) {
+//            this.power = Math.min(-minPower, power);
+//        } else {
+//            this.power = power;
+//        }
+        if (SnapBack){
+            this.power = -1*this.power;
         }
+
         servo.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
         servo2.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
     }
@@ -252,30 +272,34 @@ public class RTPAxonChase {
 
     // Increment target rotation by a value
     public void changeTargetRotation(double change) {
-//        if (targetRotation + change > maxAngle) {
-//            targetRotation = maxAngle;
-//        } else if (targetRotation + change < minAngle) {
-//            targetRotation = minAngle;
-//        }else {
+        if (targetRotation + change > maxAngle) {
+            targetRotation = maxAngle;
+        } else if (targetRotation + change < minAngle) {
+            targetRotation = minAngle;
+        }else {
         targetRotation += change;
-//        }
+        }
     }
 
     // Set target rotation and reset PID
     public void setTargetRotation(double target) {
-//        if (target > maxAngle) {
-//            targetRotation = maxAngle;
-//        } else if (target < minAngle) {
-//            targetRotation = minAngle;
-//        } else {
+        if (target > maxAngle) {
+            targetRotation = maxAngle;
+        } else if (target < minAngle) {
+            targetRotation = minAngle;
+        } else {
         targetRotation = target;
-//        }
+        }
         resetPID();
     }
 
     // Get current angle from encoder (in degrees)
     public double getCurrentAngle() {
     return OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+    public double getCurrentAxonAngle() {
+        if (servoEncoder == null) return 0;
+        return (servoEncoder.getVoltage() / 3.3) * (direction.equals(RTPAxon.Direction.REVERSE) ? -360 : 360);
     }
 
     // Check if servo is at target (default tolerance)
@@ -313,6 +337,9 @@ public class RTPAxonChase {
 //        double currentAngle = getCurrentAngle(); // old
         double angleDifference = currentAngle - previousAngle;
 
+        double currentAxonAngle = Axonfilter.filter(getCurrentAxonAngle());
+        double AxonAngleDifference = currentAxonAngle - previousAngleAxon;
+
          //Handle wraparound at 0/360 degrees
         if (angleDifference > 180) {
             angleDifference -= 360;
@@ -321,10 +348,27 @@ public class RTPAxonChase {
             angleDifference += 360;
             cliffs++;
         }
+        if (AxonAngleDifference > 180) {
+            AxonAngleDifference -= 360;
+            AxonCliffs--;
+        } else if (AxonAngleDifference < -180) {
+            AxonAngleDifference += 360;
+            AxonCliffs++;
+        }
 
         // Update total rotation with wraparound correction
-        totalRotation = currentAngle - homeAngle + cliffs * 360;
+        totalRotation = currentAngle - homeAngle;
         previousAngle = currentAngle;
+
+        totalRotationAxon = currentAxonAngle - homeAngle + cliffs * 360;
+        previousAngleAxon = currentAxonAngle;
+
+        if (totalRotationAxon>maxAngle || totalRotationAxon<minAngle){
+            SnapBack = true;
+        }
+        if(SnapBack && Math.abs(lastError)<5){
+            SnapBack = false;
+        }
 
         if (!rtp) return;
 

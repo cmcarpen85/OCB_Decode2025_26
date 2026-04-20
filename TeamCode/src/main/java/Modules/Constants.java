@@ -35,7 +35,7 @@ public class Constants {
     public static double FARSHOTVEL = 1560;
     public static double FARSHOTDISTANCE = 114;
     public static double MIDSHOTDISTANCE = 85;
-    public static double FARSHOTTRANSFERPOWER = 0.65;
+    public static double FARSHOTTRANSFERPOWER = 0.63;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
     public static double CLOSESHOTSPEED = 0.4;

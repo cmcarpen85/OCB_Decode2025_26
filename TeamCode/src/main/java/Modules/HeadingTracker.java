@@ -41,19 +41,21 @@ public class HeadingTracker {
 
     static LUT<Double, Double> XaimOffset = new LUT<Double, Double>() {{
         //Close Zone
-        add(0.0,5.0);
-        add(5.0, 4.5);
-        add(10.0, 4.0);
-        add(15.0, 3.5);
-        add(20.0, 3.0);
-        add(25.0, 2.5);
-        add(30.0, 2.0);
-        add(35.0, 1.5);
-        add(40.0, 1.0);
-        add(45.0, 0.5);
-        add(50.0, 0.0);
-        add(55.0, 0.0);
-        add(60.0, 0.0);
+        add(0.0,6.0);
+        add(5.0, 5.5);
+        add(10.0, 5.0);
+        add(15.0, 5.0);
+        add(20.0, 5.0);
+        add(25.0, 4.5);
+        add(30.0, 4.0);
+        add(35.0, 3.5);
+        add(40.0, 3.0);
+        add(45.0, 2.5);
+        add(50.0, 2.0);
+        add(55.0, 1.5);
+        add(60.0, 1.0);
+        add(65.0, 0.5);
+        add(70.0, 0.0);
 
     }};
 
@@ -75,8 +77,8 @@ public class HeadingTracker {
 
     public static void headingTrackingBlue(boolean enableFlywheel) {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
-        double XDistance = Math.abs(blueGoalX - currentPos.getX(DistanceUnit.INCH));
-        double YDistance = Math.abs(blueGoalY - currentPos.getY(DistanceUnit.INCH));
+        double XDistance = Math.abs(blueGoalX  - (currentPos.getX(DistanceUnit.INCH)+ robotStartX));
+        double YDistance = Math.abs(blueGoalY  - (currentPos.getY(DistanceUnit.INCH)+ robotStartY));
         setTurretShiftOffsets();
         double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;
