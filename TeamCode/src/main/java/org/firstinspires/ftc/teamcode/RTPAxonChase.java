@@ -72,8 +72,8 @@ public class RTPAxonChase {
     public double SnapBackSine = 0.0;
     public double homeAngle;
     public double AxonHomeAngle;
-    public double maxAngle = 470;
-    public double minAngle = -150;
+    public double maxAngle = 472;
+    public double minAngle = -145;
     public KalmanFilter filter;
     public KalmanFilter Axonfilter;
 

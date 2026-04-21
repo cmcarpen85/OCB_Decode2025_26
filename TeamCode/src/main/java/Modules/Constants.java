@@ -56,7 +56,7 @@ public class Constants {
 
     @Sorter(sort = 4)
     //Turret
-    public static double TURRETHOME = 341; // 172.8
+    public static double TURRETHOME = 188; // 172.8
     public static double TURRETMINANGLE = -80;
     public static double TURRETMAXANGLE = 80;
     public static double TURRETMINSERVOVALUE = 0;
