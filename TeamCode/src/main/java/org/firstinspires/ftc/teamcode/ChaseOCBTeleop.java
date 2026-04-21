@@ -185,21 +185,22 @@ public class ChaseOCBTeleop extends LinearOpMode {
 
 //            telemetry.addData("shoota mode", ShootaMode);
             telemetry.addData("Distance To goal",HeadingTracker.distanceToGoal);
-            telemetry.addData("Shoota set speed", ShootaSpeed);
+//            telemetry.addData("Shoota set speed", ShootaSpeed);
 //            List<Double> velocities = OCBHWM.flywheel.getVelocities();
 //            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
 //            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
-            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
+//            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
             telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
             telemetry.addData("Turret Error", Turret.getTurretError());
-            telemetry.addData("Turret Total Rotation", OCBHWM.turretServo.getTotalRotation());
             telemetry.addData("turret angle", OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+            telemetry.addData("Turret Gyro Rotation", OCBHWM.turretServo.getTotalRotation());
             telemetry.addData("Turret Axon Total Rotation", OCBHWM.turretServo.totalRotationAxon);
             telemetry.addData("Turret feedback", OCBHWM.turretFeedback.getVoltage() / 3.3* 360);
             telemetry.addData("AxonCliffs", OCBHWM.turretServo.AxonCliffs);
             telemetry.addData("Snapback", OCBHWM.turretServo.SnapBack);
+            telemetry.addData("Turret Power",OCBHWM.turretServo.getPower());
 
 //            telemetry.addData("heading Diff", HeadingTracker.headingDiff);
 //            telemetry.addData("HD Aim offset", HeadingTracker.hDAimOffset);

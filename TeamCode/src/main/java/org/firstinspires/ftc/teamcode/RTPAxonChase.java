@@ -21,14 +21,12 @@ import Modules.OCBHWM;
 public class RTPAxonChase {
 
     public static class Params {
-        public double kP = 0.0058;
-        public double kI =0.001;
-        public double kD = 0.0005;
-        public double kH = 0.0002;//0.001
-        public double kS = 0.05;
-        public double kA = 0.0000;//0.00001
+        public double kP = 0.0058; //0.0058
+        public double kI =0.001; //0.001
+        public double kD = 0.0005; // 0.0005
+        public double kH = 0.0002;//0.0002
+        public double kS = 0.05; // 0.05
 
-        public double accelErrorTolerance = 10;
     }
     public static Params PARAMS = new Params();
     // Encoder for servo position feedback
@@ -71,6 +69,7 @@ public class RTPAxonChase {
     public int cliffs = 0;
     public int AxonCliffs = 0;
     public boolean SnapBack = false;
+    public double SnapBackSine = 0.0;
     public double homeAngle;
     public double AxonHomeAngle;
     public double maxAngle = 470;
@@ -167,8 +166,8 @@ public class RTPAxonChase {
 //            this.power = power;
 //        }
         if (SnapBack){
-            this.power = -1*this.power;
-            this.power = 0;
+            this.power = SnapBackSine*Math.abs(this.power);
+//            this.power = 0;
         }
 
         servo.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
@@ -305,7 +304,7 @@ public class RTPAxonChase {
 
     // Check if servo is at target (default tolerance)
     public boolean isAtTarget() {
-        return isAtTarget(5);
+        return isAtTarget(2);
     }
 
     // Check if servo is at target (custom tolerance)
@@ -334,8 +333,8 @@ public class RTPAxonChase {
 
     // Main update loop: updates rotation, computes PID, applies power
     public synchronized void update() {
-        double currentAngle = filter.filter(getCurrentAngle());
-//        double currentAngle = getCurrentAngle(); // old
+//        double currentAngle = filter.filter(getCurrentAngle()); //slip ring
+        double currentAngle = getCurrentAngle();
         double angleDifference = currentAngle - previousAngle;
 
         double currentAxonAngle = getCurrentAxonAngle();
@@ -358,20 +357,24 @@ public class RTPAxonChase {
         }
 
         // Update total rotation with wraparound correction
-        totalRotation = currentAngle - homeAngle + cliffs *360;
+        totalRotation = currentAngle - homeAngle;
         previousAngle = currentAngle;
 
         totalRotationAxon = currentAxonAngle - AxonHomeAngle + AxonCliffs * 360;
         previousAngleAxon = currentAxonAngle;
 
-        if (totalRotationAxon>maxAngle || totalRotationAxon<minAngle){
+        if (totalRotationAxon>maxAngle  && !SnapBack || totalRotationAxon<minAngle &&!SnapBack){
             SnapBack = true;
-        } else if (totalRotationAxon<maxAngle || totalRotationAxon>minAngle){
-            SnapBack = false;
+            if(totalRotationAxon>maxAngle){
+                SnapBackSine = 1.0;
+            } else if (totalRotationAxon<minAngle){
+                SnapBackSine = -1.0;
+            }
         }
-//        if(SnapBack && Math.abs(lastError)<5){
+//        else if (totalRotationAxon<maxAngle || totalRotationAxon>minAngle){
 //            SnapBack = false;
 //        }
+
 
         if (!rtp) return;
 
@@ -414,6 +417,12 @@ public class RTPAxonChase {
         double dTerm = PARAMS.kD * derivative;
 
         double output = pTerm + iTerm + dTerm + (hTerm+sTerm);
+
+        if(SnapBack){
+            if (Math.abs(error)<30){
+            SnapBack = false;
+            }
+        }
 
         // Deadzone for output
         final double DEADZONE = 0.5; // 0.5
