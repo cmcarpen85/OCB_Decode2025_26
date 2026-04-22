@@ -15,6 +15,8 @@ public class Constants {
     public static double GOALHEIGHT = 29.5; //inches
     public static double CAMERAHEIGHT = 15.75; //inches
     public static double CAMERAANGLE = 18.989; //degrees
+    public static double LimelightBlue = 0;
+    public static double LimelightRed = 0;
 
     public static double TURRETFEEDBACKNOISE = 2.5; //degrees
     public static double TURRETSYSTEMNOISE = 0.1; // degrees

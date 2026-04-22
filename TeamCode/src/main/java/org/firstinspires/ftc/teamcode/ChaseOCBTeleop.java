@@ -201,6 +201,7 @@ public class ChaseOCBTeleop extends LinearOpMode {
             telemetry.addData("AxonCliffs", OCBHWM.turretServo.AxonCliffs);
             telemetry.addData("Snapback", OCBHWM.turretServo.SnapBack);
             telemetry.addData("Turret Power",OCBHWM.turretServo.getPower());
+            telemetry.addData("RTP",OCBHWM.turretServo.getRtp());
 
 //            telemetry.addData("heading Diff", HeadingTracker.headingDiff);
 //            telemetry.addData("HD Aim offset", HeadingTracker.hDAimOffset);

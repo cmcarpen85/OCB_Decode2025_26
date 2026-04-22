@@ -34,6 +34,7 @@ public class HeadingTracker {
     public static double aimOffset = 0;
     public static double aimOffsetGAIN = 0.018;
     public static double manualAimOffset = 0;
+    public static double limelightOffset = 0;
     public static double hDAimOffset = 0;
     public static double hDPowerOffset = 0;
     public static double headingDiff = 0;
@@ -93,7 +94,7 @@ public class HeadingTracker {
             Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
         if (robotDistance>Constants.FARSHOTDISTANCE){
-//            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
+            Hood.setToAngle(Constants.FARSHOTHOODSERVO);
             Transfer.TransferShootPower=Constants.FARSHOTTRANSFERPOWER;
         } else{
             Transfer.TransferShootPower=1;
@@ -103,8 +104,8 @@ public class HeadingTracker {
 
     public static void headingTrackingRed(boolean enableFlywheel) {
         Pose2D currentPos = OCBHWM.pinPoint.getPosition();
-        double XDistance = Math.abs(redGoalX - currentPos.getX(DistanceUnit.INCH));
-        double YDistance = Math.abs(redGoalY - currentPos.getY(DistanceUnit.INCH));
+        double XDistance = Math.abs(redGoalX - (currentPos.getX(DistanceUnit.INCH)+ robotStartX));
+        double YDistance = Math.abs(redGoalY - (currentPos.getY(DistanceUnit.INCH)+ robotStartY));
         setTurretShiftOffsets();
         double robotDistance = Math.sqrt(Math.pow(XDistance+turretShiftX, 2) + Math.pow(YDistance+turretShiftY, 2));
         HeadingTracker.distanceToGoal = robotDistance;

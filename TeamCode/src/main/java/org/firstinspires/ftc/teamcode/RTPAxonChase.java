@@ -25,7 +25,7 @@ public class RTPAxonChase {
         public double kI =0.001; //0.001
         public double kD = 0.0005; // 0.0005
         public double kH = 0.0002;//0.0002
-        public double kS = 0.05; // 0.05
+        public double kS = 0.068; // 0.05
 
     }
     public static Params PARAMS = new Params();
@@ -295,6 +295,10 @@ public class RTPAxonChase {
 
     // Get current angle from encoder (in degrees)
     public double getCurrentAngle() {
+            if (OCBHWM.imu.getRobotOrientationAsQuaternion() == null){
+                rtp = false;
+                return 0;
+            }
     return OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
     public double getCurrentAxonAngle() {
