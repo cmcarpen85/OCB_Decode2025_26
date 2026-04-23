@@ -176,7 +176,7 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             if (gamepad2.left_trigger >= 0.4) {
-//                Shoota.CheckSpeed(ShootaDesiredVelocity);
+                Shoota.CheckSpeed(Shoota.CurrentShootPower);
             } else if (gamepad2.left_bumper) {
                 if (Intake.intakeFull()) {
                     Intake.setIntakeLight(true);
@@ -214,7 +214,7 @@ public class BlueOCBTeleop extends LinearOpMode {
 
 
 ////            telemetry.addData("turret currently tracking", Shoota.NotInPos);
-            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+//            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
 //            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
@@ -230,19 +230,19 @@ public class BlueOCBTeleop extends LinearOpMode {
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
-            telemetry.addData("Turret Error", Turret.getTurretError());
-            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
-            telemetry.addData("xPos", OCBHWM.pinPoint.getPosX(DistanceUnit.INCH));
-            telemetry.addData("yPos", OCBHWM.pinPoint.getPosY(DistanceUnit.INCH));
-            telemetry.addData("turret shift x",HeadingTracker.turretShiftX);
-            telemetry.addData("turret shift y",HeadingTracker.turretShiftY);
-            telemetry.addData("limelight offset", HeadingTracker.limelightOffset);
-telemetry.addData("start offset X", HeadingTracker.robotStartX);
-            telemetry.addData("start offset Y", HeadingTracker.robotStartY);
+//            telemetry.addData("Turret Error", Turret.getTurretError());
+//            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
+//            telemetry.addData("xPos", OCBHWM.pinPoint.getPosX(DistanceUnit.INCH));
+//            telemetry.addData("yPos", OCBHWM.pinPoint.getPosY(DistanceUnit.INCH));
+//            telemetry.addData("turret shift x",HeadingTracker.turretShiftX);
+//            telemetry.addData("turret shift y",HeadingTracker.turretShiftY);
+//            telemetry.addData("limelight offset", HeadingTracker.limelightOffset);
+//telemetry.addData("start offset X", HeadingTracker.robotStartX);
+//            telemetry.addData("start offset Y", HeadingTracker.robotStartY);
 
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
-            telemetry.update();
+//            telemetry.update();
         }
     }
 }

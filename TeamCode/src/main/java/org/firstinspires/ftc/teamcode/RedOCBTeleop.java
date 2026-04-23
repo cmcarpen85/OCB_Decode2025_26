@@ -166,7 +166,7 @@ public class RedOCBTeleop extends LinearOpMode {
             }
 
             if (gamepad2.left_trigger >= 0.4) {
-//                Shoota.CheckSpeed(ShootaDesiredVelocity);
+                Shoota.CheckSpeed(Shoota.CurrentShootPower);
             } else if (gamepad2.left_bumper) {
                 if (Intake.intakeFull()) {
                     Intake.setIntakeLight(true);

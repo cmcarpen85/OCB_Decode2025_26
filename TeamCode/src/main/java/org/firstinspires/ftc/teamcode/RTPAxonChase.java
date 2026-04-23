@@ -25,7 +25,7 @@ public class RTPAxonChase {
         public double kI =0.001; //0.001
         public double kD = 0.0005; // 0.0005
         public double kH = 0.0002;//0.0002
-        public double kS = 0.068; // 0.05
+        public double kS = 0.05; // 0.05 slip ring  0.068 cable chain
 
     }
     public static Params PARAMS = new Params();
@@ -264,24 +264,24 @@ public class RTPAxonChase {
 
     // Increment target rotation by a value
     public void changeTargetRotation(double change) {
-        if (targetRotation + change > maxAngle) {
-            targetRotation = maxAngle;
-        } else if (targetRotation + change < minAngle) {
-            targetRotation = minAngle;
-        }else {
+//        if (targetRotation + change > maxAngle) {
+//            targetRotation = maxAngle;
+//        } else if (targetRotation + change < minAngle) {
+//            targetRotation = minAngle;
+//        }else {
         targetRotation += change;
-        }
+//        }
     }
 
     // Set target rotation and reset PID
     public void setTargetRotation(double target) {
-        if (target > maxAngle) {
-            targetRotation = maxAngle;
-        } else if (target < minAngle) {
-            targetRotation = minAngle;
-        } else {
+//        if (target > maxAngle) {
+//            targetRotation = maxAngle;
+//        } else if (target < minAngle) {
+//            targetRotation = minAngle;
+//        } else {
         targetRotation = target;
-        }
+//        }
         resetPID();
     }
 

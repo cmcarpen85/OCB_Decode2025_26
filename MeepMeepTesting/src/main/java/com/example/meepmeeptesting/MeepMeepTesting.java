@@ -89,11 +89,11 @@ public class MeepMeepTesting {
                 .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(-180))
                 .lineToXConstantHeading(PARAMS.pickCornerRounded3X)
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
                 .setTangent(Math.toRadians(90))
                 .strafeToConstantHeading(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y))
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)

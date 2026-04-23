@@ -16,9 +16,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.actions.IntakeAction;
 import org.firstinspires.ftc.teamcode.actions.PrepShootAction;
 import org.firstinspires.ftc.teamcode.actions.ShootAction;
+import org.firstinspires.ftc.teamcode.actions.UpdateAction;
 import org.firstinspires.ftc.teamcode.enums.IntakeActionType;
 import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
+import org.firstinspires.ftc.teamcode.enums.UpdateActionType;
 
 import Modules.OCBHWM;
 
@@ -33,63 +35,49 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
     Vector2d scoreVec = new Vector2d(14, 21);
 
     public static class Params {
+        public double Color = 1.0; // blue = 1 red = -1
         public double startX = -64.1575;
         public double startY = 16.499;
         public double startOri = 0;
 
         //SM = Spike Mark
+        //SM = Spike Mark
         public double pickMidSMX = -12.1;
-        public double pickMidSMY = 31.8;
+        public double pickMidSMY = 31.8* Color;
+        public double pickMidSMOri = 80* Color;
         public double intakeDriveMidX = 0;
         public double intakeDriveMidY = 16.1;
         public double openGateX = -7;
-        public double openGateY = 55.3;
-        public double openGateOri = 82.4;
-        public double driveToShootX = -23.6;
-        public double driveToShootY = 24.7;
-        public double driveToShootOri = 40;
+        public double openGateY = 55.3* Color;
+        public double openGateOri = 82.4* Color;
         public double shoot1X = -55.5;
-        public double shoot1Y = 15.5;
-        public double shoot1Ori = 59.6;
+        public double shoot1Y = 15.5* Color;
+        public double shoot1Ori = 90* Color;
         public double pickCloseSMX = -36.1;
-        public double pickCloseSMY = 32.6;
+        public double pickCloseSMY = 32.6* Color;
         public double intakeDriveCloseX = 0;
-        public double intakeDriveCloseY = 27.2;
-        public double shoot2X = -55.5;
-        public double shoot2Y = 15.5;
-        public double shoot2Ori = 25.5;
-        public double driveToCornerPickX = -34.6;
-        public double driveToCornerPickY = 35.2;
-        public double driveToCornerPickOri = 115.9;
+        public double intakeDriveCloseY = 27.2* Color;
         public double pickCorner1X = -54;
-        public double pickCorner1Y = 62;
-        public double pickCorner1YOri = 171.5;
-        public double shoot3X = -55.5;
-        public double shoot3Y = 15.5;
-        public double pickCorner2X = -60.8;
-        public double pickCorner2Y = 55.4;
-        public double pickCorner2YOri = 109;
-        public double shoot4X = -55.5;
-        public double shoot4Y = 15.5;
-        public double pickCornerRounded1X = -92.6;
-        public double pickCornerRounded1Y = -11.5;
-        public double pickCornerRounded1Ori = 90;
+        public double pickCorner1Y = 62* Color;
+        public double pickCornerRounded1X = -25;
+        public double pickCornerRounded1Y = 48.5* Color;
+        public double pickCornerRounded1Ori = 90* Color;
         public double pickCornerRounded2X = -33.5;
-        public double pickCornerRounded2Y = 58.9;
-        public double pickCornerRounded2Ori = 144.7;
+        public double pickCornerRounded2Y = 58.9* Color;
+        public double pickCornerRounded2Ori = 144.7* Color;
         public double pickCornerRounded3X = -50.6;
-        public double pickCornerRounded3Y = 58.9;
-        public double pickCornerRounded3Ori = 144.7;
+        public double pickCornerRounded3Y = 58.9* Color;
+        public double pickCornerRounded3Ori = 144.7* Color;
         public double endAutoX = -61;
-        public double endAutoY = 31.5;
+        public double endAutoY = 31.5* Color;
     }
 
     public static Params PARAMS = new Params();
 
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
-    Pose2d pickMidSM = new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(0));
-    Pose2d shootPos = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90));
-    Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(0));
+    Pose2d pickMidSM = new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(90* PARAMS.Color));
+    Pose2d shootPos = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90* PARAMS.Color));
+    Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(90* PARAMS.Color));
     //Pose2d leavelaunchZone = new Pose2d(PARAMS.leaveLaunchZoneX, PARAMS.leaveLaunchZoneY, Math.toRadians(0));
 
 
@@ -101,132 +89,150 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap, initialPos);
 
         TrajectoryActionBuilder PickMidSpikeMark = drive.actionBuilder(startPos)
-                .splineTo(new Vector2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY), Math.toRadians(-15))
-                .splineToLinearHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(0)), Math.toRadians(-15), new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
-//                .lineToXConstantHeading(PARAMS.pickMidSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
+                .splineToSplineHeading(new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.pickMidSMOri)), Math.toRadians(PARAMS.pickMidSMOri))
+                .lineToYConstantHeading(PARAMS.pickMidSMY + Math.signum(PARAMS.pickMidSMY) * PARAMS.intakeDriveMidY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
+                .splineToLinearHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)), Math.toRadians(PARAMS.openGateOri));
 
-        TrajectoryActionBuilder DriveToShoot1 = drive.actionBuilder(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(0)))
-//                .lineToXConstantHeading(PARAMS.pickMidSMX)
-                .setTangent(Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
+        TrajectoryActionBuilder Shoot1 = drive.actionBuilder(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)))
+                .setTangent(Math.toRadians(-90* PARAMS.Color))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos)
-                .setTangent(Math.toRadians(-85));
-//                .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
-//                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(30), new ProfileAccelConstraint(-30, 30));
+                .setTangent(Math.toRadians(90* PARAMS.Color))
+                .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveCloseY), PARAMS.pickCloseSMX);
 
-//        TrajectoryActionBuilder DriveToShoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, PARAMS.pickCloseSMY, Math.toRadians(0)))
-////                .lineToXConstantHeading(PARAMS.pickCloseSMX)
-//                .setTangent(Math.toRadians(180))
-//                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
+        TrajectoryActionBuilder Shoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveMidY, Math.toRadians(90* PARAMS.Color)))
+                .setTangent(Math.toRadians(-90* PARAMS.Color))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
-//        TrajectoryActionBuilder DriveToShoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(0)))
-////                .lineToXConstantHeading(PARAMS.pickCloseSMX)
-//                .setTangent(Math.toRadians(180))
-//                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
-//
-//        TrajectoryActionBuilder DriveToShoot4 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY, Math.toRadians(0)))
-////                .lineToXConstantHeading(PARAMS.pickCloseSMX)
-//                .setTangent(Math.toRadians(180))
-//                .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
-//
-//        TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos1)
-//                .splineToLinearHeading(new Pose2d(PARAMS.pickCornerX, PARAMS.pickCornerY,Math.toRadians(15)), Math.toRadians(15))
-//                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0), new TranslationalVelConstraint(20), new ProfileAccelConstraint(-30, 30));
-//
-//        TrajectoryActionBuilder PickCorner3 = drive.actionBuilder(shootPos1)
-//                .splineTo(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(15))
-//                .splineTo(new Vector2d(PARAMS.pickCorner2X, PARAMS.pickCorner2Y), Math.toRadians(0));
+        TrajectoryActionBuilder PickRoundedCorner = drive.actionBuilder(shootPos)
+                .setTangent(Math.toRadians(90* PARAMS.Color))
+                .splineTo(new Vector2d(PARAMS.pickCornerRounded1X, PARAMS.pickCornerRounded1Y), Math.toRadians(90* PARAMS.Color))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(-180* PARAMS.Color))
+                .lineToXConstantHeading(PARAMS.pickCornerRounded3X);
+
+        TrajectoryActionBuilder Shoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerRounded3X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded3Ori)))
+                .setTangent(Math.toRadians(-90* PARAMS.Color))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
+
+        TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos)
+                .setTangent(Math.toRadians(90* PARAMS.Color))
+                .strafeToConstantHeading(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y));
+
+        TrajectoryActionBuilder Shoot4 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
+                .setTangent(Math.toRadians(-90* PARAMS.Color))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
+
+        TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos)
+                .setTangent(Math.toRadians(90* PARAMS.Color))
+                .strafeToConstantHeading(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y));
+
+        TrajectoryActionBuilder Shoot5 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
+                .setTangent(Math.toRadians(-90* PARAMS.Color))
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
+
 
         waitForStart();
         while (opModeIsActive()) {
-            Actions.runBlocking(new SequentialAction(
-                            //Shoot preload
-                            new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT,1750, -1.0),
-                            new ShootAction(ShootaActionType.SHOOTSTART, 2500),
-
-
-                            //Pick mid spike mark
-                            new ParallelAction(
-                                    new ShootAction(ShootaActionType.STOP,200),
-                                    PickMidSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2000, -1.0)
-                            ),
-
-                            //Prep mid spike mark shoot
-                            new ParallelAction(
-                                    DriveToShoot1.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
-                            ),
-
-                            //Shoot1
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
-
-                            //Pick close spike mark
-                            new ParallelAction(
-                                    new ShootAction(ShootaActionType.STOP,200),
-                                    PickCloseSpikeMark.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
-                            ),
-                            //Prep close spike mark shoot
-                            new ParallelAction(
-                                    new SequentialAction(
-                                            new SleepAction(.5),
-                                            new IntakeAction(IntakeActionType.INTAKE_REST)
-                                    ),
-//                                    DriveToShoot2.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
-                            ),
-
-                            //Shoot2
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
-
-                            //Pick Corner Corner 1
-                            new ParallelAction(
-                                    new ShootAction(ShootaActionType.STOP,200),
-//                                    PickCornerRounded.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
-                            ),
-                            new SleepAction(0.5),
+            OCBHWM.turretServo.update();
+            Actions.runBlocking(
+                    new ParallelAction(new UpdateAction(UpdateActionType.UPDATE, "blue"),
                             new SequentialAction(
-                                           new SleepAction(0),
-                                    new IntakeAction(IntakeActionType.INTAKE_REST)
-                            ),
-                            //Prep Corner Corner Shoot
-                            new ParallelAction(
+                                    //Shoot preload
+                                    new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, 1500, PARAMS.Color),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
 
-                                 //   DriveToShoot3.build(),
-                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
-                            ),
-                            //Shoot Corner Corner Shoot
-                            new ShootAction(ShootaActionType.SHOOTFAR, 2000),
+                                    //Pick mid spike mark
+                                    new ParallelAction(
+                                            PickMidSpikeMark.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN),
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100, PARAMS.Color)
+                                    ),
 
-                            //Pick Corner Corner 2
-                            new ParallelAction(
-                                    new ShootAction(ShootaActionType.STOP,200),
-                                   // PickCorner2.build(),
-                                    new IntakeAction(IntakeActionType.INTAKE_IN)
-                            ),
-                            new IntakeAction(IntakeActionType.INTAKE_REST),
+                                    //Prep mid spike mark shoot
+                                    new ParallelAction(
+                                            Shoot1.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100, PARAMS.Color)
+                                    ),
 
-                            //Prep Corner Corner Shoot
-                            new ParallelAction(
-//                                    EndDrive.build()
-//                                    new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 2500, -1.0)
+                                    //Shoot1
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
+                                    new IntakeAction(IntakeActionType.INTAKE_IN),
+
+                                    //Pick close
+                                    new ParallelAction(
+                                            PickCloseSpikeMark.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    ),
+                                    new SleepAction(1),
+                                    //Prep close Shoot
+                                    new ParallelAction(
+                                            new SequentialAction(
+                                                    new SleepAction(0.25),
+                                                    new IntakeAction(IntakeActionType.INTAKE_REST)
+                                            ),
+                                            Shoot2.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100, PARAMS.Color)
+                                    ),
+                                    //Shoot close SM
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
+
+                                    //Pick rounded corner
+                                    new ParallelAction(
+                                            PickRoundedCorner.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    ),
+                                    new IntakeAction(IntakeActionType.INTAKE_REST),
+                                    //Prep rounded corner Shoot
+                                    new ParallelAction(
+                                            Shoot3.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
+                                    ),
+                                    //Shoot rounded corner Shoot
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
+
+                                    //Pick Corner 1
+                                    new ParallelAction(
+                                            PickCorner1.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    ),
+
+                                    new IntakeAction(IntakeActionType.INTAKE_REST),
+                                    //Prep corner 1 Shoot
+                                    new ParallelAction(
+                                            Shoot4.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
+                                    ),
+                                    //Shoot corner 1 Shoot
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600),
+//                                    new ShootAction(ShootaActionType.STOP),
+
+                                    //Pick Corner 2
+                                    new ParallelAction(
+                                            PickCorner2.build(),
+                                            new IntakeAction(IntakeActionType.INTAKE_IN)
+                                    ),
+
+                                    new IntakeAction(IntakeActionType.INTAKE_REST),
+                                    //Prep corner 2 Shoot
+                                    new ParallelAction(
+                                            Shoot5.build(),
+                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
+                                    ),
+                                    //Shoot corner 2 Shoot
+                                    new SleepAction(.5),
+                                    new ShootAction(ShootaActionType.SHOOT, 600)
+//                                    new ShootAction(ShootaActionType.STOP),
                             )
-//                            //Shoot Corner Corner Shoot
-//                            new ShootAction(ShootaActionType.SHOOTFAR, 2800),
-//                            new ShootAction(ShootaActionType.STOP),
-//
-//
-//                            //Pick Corner Corner 3
-//                            new ParallelAction(
-//                                    PickCorner3.build(),
-//                                    new IntakeAction(IntakeActionType.INTAKE_IN)
-//                            )
-                    )
-            );
+                    ));
             sleep(30000);
         }
     }

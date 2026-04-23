@@ -204,27 +204,8 @@ public class Shoota {
             Turret.addAngle(Math.abs(result - TurretServoError));
         } else if (result - TurretServoError < -Constants.TURRETANGLEROUGHTOLERANCE) {
             Turret.subtractAngle(Math.abs(result - TurretServoError));
-        } //else if (result-TurretServoError > Constants.TURRETANGLETOLERANCE) {
-//            Turret.addAngle(Constants.TURRETCLOSECONSTANT * Math.abs(result-TurretServoError));
-//        } else if (result-TurretServoError < -Constants.TURRETANGLETOLERANCE) {
-//            Turret.subtractAngle(Constants.TURRETCLOSECONSTANT * Math.abs(result-TurretServoError));
-//        }
+        }
     }
-// old
-//    public static void gyroAdjustTurret(double desiredHeading) {
-////    double result = -1 * HeadingTracker.gyroDifference();
-//        double result = desiredHeading + OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-//        double TurretError = OCBHWM.turretServo.getTargetRotation() - OCBHWM.turretServo.getTotalRotation();
-//        if (TurretError - result > Constants.TURRETANGLEROUGHTOLERANCE) {
-//            Turret.addAngle(Math.abs(TurretError - result));
-//        } else if (TurretError - result < -Constants.TURRETANGLEROUGHTOLERANCE) {
-//            Turret.subtractAngle(Math.abs(TurretError - result));
-//        } else if (TurretError - result > Constants.TURRETANGLETOLERANCE) {
-//            Turret.addAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
-//        } else if (TurretError - result < -Constants.TURRETANGLETOLERANCE) {
-//            Turret.subtractAngle(Constants.TURRETCLOSECONSTANT * Math.abs(TurretError - result));
-//        }
-//    }
 
     public static void cameraSetLaunch(double speed) {
         if (result != null) {
