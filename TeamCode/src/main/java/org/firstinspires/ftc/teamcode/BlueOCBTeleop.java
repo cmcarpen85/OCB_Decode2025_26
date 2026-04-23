@@ -47,7 +47,10 @@ public class BlueOCBTeleop extends LinearOpMode {
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(true);
-
+        Shoota.checkLimelight();
+//        if(HeadingTracker.limelightOffset != 0){
+        Shoota.LimelightOffsetBlue();
+//        }
 
         while (!isStopRequested()) {
             driverOp.readButtons();
@@ -233,6 +236,9 @@ public class BlueOCBTeleop extends LinearOpMode {
             telemetry.addData("yPos", OCBHWM.pinPoint.getPosY(DistanceUnit.INCH));
             telemetry.addData("turret shift x",HeadingTracker.turretShiftX);
             telemetry.addData("turret shift y",HeadingTracker.turretShiftY);
+            telemetry.addData("limelight offset", HeadingTracker.limelightOffset);
+telemetry.addData("start offset X", HeadingTracker.robotStartX);
+            telemetry.addData("start offset Y", HeadingTracker.robotStartY);
 
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));

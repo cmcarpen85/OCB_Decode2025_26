@@ -47,7 +47,7 @@ public class UpdateAction implements FailableAction {
     private void initialize() {
         this.startTime = System.currentTimeMillis();
         OCBHWM.turretServo.setRtp(true);
-        HeadingTracker.setPinpointStart(-64.1575, 16.499);
+//        HeadingTracker.setPinpointStart(-64.1575, 16.499);
         OCBHWM.pinPoint.update();
         initialized = true;
     }
@@ -70,17 +70,17 @@ public class UpdateAction implements FailableAction {
             OCBHWM.turretServo.setPower(0);
             return false;
         }
-        FlywheelEnable = HeadingTracker.FlywheelEnable;
-        if (Objects.equals(color, "red")) {
-            HeadingTracker.headingTrackingRed(FlywheelEnable);
-        } else if (Objects.equals(color, "blue")){
-            HeadingTracker.headingTrackingBlueAuto(true);
-        }
+//        FlywheelEnable = HeadingTracker.FlywheelEnable;
+//        if (Objects.equals(color, "red")) {
+//            HeadingTracker.headingTrackingRed(FlywheelEnable);
+//        } else if (Objects.equals(color, "blue")){
+//            HeadingTracker.headingTrackingBlueAuto(true);
+//        }
         OCBHWM.pinPoint.update();
         OCBHWM.turretServo.update();
 
-        packet.put("PinpointX",String.valueOf( OCBHWM.pinPoint.getPosX(DistanceUnit.INCH)));
-        packet.put("PinpointY",String.valueOf( OCBHWM.pinPoint.getPosY(DistanceUnit.INCH)));
+//        packet.put("PinpointX",String.valueOf( OCBHWM.pinPoint.getPosX(DistanceUnit.INCH)));
+//        packet.put("PinpointY",String.valueOf( OCBHWM.pinPoint.getPosY(DistanceUnit.INCH)));
         return true;
     }
 

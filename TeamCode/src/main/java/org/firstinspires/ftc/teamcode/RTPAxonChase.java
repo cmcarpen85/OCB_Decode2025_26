@@ -158,18 +158,10 @@ public class RTPAxonChase {
     // Set power to servo, respecting direction and maxPower
     public void setPower(double power) {
         this.power = Math.max(-maxPower, Math.min(maxPower, power));
-//        if (power > 0) {
-//            this.power = Math.max(minPower, power);
-//        } else if (power < 0) {
-//            this.power = Math.min(-minPower, power);
-//        } else {
-//            this.power = power;
+//        if (SnapBack){
+//            this.power = SnapBackSine*Math.abs(this.power);
+////            this.power = 0;
 //        }
-        if (SnapBack){
-            this.power = SnapBackSine*Math.abs(this.power);
-//            this.power = 0;
-        }
-
         servo.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
         servo2.setPower(this.power * (direction == Direction.REVERSE ? -1 : 1));
     }
@@ -337,8 +329,8 @@ public class RTPAxonChase {
 
     // Main update loop: updates rotation, computes PID, applies power
     public synchronized void update() {
-//        double currentAngle = filter.filter(getCurrentAngle()); //slip ring
-        double currentAngle = getCurrentAngle();
+        double currentAngle = filter.filter(getCurrentAngle()); //slip ring
+//        double currentAngle = getCurrentAngle(); // cable chain
         double angleDifference = currentAngle - previousAngle;
 
         double currentAxonAngle = getCurrentAxonAngle();
@@ -366,18 +358,6 @@ public class RTPAxonChase {
 
         totalRotationAxon = currentAxonAngle - AxonHomeAngle + AxonCliffs * 360;
         previousAngleAxon = currentAxonAngle;
-
-        if (totalRotationAxon>maxAngle  && !SnapBack || totalRotationAxon<minAngle &&!SnapBack){
-            SnapBack = true;
-            if(totalRotationAxon>maxAngle){
-                SnapBackSine = 1.0;
-            } else if (totalRotationAxon<minAngle){
-                SnapBackSine = -1.0;
-            }
-        }
-//        else if (totalRotationAxon<maxAngle || totalRotationAxon>minAngle){
-//            SnapBack = false;
-//        }
 
 
         if (!rtp) return;

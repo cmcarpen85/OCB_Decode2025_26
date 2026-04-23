@@ -38,6 +38,11 @@ public class RedOCBTeleop extends LinearOpMode {
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(true);
+        HeadingTracker.setPinpointStart(-64.1575, -14.330);
+        if(HeadingTracker.limelightOffset != 0){
+            Shoota.LimelightOffsetRed();
+        }
+
 
         while (!isStopRequested()) {
             driverOp.readButtons();

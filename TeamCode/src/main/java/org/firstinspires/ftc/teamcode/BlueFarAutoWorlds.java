@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.enums.UpdateActionType;
 
 import Modules.HeadingTracker;
 import Modules.OCBHWM;
+import Modules.Shoota;
 
 @Config
 @Autonomous
@@ -111,13 +112,16 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCornerX, PARAMS.pickCornerY), Math.toRadians(90*PARAMS.Color));
 
         waitForStart();
+        Shoota.checkLimelight();
+        Shoota.LimelightOffsetBlue();
+
         while (opModeIsActive()) {
             OCBHWM.turretServo.update();
             Actions.runBlocking(
                     new ParallelAction(new UpdateAction(UpdateActionType.UPDATE, "blue"),
                             new SequentialAction(
                                     //Shoot preload
-                                    new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1500),
+                                    new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, 1500,PARAMS.Color),
                                     new ShootAction(ShootaActionType.SHOOT, 600),
 //                                    new ShootAction(ShootaActionType.STOP),
 
@@ -125,13 +129,13 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                     new ParallelAction(
                                             PickCloseSpikeMark.build(),
                                             new IntakeAction(IntakeActionType.INTAKE_IN),
-                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000)
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100,PARAMS.Color)
                                     ),
 
                                     //Prep close spike mark shoot
                                     new ParallelAction(
                                             DriveToShoot1.build(),
-                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000)
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100,PARAMS.Color)
                                     ),
 
                                     //Shoot2
@@ -153,7 +157,7 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                     DriveToShoot2.build(),
-                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 1000, -1.0)
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100, PARAMS.Color)
                                     ),
                                     //Shoot secret tunnel Shoot
                                     new SleepAction(.5),
@@ -169,7 +173,7 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                     //Prep Corner Corner Shoot
                                     new ParallelAction(
                                     DriveToShoot3.build(),
-                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, -1.0)
+                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
                                     ),
                                     //Shoot Corner Corner Shoot
                                     new SleepAction(.5),
@@ -178,7 +182,7 @@ public class BlueFarAutoWorlds extends LinearOpMode {
 
                                     //Pick Corner Corner 3
                                     new ParallelAction(
-//                                    PickCornerStraight.build(),
+                                    PickCorner1.build(),
                                             new IntakeAction(IntakeActionType.INTAKE_IN)
                                     )
                             )

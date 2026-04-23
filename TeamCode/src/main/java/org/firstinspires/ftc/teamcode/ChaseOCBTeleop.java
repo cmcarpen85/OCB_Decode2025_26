@@ -4,10 +4,12 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import Modules.Constants;
 import Modules.HeadingTracker;
@@ -42,13 +44,15 @@ public class ChaseOCBTeleop extends LinearOpMode {
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(false);
         HeadingTracker.setPinpointStart(-64.1575, 16.499);
-
+        if(HeadingTracker.limelightOffset != 0){
+            Shoota.LimelightOffsetBlue();
+        }
         while (!isStopRequested()) {
             driverOp.readButtons();
             OperatorOp.readButtons();
 
             OCBHWM.turretServo.update();
-//            Shoota.checkLimelight();
+            Shoota.checkLimelight();
             OCBHWM.pinPoint.update();
 
             if (gamepad1.back) {
@@ -157,21 +161,21 @@ public class ChaseOCBTeleop extends LinearOpMode {
             double robotYaw = OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES) + 180;
             OCBHWM.limelight.updateRobotOrientation(robotYaw);
 
-//            LLResult result = OCBHWM.limelight.getLatestResult();
-//            if (result != null) {
-//                if (result.isValid()) {
-//                    Pose3D botpose_mt2 = result.getBotpose_MT2();
-//                    if (botpose_mt2 != null) {
-//                        telemetry.addData("botpose X", botpose_mt2.getPosition().x);
-//                        telemetry.addData("botpose Y", botpose_mt2.getPosition().y);
-//                    }
-//                    telemetry.addData("Tx", result.getTx());
-////                    telemetry.addData("Ty", result.getTy());
-////                    telemetry.addData("Ta", result.getTa());
-////                    telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
-////                    telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(),result.getTa()));
-//                }
-//            }
+            LLResult result = OCBHWM.limelight.getLatestResult();
+            if (result != null) {
+                if (result.isValid()) {
+                    Pose3D botpose_mt2 = result.getBotpose_MT2();
+                    if (botpose_mt2 != null) {
+                        telemetry.addData("botpose X", botpose_mt2.getPosition().x);
+                        telemetry.addData("botpose Y", botpose_mt2.getPosition().y);
+                    }
+                    telemetry.addData("Tx", result.getTx());
+//                    telemetry.addData("Ty", result.getTy());
+//                    telemetry.addData("Ta", result.getTa());
+//                    telemetry.addData("Distance", Shoota.distanceToGoal(result.getTy()));
+//                    telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(),result.getTa()));
+                }
+            }
 
 
 ////            telemetry.addData("turret currently tracking", Shoota.NotInPos);
@@ -184,7 +188,7 @@ public class ChaseOCBTeleop extends LinearOpMode {
 //            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
 
 //            telemetry.addData("shoota mode", ShootaMode);
-            telemetry.addData("Distance To goal",HeadingTracker.distanceToGoal);
+//            telemetry.addData("Distance To goal",HeadingTracker.distanceToGoal);
 //            telemetry.addData("Shoota set speed", ShootaSpeed);
 //            List<Double> velocities = OCBHWM.flywheel.getVelocities();
 //            telemetry.addData("Left Flywheel Velocity", velocities.get(0));
@@ -193,14 +197,14 @@ public class ChaseOCBTeleop extends LinearOpMode {
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
             telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
 //            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
-            telemetry.addData("Turret Error", Turret.getTurretError());
+//            telemetry.addData("Turret Error", Turret.getTurretError());
             telemetry.addData("turret angle", OCBHWM.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-            telemetry.addData("Turret Gyro Rotation", OCBHWM.turretServo.getTotalRotation());
-            telemetry.addData("Turret Axon Total Rotation", OCBHWM.turretServo.totalRotationAxon);
-            telemetry.addData("Turret feedback", OCBHWM.turretFeedback.getVoltage() / 3.3* 360);
-            telemetry.addData("AxonCliffs", OCBHWM.turretServo.AxonCliffs);
-            telemetry.addData("Snapback", OCBHWM.turretServo.SnapBack);
-            telemetry.addData("Turret Power",OCBHWM.turretServo.getPower());
+//            telemetry.addData("Turret Gyro Rotation", OCBHWM.turretServo.getTotalRotation());
+//            telemetry.addData("Turret Axon Total Rotation", OCBHWM.turretServo.totalRotationAxon);
+//            telemetry.addData("Turret feedback", OCBHWM.turretFeedback.getVoltage() / 3.3* 360);
+//            telemetry.addData("AxonCliffs", OCBHWM.turretServo.AxonCliffs);
+//            telemetry.addData("Snapback", OCBHWM.turretServo.SnapBack);
+//            telemetry.addData("Turret Power",OCBHWM.turretServo.getPower());
             telemetry.addData("RTP",OCBHWM.turretServo.getRtp());
 
 //            telemetry.addData("heading Diff", HeadingTracker.headingDiff);

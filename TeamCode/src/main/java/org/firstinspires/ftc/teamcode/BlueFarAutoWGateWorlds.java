@@ -48,15 +48,15 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double driveToShootX = -23.6;
         public double driveToShootY = 24.7;
         public double driveToShootOri = 40;
-        public double shoot1X = -53.7;
-        public double shoot1Y = 12;
+        public double shoot1X = -55.5;
+        public double shoot1Y = 15.5;
         public double shoot1Ori = 59.6;
         public double pickCloseSMX = -36.1;
         public double pickCloseSMY = 32.6;
         public double intakeDriveCloseX = 0;
         public double intakeDriveCloseY = 27.2;
-        public double shoot2X = -55.1;
-        public double shoot2Y = 15.4;
+        public double shoot2X = -55.5;
+        public double shoot2Y = 15.5;
         public double shoot2Ori = 25.5;
         public double driveToCornerPickX = -34.6;
         public double driveToCornerPickY = 35.2;
@@ -64,13 +64,22 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double pickCorner1X = -54;
         public double pickCorner1Y = 62;
         public double pickCorner1YOri = 171.5;
-        public double shoot3X = -59;
-        public double shoot3Y = 19.1;
+        public double shoot3X = -55.5;
+        public double shoot3Y = 15.5;
         public double pickCorner2X = -60.8;
         public double pickCorner2Y = 55.4;
         public double pickCorner2YOri = 109;
-        public double shoot4X = -61.2;
-        public double shoot4Y = 22.1;
+        public double shoot4X = -55.5;
+        public double shoot4Y = 15.5;
+        public double pickCornerRounded1X = -92.6;
+        public double pickCornerRounded1Y = -11.5;
+        public double pickCornerRounded1Ori = 90;
+        public double pickCornerRounded2X = -33.5;
+        public double pickCornerRounded2Y = 58.9;
+        public double pickCornerRounded2Ori = 144.7;
+        public double pickCornerRounded3X = -50.6;
+        public double pickCornerRounded3Y = 58.9;
+        public double pickCornerRounded3Ori = 144.7;
         public double endAutoX = -61;
         public double endAutoY = 31.5;
     }
@@ -79,7 +88,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
 
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
     Pose2d pickMidSM = new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(0));
-    Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0));
+    Pose2d shootPos = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90));
     Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(0));
     //Pose2d leavelaunchZone = new Pose2d(PARAMS.leaveLaunchZoneX, PARAMS.leaveLaunchZoneY, Math.toRadians(0));
 
@@ -101,7 +110,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                 .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y), Math.toRadians(90));
 
-        TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos1)
+        TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos)
                 .setTangent(Math.toRadians(-85));
 //                .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(0))
 //                .lineToXConstantHeading(PARAMS.pickCloseSMX + PARAMS.intakeDriveX, new TranslationalVelConstraint(30), new ProfileAccelConstraint(-30, 30));

@@ -127,16 +127,25 @@ public class Shoota {
     public static void checkLimelight() {
         result = OCBHWM.limelight.getLatestResult();
     }
-    public static void LimelightOffset(){
+    public static void LimelightOffsetBlue(){
         checkLimelight();
         if (result != null) {
             if (result.isValid()) {
             double tx = result.getTx();
-            HeadingTracker.limelightOffset = tx - Constants.LimelightBlue;
+            HeadingTracker.limelightOffset =  Constants.LimelightBlue - tx ;
             }
         }
     }
 
+    public static void LimelightOffsetRed(){
+        checkLimelight();
+        if (result != null) {
+            if (result.isValid()) {
+                double tx = result.getTx();
+                HeadingTracker.limelightOffset =  Constants.LimelightRed - tx ;
+            }
+        }
+    }
 
     public static void CheckSpeed(double setShootSpeed) {
         double setVelocity = setShootSpeed * 2444.3 + 9;
