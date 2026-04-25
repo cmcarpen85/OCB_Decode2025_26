@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.enums.IntakeActionType;
 
 import Modules.Intake;
+import Modules.OCBHWM;
 import Modules.Transfer;
 
 public class IntakeWaitAction implements FailableAction {
@@ -23,6 +24,7 @@ public class IntakeWaitAction implements FailableAction {
 
     private long startTime = 0;
     private long BlockTimeStart = 0;
+    private Boolean Blocked = false;
 
 
     public IntakeWaitAction(IntakeActionType actionType) {
@@ -73,7 +75,15 @@ public class IntakeWaitAction implements FailableAction {
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
             return false;
         }
-        if (this.BlockTimeDuration != -1 && System.currentTimeMillis() - this.startTime >= this.BlockTimeDuration) {
+
+        if (OCBHWM.artifactInIntake.getState() && !Blocked){
+            Blocked = true;
+            this.BlockTimeStart = System.currentTimeMillis();
+        } else if (Blocked && OCBHWM.artifactInIntake.getState() == false){
+            Blocked = false;
+            this.BlockTimeStart = 0;
+        }
+        if (this.BlockTimeDuration != -1 && System.currentTimeMillis() - this.BlockTimeStart >= this.BlockTimeDuration && Blocked) {
             return false;
         }
 

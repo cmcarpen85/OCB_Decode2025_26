@@ -30,7 +30,7 @@ public class BlueOCBTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         if (!OCBHWM.Initialized) {
-            HeadingTracker.setPinpointStart(-64.1575, 16.499);
+            HeadingTracker.setPinpointStart(-64.1575, 15.420);
         }
         OCBHWM.hwinit(hardwareMap);
 //        Intake.InitalizeTimer();

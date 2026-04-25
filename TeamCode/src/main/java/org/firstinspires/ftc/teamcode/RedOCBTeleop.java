@@ -23,7 +23,7 @@ public class RedOCBTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         if (!OCBHWM.Initialized) {
-            HeadingTracker.setPinpointStart(-64.1575, -14.330);
+            HeadingTracker.setPinpointStart(-64.1575, -15.420);
         }
         OCBHWM.hwinit(hardwareMap);
 //        HeadingTracker.setPinpointStart(-64.1575, -16.499);

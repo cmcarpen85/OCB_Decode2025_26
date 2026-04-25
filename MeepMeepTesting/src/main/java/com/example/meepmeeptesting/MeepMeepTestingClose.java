@@ -10,11 +10,10 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTestingClose {
     public static class Params {
-        public double startX = -64.1575;
-        public double startY = 16.499;
+        public double startX = 60.0979;
+        public double startY = 14.927;
         public double startOri = 0;
 
-        //SM = Spike Mark
         //SM = Spike Mark
         public double pickMidSMX = -12.1;
         public double pickMidSMY = 31.8;
@@ -59,6 +58,17 @@ public class MeepMeepTestingClose {
         public double pickCornerRounded3X = -50.6;
         public double pickCornerRounded3Y = 58.9;
         public double pickCornerRounded3Ori = 144.7;
+        public double pickFarSMX = 12.2;
+        public double pickFarSMY = 27.6;
+        public double pickFarSMOri = 90;
+        public double intakeDriveFarX = 0;
+        public double intakeDriveFarY = 27.4;
+        public double openGateCloseX = 5.4;
+        public double openGateCloseY = 52.3;
+        public double openGateCloseOri = 90;
+        public double shootClose1X = 12.7;
+        public double shootClose1Y = 18.6;
+        public double shootClose1Ori = 90;
         public double endAutoX = -61;
         public double endAutoY = 31.5;
     }
@@ -75,26 +85,8 @@ public class MeepMeepTestingClose {
 //new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(0))
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(0)))
-                .splineToSplineHeading(new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.pickMidSMOri)), Math.toRadians(PARAMS.pickMidSMOri))
-                .lineToYConstantHeading(PARAMS.pickMidSMY + Math.signum(PARAMS.pickMidSMY) * PARAMS.intakeDriveMidY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
-                .splineToSplineHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)), Math.toRadians(PARAMS.openGateOri))
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
-                .setTangent(Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveMidY), PARAMS.pickCloseSMX)
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
-                .setTangent(Math.toRadians(50))
-                .splineTo(new Vector2d(PARAMS.pickCornerRounded1X, PARAMS.pickCornerRounded1Y), Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(180))
-                .lineToXConstantHeading(PARAMS.pickCornerRounded3X)
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
-                .setTangent(Math.toRadians(90))
-                .splineTo(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y), Math.toRadians(90))
-                .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
-                .build());
+                        .
+                   .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
                 .setDarkMode(true)

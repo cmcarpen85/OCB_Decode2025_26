@@ -85,9 +85,9 @@ public class Constants {
     //Transfer
     public static double TRANSFERPOWER = 1; //1
     public static double TRANSFERINTAKEPOWER = 0.85;
-    public static double GATECLAWOPEN = 0.525;
-    public static double GATECLAWCLOSE = 0.60;
-    public static double GATECLAWHOLD = 0.58;
+    public static double GATECLAWOPEN = 0.55;
+    public static double GATECLAWCLOSE = 0.62;
+    public static double GATECLAWHOLD = 0.605;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 
