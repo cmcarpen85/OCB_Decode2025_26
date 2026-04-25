@@ -90,6 +90,12 @@ public class PrepShootAction implements FailableAction {
                 Hood.setToAngle(Constants.STARTSHOTHOODSERVO);
                 this.ShootSpeed = Constants.STARTSHOTSPEED;
                 break;
+            case PREP_CLOSE_STARTING_SHOT:
+                Shoota.setSpeed(Constants.CLOASESTARTSHOTSPEED);
+                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Hood.setToAngle(Constants.CLOSESTARTSHOTHOODSERVO);
+                this.ShootSpeed = Constants.CLOASESTARTSHOTSPEED;
+                break;
 
             case STOP:
                 HeadingTracker.FlywheelEnable = false;

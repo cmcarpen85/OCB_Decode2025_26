@@ -79,7 +79,7 @@ public class BlueFarAutoWorlds extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-//        HeadingTracker.setPinPointXY(-64.1575, 16.499);
+        HeadingTracker.setPinpointStart(-64.1575, 16.499);
         drive = new MecanumDrive(hardwareMap, startPos);
         HeadingTracker.setPinpointStart(-64.1575, 16.499);
 

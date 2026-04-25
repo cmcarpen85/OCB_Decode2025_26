@@ -32,7 +32,7 @@ public class Constants {
     public static double MAXHDPOWER = 0.01;
     public static double MAXHDAIM = 1;
     public static double COASTSPEED = 0.4;
-    public static double FARSHOTSPEED = 0.575; // 0.635
+    public static double FARSHOTSPEED = 0.5745; // 0.635
     public static double FARSHOTSPEEDOPPO = 0.61;
     public static double FARSHOTVEL = 1560;
     public static double FARSHOTDISTANCE = 114;
@@ -42,6 +42,7 @@ public class Constants {
     public static double MIDSHOTVEL = 1160;
     public static double CLOSESHOTSPEED = 0.4;
     public static double STARTSHOTSPEED = 0.585;
+    public static double CLOASESTARTSHOTSPEED = 0.40;
     public static double AUTOSHOTSPEED = .59;
     public static double SHOTHEIGHT = 18.75;
 
@@ -55,6 +56,10 @@ public class Constants {
     public static double MIDSHOTHOODSERVO = .3594;
     public static double CLOSESHOTHOODSERVO = 0.05;
     public static double STARTSHOTHOODSERVO = 0.905;
+    public static double CLOSESTARTSHOTHOODSERVO = 0.417;
+
+    public static double CLOSESHOTTURRETANGLE = 80;
+
 
     @Sorter(sort = 4)
     //Turret
@@ -69,11 +74,10 @@ public class Constants {
     public static double TELEFARSHOTTURRETANGLE = -138;//27.9
     public static double TELEFARSHOTTURRETANGLEOPPO = 83;
     public static double MIDSHOTTURRETANGLE = 40.0; //38
-    public static double CLOSESHOTTURRETANGLE = 0;
 
     // auto angles
-    public static double STARTSHOTTURRETANGLE = 23; //
-    public static double AUTOFARSHOTTURRETANGLE = 23.5; //-65
+    public static double STARTSHOTTURRETANGLE = 20.5; //
+    public static double AUTOFARSHOTTURRETANGLE = 21; //-65
     public static double REDAUTOTURRETOFFEST = -1;
     public static double TURRETDYNAMIC = 200;
 

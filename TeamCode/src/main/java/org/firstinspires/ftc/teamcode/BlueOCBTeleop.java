@@ -29,6 +29,9 @@ public class BlueOCBTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        if (!OCBHWM.Initialized) {
+            HeadingTracker.setPinpointStart(-64.1575, 16.499);
+        }
         OCBHWM.hwinit(hardwareMap);
 //        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);
@@ -36,8 +39,7 @@ public class BlueOCBTeleop extends LinearOpMode {
         double ShootaSpeed = .6;
         double ShootaDesiredVelocity = 0;
         boolean Tracking = false;
-        HeadingTracker.manualAimOffset=0;
-        HeadingTracker.setPinpointStart(-64.1575, 16.499);
+        HeadingTracker.manualAimOffset = 0;
 
 //        OCBHWM.limelight.start();
 //        OCBHWM.limelight.pipelineSwitch(0);
@@ -80,8 +82,8 @@ public class BlueOCBTeleop extends LinearOpMode {
 
             } else {
                 OCBHWM.m_robotDrive.driveFieldCentric(
-                        (-driverOp.getLeftX()*0.9),
-                        (-driverOp.getLeftY()*0.9),
+                        (-driverOp.getLeftX() * 0.9),
+                        (-driverOp.getLeftY() * 0.9),
                         (-driverOp.getRightX() * 0.8),
                         OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES) - 90,
 //                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
@@ -92,10 +94,6 @@ public class BlueOCBTeleop extends LinearOpMode {
             //Prep Shoota
             if (gamepad2.right_bumper) {
                 Shoota.setSpeed(ShootaSpeed);
-            } else if (gamepad2.left_trigger > 0.4) {
-//                Shoota.setSpeed(Constants.FARSHOTSPEED);
-            } else {
-                Shoota.stop();
             }
 
             // Intake & Transfer
@@ -112,7 +110,7 @@ public class BlueOCBTeleop extends LinearOpMode {
             //Gate & Kicker (Shoot)
             if (gamepad2.right_trigger > 0.4) {
                 Transfer.clawOpen();
-            } else if (gamepad2.left_bumper){
+            } else if (gamepad2.left_bumper) {
                 Transfer.clawClose();
             } else {
                 Transfer.clawHold();
@@ -121,9 +119,9 @@ public class BlueOCBTeleop extends LinearOpMode {
             //Transfer Belts
             if (gamepad2.right_trigger >= 0.4) {
                 Transfer.transferShoot();
-            } else if(gamepad2.left_bumper){
+            } else if (gamepad2.left_bumper) {
                 Transfer.transferIn();
-            }else if (gamepad2.b) {
+            } else if (gamepad2.b) {
                 Transfer.transferOut();
             } else {
                 Transfer.transferHold();
@@ -162,10 +160,10 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
             //manual aim adjust
-            if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
-            } else if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
+            if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset + 1;
+            } else if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset - 1;
             }
 
             if (gamepad2.left_trigger >= 0.4) {
@@ -179,9 +177,9 @@ public class BlueOCBTeleop extends LinearOpMode {
             }
 
 //            //Worst Case Scenario
-//            if (gamepad2.left_stick_button) {
-//                OCBHWM.turretServo.setRtp(false);
-//            }
+            if (gamepad2.back) {
+                OCBHWM.turretServo.setRtp(false);
+            }
 //            if (gamepad2.right_stick_button) {
 //                Shoota.cameraSetPinPoint();
 //            }
@@ -230,8 +228,8 @@ public class BlueOCBTeleop extends LinearOpMode {
 //            telemetry.addData("turret shift x",HeadingTracker.turretShiftX);
 //            telemetry.addData("turret shift y",HeadingTracker.turretShiftY);
 //            telemetry.addData("limelight offset", HeadingTracker.limelightOffset);
-//telemetry.addData("start offset X", HeadingTracker.robotStartX);
-//            telemetry.addData("start offset Y", HeadingTracker.robotStartY);
+            telemetry.addData("start offset X", HeadingTracker.robotStartX);
+            telemetry.addData("start offset Y", HeadingTracker.robotStartY);
 
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));

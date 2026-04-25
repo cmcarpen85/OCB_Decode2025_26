@@ -26,6 +26,9 @@ public class ChaseOCBTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        if (!OCBHWM.Initialized) {
+            HeadingTracker.setPinpointStart(-64.1575, 16.499);
+        }
         OCBHWM.hwinit(hardwareMap);
 //        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);

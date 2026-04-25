@@ -47,7 +47,6 @@ public class UpdateAction implements FailableAction {
     private void initialize() {
         this.startTime = System.currentTimeMillis();
         OCBHWM.turretServo.setRtp(true);
-//        HeadingTracker.setPinpointStart(-64.1575, 16.499);
         OCBHWM.pinPoint.update();
         initialized = true;
     }

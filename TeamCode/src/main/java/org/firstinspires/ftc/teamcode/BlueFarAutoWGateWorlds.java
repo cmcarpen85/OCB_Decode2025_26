@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.enums.PrepShootActionType;
 import org.firstinspires.ftc.teamcode.enums.ShootaActionType;
 import org.firstinspires.ftc.teamcode.enums.UpdateActionType;
 
+import Modules.HeadingTracker;
 import Modules.OCBHWM;
 
 @Config
@@ -42,7 +43,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
 
         //SM = Spike Mark
         //SM = Spike Mark
-        public double pickMidSMX = -11.5;
+        public double pickMidSMX = -13.5;
         public double pickMidSMY = 31.8* Color;
         public double pickMidSMOri = 80* Color;
         public double intakeDriveMidX = 0;
@@ -56,7 +57,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double pickCloseSMX = -34.1;
         public double pickCloseSMY = 32.6* Color;
         public double intakeDriveCloseX = 0;
-        public double intakeDriveCloseY = 25.2* Color;
+        public double intakeDriveCloseY = 22.2* Color;
         public double pickCorner1X = -64;
         public double pickCorner1Y = 62* Color;
         public double pickCornerRounded1X = -25;
@@ -84,7 +85,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-
+        HeadingTracker.setPinpointStart(-64.1575, 16.499);
 
         drive = new MecanumDrive(hardwareMap, initialPos);
 
@@ -108,7 +109,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         TrajectoryActionBuilder PickRoundedCorner = drive.actionBuilder(shootPos)
                 .setTangent(Math.toRadians(60* PARAMS.Color))
                 .splineTo(new Vector2d(PARAMS.pickCornerRounded1X, PARAMS.pickCornerRounded1Y), Math.toRadians(90* PARAMS.Color))
-                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(-180* PARAMS.Color))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(180* PARAMS.Color))
                 .lineToXConstantHeading(PARAMS.pickCornerRounded3X);
 
         TrajectoryActionBuilder Shoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerRounded3X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded3Ori)))
@@ -117,7 +118,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos)
                 .setTangent(Math.toRadians(90* PARAMS.Color))
-                .splineToConstantHeading(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y), 90* PARAMS.Color);
+                .splineTo(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y), 90* PARAMS.Color);
 
         TrajectoryActionBuilder Shoot4 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
                 .setTangent(Math.toRadians(-90* PARAMS.Color))
@@ -125,7 +126,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
 
         TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos)
                 .setTangent(Math.toRadians(90* PARAMS.Color))
-                .strafeToConstantHeading(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y));
+                .splineTo(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y), Math.toRadians(90* PARAMS.Color));
 
         TrajectoryActionBuilder Shoot5 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
                 .setTangent(Math.toRadians(-90* PARAMS.Color))

@@ -22,6 +22,9 @@ public class RedOCBTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        if (!OCBHWM.Initialized) {
+            HeadingTracker.setPinpointStart(-64.1575, -14.330);
+        }
         OCBHWM.hwinit(hardwareMap);
 //        HeadingTracker.setPinpointStart(-64.1575, -16.499);
 //        Intake.InitalizeTimer();
@@ -38,7 +41,6 @@ public class RedOCBTeleop extends LinearOpMode {
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(true);
-        HeadingTracker.setPinpointStart(-64.1575, -14.330);
 //        if(HeadingTracker.limelightOffset != 0){
 //            Shoota.LimelightOffsetRed();
 //        }
@@ -78,22 +80,12 @@ public class RedOCBTeleop extends LinearOpMode {
                         false
                 );
             }
-//                      if (gamepad1.a){
-//                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
-//            }else if (gamepad1.b){
-//                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
-//            }
 
 
             //Prep Shoota
             if (gamepad2.right_bumper) {
                 Shoota.setSpeed(ShootaSpeed);
-            } else if (gamepad2.left_trigger > 0.4) {
-//                Shoota.setSpeed(Constants.FARSHOTSPEED);
-            } else {
-                Shoota.stop();
             }
-
             // Intake & Transfer
             if (gamepad2.left_bumper) {
                 Intake.intakeIn();
@@ -175,10 +167,10 @@ public class RedOCBTeleop extends LinearOpMode {
                 }
             }
 
-//            //Worst Case Scenario
-//            if (gamepad2.left_stick_button) {
-//                OCBHWM.turretServo.setRtp(false);
-//            }
+            //Worst Case Scenario
+            if (gamepad2.back) {
+                OCBHWM.turretServo.setRtp(false);
+            }
 //            if (gamepad2.right_stick_button) {
 //                Shoota.cameraSetPinPoint();
 //            }
