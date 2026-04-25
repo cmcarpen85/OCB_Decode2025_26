@@ -30,6 +30,7 @@ public class HeadingTracker {
 
     public static double turretShiftX = 0;
     public static double turretShiftY = 0;
+
     public static double distanceToGoal = 0;
     public static double visionAimOffset = 0;
     public static double aimOffset = 0;
