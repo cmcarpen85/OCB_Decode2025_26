@@ -40,7 +40,7 @@ public class MeepMeepTesting {
         public double driveToCornerPickX = -34.6;
         public double driveToCornerPickY = 35.2;
         public double driveToCornerPickOri = 115.9;
-        public double pickCorner1X = -54;
+        public double pickCorner1X = -60;
         public double pickCorner1Y = 62;
         public double pickCorner1Ori = 171.5;
         public double shoot3X = -55.5;
@@ -77,14 +77,14 @@ public class MeepMeepTesting {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(0)))
                 .splineToSplineHeading(new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.pickMidSMOri)), Math.toRadians(PARAMS.pickMidSMOri))
                 .lineToYConstantHeading(PARAMS.pickMidSMY + Math.signum(PARAMS.pickMidSMY) * PARAMS.intakeDriveMidY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
-                .splineToLinearHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)), Math.toRadians(PARAMS.openGateOri))
+                .splineToSplineHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)), Math.toRadians(PARAMS.openGateOri))
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
                 .setTangent(Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveMidY), PARAMS.pickCloseSMX)
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
-                .setTangent(Math.toRadians(90))
+                .setTangent(Math.toRadians(50))
                 .splineTo(new Vector2d(PARAMS.pickCornerRounded1X, PARAMS.pickCornerRounded1Y), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(-180))
                 .lineToXConstantHeading(PARAMS.pickCornerRounded3X)

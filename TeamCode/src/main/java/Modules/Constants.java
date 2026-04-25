@@ -72,15 +72,15 @@ public class Constants {
     public static double CLOSESHOTTURRETANGLE = 0;
 
     // auto angles
-
-    public static double STARTSHOTTURRETANGLE = 12; //
-    public static double AUTOFARSHOTTURRETANGLE = 12.5; //-65
-    public static double REDAUTOTURRETOFFEST = 12;
+    public static double STARTSHOTTURRETANGLE = 23; //
+    public static double AUTOFARSHOTTURRETANGLE = 23.5; //-65
+    public static double REDAUTOTURRETOFFEST = -1;
     public static double TURRETDYNAMIC = 200;
 
     @Sorter(sort = 5)
     //Transfer
     public static double TRANSFERPOWER = 1; //1
+    public static double TRANSFERINTAKEPOWER = 0.85;
     public static double GATECLAWOPEN = 0.525;
     public static double GATECLAWCLOSE = 0.60;
     public static double GATECLAWHOLD = 0.58;

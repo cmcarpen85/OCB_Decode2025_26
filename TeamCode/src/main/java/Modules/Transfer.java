@@ -6,7 +6,7 @@ public class Transfer {
 
     //Transfer
     public static void transferIn(){
-        OCBHWM.transferM.setPower(Constants.TRANSFERPOWER);
+        OCBHWM.transferM.setPower(Constants.TRANSFERINTAKEPOWER);
     }
 
     public static void transferHold(){
