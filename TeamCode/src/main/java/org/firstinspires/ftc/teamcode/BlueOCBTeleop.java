@@ -39,17 +39,17 @@ public class BlueOCBTeleop extends LinearOpMode {
         HeadingTracker.manualAimOffset=0;
         HeadingTracker.setPinpointStart(-64.1575, 16.499);
 
-        OCBHWM.limelight.start();
-        OCBHWM.limelight.pipelineSwitch(0);
+//        OCBHWM.limelight.start();
+//        OCBHWM.limelight.pipelineSwitch(0);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(true);
-        Shoota.checkLimelight();
+//        Shoota.checkLimelight();
 //        if(HeadingTracker.limelightOffset != 0){
-        Shoota.LimelightOffsetBlue();
+//        Shoota.LimelightOffsetBlue();
 //        }
 
         while (!isStopRequested()) {
@@ -80,8 +80,8 @@ public class BlueOCBTeleop extends LinearOpMode {
 
             } else {
                 OCBHWM.m_robotDrive.driveFieldCentric(
-                        (-driverOp.getLeftX()),
-                        (-driverOp.getLeftY()),
+                        (-driverOp.getLeftX()*0.9),
+                        (-driverOp.getLeftY()*0.9),
                         (-driverOp.getRightX() * 0.8),
                         OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES) - 90,
 //                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
@@ -89,17 +89,10 @@ public class BlueOCBTeleop extends LinearOpMode {
                 );
             }
 
-//            if (gamepad1.a) {
-//                OCBHWM.tiltServo.setPosition(Constants.TILTUP);
-//            } else if (gamepad1.b) {
-//                OCBHWM.tiltServo.setPosition(Constants.TILTHOME);
-//            }
-
             //Prep Shoota
             if (gamepad2.right_bumper) {
                 Shoota.setSpeed(ShootaSpeed);
             } else if (gamepad2.left_trigger > 0.4) {
-
 //                Shoota.setSpeed(Constants.FARSHOTSPEED);
             } else {
                 Shoota.stop();
@@ -214,13 +207,13 @@ public class BlueOCBTeleop extends LinearOpMode {
 
 
 ////            telemetry.addData("turret currently tracking", Shoota.NotInPos);
-//            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
-//            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
+            telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
+            telemetry.addData("turretCurrent Rotation", OCBHWM.turretServo.getTotalRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);
 //            telemetry.addData("turret Feedback Angle",Turret.FeedbacktoAngle());
 //            telemetry.addData("turret Servo angle",OCBHWM.turretServo.getPosition());
-//            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
+            telemetry.addData("turret current angle", OCBHWM.turretServo.getCurrentAngle());
 
 //            telemetry.addData("shoota mode", ShootaMode);
 //            telemetry.addData("Shoota set speed", ShootaSpeed);
@@ -229,9 +222,9 @@ public class BlueOCBTeleop extends LinearOpMode {
 //            telemetry.addData("Right Flywheel Velocity", velocities.get(1));
 //            telemetry.addData("turret Feedback voltage", OCBHWM.turretFeedback.getVoltage());
 //            telemetry.addData("hood Servo angle", OCBHWM.hoodServo.getPosition());
-//            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
-//            telemetry.addData("Turret Error", Turret.getTurretError());
-//            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
+            telemetry.addData("Turret Power", OCBHWM.turretServo.getPower());
+            telemetry.addData("Turret Error", Turret.getTurretError());
+            telemetry.addData("aim offset", HeadingTracker.manualAimOffset);
 //            telemetry.addData("xPos", OCBHWM.pinPoint.getPosX(DistanceUnit.INCH));
 //            telemetry.addData("yPos", OCBHWM.pinPoint.getPosY(DistanceUnit.INCH));
 //            telemetry.addData("turret shift x",HeadingTracker.turretShiftX);
@@ -242,7 +235,7 @@ public class BlueOCBTeleop extends LinearOpMode {
 
 //            telemetry.addData("turret heading vel", OCBHWM.imu.getRobotAngularVelocity(AngleUnit.DEGREES).zRotationRate);
 //            telemetry.addData("base heading vel", OCBHWM.pinPoint.getHeading(UnnormalizedAngleUnit.DEGREES));
-//            telemetry.update();
+            telemetry.update();
         }
     }
 }

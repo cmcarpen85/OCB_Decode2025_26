@@ -42,7 +42,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
 
         //SM = Spike Mark
         //SM = Spike Mark
-        public double pickMidSMX = -12.1;
+        public double pickMidSMX = -11.5;
         public double pickMidSMY = 31.8* Color;
         public double pickMidSMOri = 80* Color;
         public double intakeDriveMidX = 0;
@@ -53,10 +53,10 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double shoot1X = -55.5;
         public double shoot1Y = 15.5* Color;
         public double shoot1Ori = 90* Color;
-        public double pickCloseSMX = -36.1;
+        public double pickCloseSMX = -34.1;
         public double pickCloseSMY = 32.6* Color;
         public double intakeDriveCloseX = 0;
-        public double intakeDriveCloseY = 27.2* Color;
+        public double intakeDriveCloseY = 25.2* Color;
         public double pickCorner1X = -54;
         public double pickCorner1Y = 62* Color;
         public double pickCornerRounded1X = -25;
@@ -65,7 +65,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double pickCornerRounded2X = -33.5;
         public double pickCornerRounded2Y = 58.9* Color;
         public double pickCornerRounded2Ori = 144.7* Color;
-        public double pickCornerRounded3X = -50.6;
+        public double pickCornerRounded3X = -53.6;
         public double pickCornerRounded3Y = 58.9* Color;
         public double pickCornerRounded3Ori = 144.7* Color;
         public double endAutoX = -61;
@@ -98,7 +98,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(shootPos)
-                .setTangent(Math.toRadians(90* PARAMS.Color))
+                .setTangent(Math.toRadians(0* PARAMS.Color))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveCloseY), PARAMS.pickCloseSMX);
 
         TrajectoryActionBuilder Shoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveMidY, Math.toRadians(90* PARAMS.Color)))
@@ -157,7 +157,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                     ),
 
                                     //Shoot1
-                                    new SleepAction(.5),
+//                                    new SleepAction(.5),
                                     new ShootAction(ShootaActionType.SHOOT, 600),
 //                                    new ShootAction(ShootaActionType.STOP),
                                     new IntakeAction(IntakeActionType.INTAKE_IN),
@@ -167,7 +167,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                             PickCloseSpikeMark.build(),
                                             new IntakeAction(IntakeActionType.INTAKE_IN)
                                     ),
-                                    new SleepAction(1),
+//                                    new SleepAction(1),
                                     //Prep close Shoot
                                     new ParallelAction(
                                             new SequentialAction(
@@ -211,7 +211,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                             new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
                                     ),
                                     //Shoot corner 1 Shoot
-                                    new SleepAction(.5),
+//                                    new SleepAction(.5),
                                     new ShootAction(ShootaActionType.SHOOT, 600),
 //                                    new ShootAction(ShootaActionType.STOP),
 
@@ -228,7 +228,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                             new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
                                     ),
                                     //Shoot corner 2 Shoot
-                                    new SleepAction(.5),
+//                                    new SleepAction(.5),
                                     new ShootAction(ShootaActionType.SHOOT, 600)
 //                                    new ShootAction(ShootaActionType.STOP),
                             )

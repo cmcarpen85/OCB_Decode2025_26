@@ -43,22 +43,22 @@ public class HeadingTracker {
 
     static LUT<Double, Double> XaimOffset = new LUT<Double, Double>() {{
         //Close Zone
-        add(0.0, 6.0);
-        add(5.0, 6.0);
-        add(10.0, 6.0);
-        add(15.0, 6.0);
-        add(20.0, 6.0);
-        add(25.0, 6.0);
-        add(30.0, 6.0);
+        add(0.0, 2.0);
+        add(5.0, 2.5);
+        add(10.0, 3.0);
+        add(15.0, 3.5);
+        add(20.0, 4.0);
+        add(25.0, 4.5);
+        add(30.0, 5.0);
         add(35.0, 6.0);
         add(40.0, 6.25);
         add(45.0, 6.5);
-        add(50.0, 6.75);
-        add(55.0, 7.0);
-        add(60.0, 7.25);
-        add(65.0, 7.5);
-        add(70.0, 7.75);
-        add(75.0, 8.0);
+        add(50.0, 6.5);
+        add(55.0, 6.75);
+        add(60.0, 7.0);
+        add(65.0, 7.0);
+        add(70.0, 7.5);
+        add(75.0, 7.0);
         add(80.0, 0.0);
 
     }};
@@ -88,7 +88,7 @@ public class HeadingTracker {
 //         HeadingTracker.headingDiff = headingDifferenceBase(angleToGoal);
 //        setLaunchOffsets(headingDiff);
         double currentXAimOffset = HeadingTracker.getAimOffset(XDistance + turretShiftX);
-        Shoota.gyroAdjustTurret(angleToGoal + manualAimOffset + currentXAimOffset + limelightOffset);
+        Shoota.gyroAdjustTurret(angleToGoal + manualAimOffset + currentXAimOffset);
         if (enableFlywheel) {
             Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }
@@ -110,7 +110,7 @@ public class HeadingTracker {
         HeadingTracker.distanceToGoal = robotDistance;
         double angleToGoal = -1 * Math.asin((YDistance + turretShiftY) / robotDistance) * 180 / Math.PI;
         double currentXAimOffset = HeadingTracker.getAimOffset(XDistance + turretShiftX);
-        Shoota.gyroAdjustTurret(angleToGoal + manualAimOffset + currentXAimOffset);
+        Shoota.gyroAdjustTurret(angleToGoal + manualAimOffset + -1 * currentXAimOffset);
         if (enableFlywheel) {
             Shoota.setSpeed(Shoota.getSpeeds(robotDistance));
         }

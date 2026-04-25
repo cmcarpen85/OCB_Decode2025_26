@@ -80,7 +80,7 @@ public class MeepMeepTesting {
                 .splineToLinearHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)), Math.toRadians(PARAMS.openGateOri))
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))
-                .setTangent(Math.toRadians(90))
+                .setTangent(Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveMidY), PARAMS.pickCloseSMX)
                 .setTangent(Math.toRadians(-90))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60))

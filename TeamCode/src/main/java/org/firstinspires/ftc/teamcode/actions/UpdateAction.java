@@ -78,6 +78,7 @@ public class UpdateAction implements FailableAction {
 //        }
         OCBHWM.pinPoint.update();
         OCBHWM.turretServo.update();
+        OCBHWM.flywheel.set(Shoota.CurrentShootPower);
 
 //        packet.put("PinpointX",String.valueOf( OCBHWM.pinPoint.getPosX(DistanceUnit.INCH)));
 //        packet.put("PinpointY",String.valueOf( OCBHWM.pinPoint.getPosY(DistanceUnit.INCH)));

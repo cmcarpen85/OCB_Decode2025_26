@@ -23,7 +23,7 @@ public class RedOCBTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        HeadingTracker.setPinpointStart(-64.1575, -16.499);
+//        HeadingTracker.setPinpointStart(-64.1575, -16.499);
 //        Intake.InitalizeTimer();
         GamepadEx driverOp = new GamepadEx(gamepad1);
         GamepadEx OperatorOp = new GamepadEx(gamepad2);
@@ -32,16 +32,16 @@ public class RedOCBTeleop extends LinearOpMode {
         boolean Tracking = false;
         HeadingTracker.manualAimOffset=0;
 
-        OCBHWM.limelight.start();
-        OCBHWM.limelight.pipelineSwitch(2);
+//        OCBHWM.limelight.start();
+//        OCBHWM.limelight.pipelineSwitch(2);
 
         waitForStart();
         OCBHWM.hoodServo.setPosition(Constants.HOODHOME);
         OCBHWM.turretServo.setRtp(true);
         HeadingTracker.setPinpointStart(-64.1575, -14.330);
-        if(HeadingTracker.limelightOffset != 0){
-            Shoota.LimelightOffsetRed();
-        }
+//        if(HeadingTracker.limelightOffset != 0){
+//            Shoota.LimelightOffsetRed();
+//        }
 
 
         while (!isStopRequested()) {
@@ -49,7 +49,7 @@ public class RedOCBTeleop extends LinearOpMode {
             OperatorOp.readButtons();
 
             OCBHWM.turretServo.update();
-            Shoota.checkLimelight();
+//            Shoota.checkLimelight();
             OCBHWM.pinPoint.update();
 
 
@@ -70,8 +70,8 @@ public class RedOCBTeleop extends LinearOpMode {
 
             } else {
                 OCBHWM.m_robotDrive.driveFieldCentric(
-                        (-driverOp.getLeftX()),
-                        (-driverOp.getLeftY()),
+                        (-driverOp.getLeftX()*0.9),
+                        (-driverOp.getLeftY()*0.9),
                         (-driverOp.getRightX() * 0.8),
                         OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES) + 90,
 //                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
@@ -193,7 +193,7 @@ public class RedOCBTeleop extends LinearOpMode {
 //                    telemetry.addData("far Distance Calc", Shoota.farDistanceToGoal(result.getTy(),result.getTa()));
 //                }
 //            }
-            telemetry.addData("turret currently tracking", Shoota.NotInPos);
+//            telemetry.addData("turret currently tracking", Shoota.NotInPos);
             telemetry.addData("turretAngle", OCBHWM.turretServo.getTargetRotation());
 //            telemetry.addData("turret Pos Error",Shoota.PosError);
 //            telemetry.addData("turret Desired Angle",Shoota.DesiredTurretAng);

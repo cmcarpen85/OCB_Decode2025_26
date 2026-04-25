@@ -32,16 +32,16 @@ public class Constants {
     public static double MAXHDPOWER = 0.01;
     public static double MAXHDAIM = 1;
     public static double COASTSPEED = 0.4;
-    public static double FARSHOTSPEED = 0.648; // 0.635
+    public static double FARSHOTSPEED = 0.575; // 0.635
     public static double FARSHOTSPEEDOPPO = 0.61;
     public static double FARSHOTVEL = 1560;
     public static double FARSHOTDISTANCE = 114;
     public static double MIDSHOTDISTANCE = 85;
-    public static double FARSHOTTRANSFERPOWER = 0.63;
+    public static double FARSHOTTRANSFERPOWER = 0.62;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
     public static double CLOSESHOTSPEED = 0.4;
-    public static double STARTSHOTSPEED = 0.60;
+    public static double STARTSHOTSPEED = 0.585;
     public static double AUTOSHOTSPEED = .59;
     public static double SHOTHEIGHT = 18.75;
 
@@ -70,8 +70,11 @@ public class Constants {
     public static double TELEFARSHOTTURRETANGLEOPPO = 83;
     public static double MIDSHOTTURRETANGLE = 40.0; //38
     public static double CLOSESHOTTURRETANGLE = 0;
-    public static double STARTSHOTTURRETANGLE = 18; //
-    public static double AUTOFARSHOTTURRETANGLE = -88; //-65
+
+    // auto angles
+
+    public static double STARTSHOTTURRETANGLE = 12; //
+    public static double AUTOFARSHOTTURRETANGLE = 12.5; //-65
     public static double REDAUTOTURRETOFFEST = 12;
     public static double TURRETDYNAMIC = 200;
 
@@ -79,8 +82,8 @@ public class Constants {
     //Transfer
     public static double TRANSFERPOWER = 1; //1
     public static double GATECLAWOPEN = 0.525;
-    public static double GATECLAWCLOSE = 0.59;
-    public static double GATECLAWHOLD = 0.57;
+    public static double GATECLAWCLOSE = 0.60;
+    public static double GATECLAWHOLD = 0.58;
     public static double GATEPOWER = 1;
     public static double KICKERPOWER = 1;
 
