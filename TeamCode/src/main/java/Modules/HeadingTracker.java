@@ -43,8 +43,8 @@ public class HeadingTracker {
 
     static LUT<Double, Double> XaimOffset = new LUT<Double, Double>() {{
         //Close Zone
-        add(0.0, 2.0);
-        add(5.0, 2.5);
+        add(0.0, 3.0);
+        add(5.0, 3.0);
         add(10.0, 3.0);
         add(15.0, 3.5);
         add(20.0, 4.0);
@@ -56,9 +56,9 @@ public class HeadingTracker {
         add(50.0, 6.5);
         add(55.0, 6.75);
         add(60.0, 7.0);
-        add(65.0, 7.0);
-        add(70.0, 7.5);
-        add(75.0, 7.0);
+        add(65.0, 7.5);
+        add(70.0, 7.75);
+        add(75.0, 8.0);
         add(80.0, 0.0);
 
     }};

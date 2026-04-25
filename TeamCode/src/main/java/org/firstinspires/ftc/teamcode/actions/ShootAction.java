@@ -62,7 +62,8 @@ public class ShootAction implements FailableAction {
             case SHOOT:
                 HeadingTracker.FlywheelEnable = true ;
                 Transfer.clawOpen();
-                Transfer.transferShoot();
+//                Transfer.transferIn();
+                Transfer.transferAutoShoot();
                 Intake.intakeIn();
                 break;
 
@@ -93,21 +94,8 @@ public class ShootAction implements FailableAction {
     public boolean run(@NonNull TelemetryPacket packet) {
         if (!initialized) {
             initialize();
-        }// else if (countingEmpty && this.emptyTime > 0 && System.currentTimeMillis() >= this.emptyTime + this.shootTime) {
-//            OCBHWM.turretServo.setRtp(false);
-//            OCBHWM.turretServo.setPower(0);
-//            return false;
-//        } else if (this.actionType == STOP) {
-//            OCBHWM.turretServo.setRtp(false);
-//            OCBHWM.turretServo.setPower(0);
-//            Shoota.stop();
-//            return false;
-//        }
-//        if (OCBHWM.transferClear.getVoltage() <= 0.26) {
-//            this.countingEmpty = false;
-//        } else if (OCBHWM.transferClear.getVoltage() > 0.26 && !countingEmpty) {
-//            startEmptyTime();
-//        }
+        }
+
         if (this.duration != -1 && System.currentTimeMillis() - this.startTime >= this.duration) {
             Transfer.transferHold();
             Intake.intakeRest();

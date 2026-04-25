@@ -20,6 +20,9 @@ public class Transfer {
     public static void transferShoot(){
         OCBHWM.transferM.setPower(Transfer.TransferShootPower);
     }
+    public static void transferAutoShoot(){
+        OCBHWM.transferM.setPower(Constants.FARSHOTTRANSFERPOWER);
+    }
 
     //Gate
     public static void clawOpen(){

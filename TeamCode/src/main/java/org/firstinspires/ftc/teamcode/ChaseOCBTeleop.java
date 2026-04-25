@@ -188,7 +188,7 @@ public class ChaseOCBTeleop extends LinearOpMode {
 //            telemetry.addData("turret current angle", Turret.servoValueToAngle(OCBHWM.turretServo.getPosition()));
 
 //            telemetry.addData("shoota mode", ShootaMode);
-//            telemetry.addData("Distance To goal",HeadingTracker.distanceToGoal);
+            telemetry.addData("Distance To goal",HeadingTracker.distanceToGoal);
 //            telemetry.addData("Shoota set speed", ShootaSpeed);
 //            List<Double> velocities = OCBHWM.flywheel.getVelocities();
 //            telemetry.addData("Left Flywheel Velocity", velocities.get(0));

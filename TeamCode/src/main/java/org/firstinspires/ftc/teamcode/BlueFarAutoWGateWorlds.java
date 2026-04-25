@@ -57,7 +57,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double pickCloseSMY = 32.6* Color;
         public double intakeDriveCloseX = 0;
         public double intakeDriveCloseY = 25.2* Color;
-        public double pickCorner1X = -54;
+        public double pickCorner1X = -56.5;
         public double pickCorner1Y = 62* Color;
         public double pickCornerRounded1X = -25;
         public double pickCornerRounded1Y = 48.5* Color;

@@ -52,6 +52,7 @@ public class IntakeAction implements FailableAction {
                 break;
             case INTAKE_REST:
                 Transfer.clawClose();
+                Transfer.transferHold();
                 Intake.intakeRest();
                 break;
         }
