@@ -76,11 +76,11 @@ public class RedFarAutoWorlds extends LinearOpMode {
     }
 
     public static Params PARAMS = new Params();
-    Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
+
     MecanumDrive drive;
 
     Vector2d scoreVec = new Vector2d(14, 21);
-
+    Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
     Pose2d pickCloseSM = new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY, Math.toRadians(90 * PARAMS.Color));
     Pose2d shootPos1 = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori));

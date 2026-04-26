@@ -11,7 +11,6 @@ import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.actions.IntakeAction;
@@ -29,14 +28,14 @@ import Modules.OCBHWM;
 
 @Config
 @Autonomous
-public class BlueCloseAutoWorlds extends LinearOpMode {
+public class RedCloseAutoWorlds extends LinearOpMode {
 
     MecanumDrive drive;
 
     Vector2d scoreVec = new Vector2d(14, 21);
 
     public static class Params {
-        public double Color = 1.0; // blue = 1 red = -1
+        public double Color = -1.0; // blue = 1 red = -1
         public double startX = 60.1;
         public double startY = 15.420 * Color;
         public double startOri = 0;
@@ -54,7 +53,7 @@ public class BlueCloseAutoWorlds extends LinearOpMode {
         public double pickToGateMidX = -15.1;
         public double pickToGateMidY = 45.9 * Color;
         public double pickToGateMidOri = 66.9 * Color;
-        public double openGateX = 3;
+        public double openGateX = 2;
         public double openGateY = 54 * Color;
         public double leaveLaunchZoneX = 6.1;
         public double leaveLaunchZoneY = 25.3;

@@ -30,7 +30,7 @@ import Modules.OCBHWM;
 public class RedFarAutoWGateWorlds extends LinearOpMode {
 
 
-    Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
+
     MecanumDrive drive;
 
     Vector2d scoreVec = new Vector2d(14, 21);
@@ -78,7 +78,7 @@ public class RedFarAutoWGateWorlds extends LinearOpMode {
     }
 
     public static Params PARAMS = new Params();
-
+    Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
     Pose2d startPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
     Pose2d pickMidSM = new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(90* PARAMS.Color));
     Pose2d shootPos = new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90* PARAMS.Color));

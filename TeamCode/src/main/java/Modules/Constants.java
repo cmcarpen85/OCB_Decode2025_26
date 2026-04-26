@@ -40,7 +40,7 @@ public class Constants {
     public static double FARSHOTTRANSFERPOWER = 0.62;
     public static double MIDSHOTSPEED = 0.475;
     public static double MIDSHOTVEL = 1160;
-    public static double CLOSESHOTSPEED = 0.4;
+    public static double CLOSESHOTSPEED = 0.43;
     public static double STARTSHOTSPEED = 0.585;
     public static double CLOASESTARTSHOTSPEED = 0.40;
     public static double AUTOSHOTSPEED = .59;
@@ -54,10 +54,11 @@ public class Constants {
     public static double HOODTARGETTOLERANCE = 1;
     public static double FARSHOTHOODSERVO = 0.905;
     public static double MIDSHOTHOODSERVO = .3594;
-    public static double CLOSESHOTHOODSERVO = 0.05;
+
+
+    public static double CLOSESHOTHOODSERVO = 0.45;
     public static double STARTSHOTHOODSERVO = 0.905;
     public static double CLOSESTARTSHOTHOODSERVO = 0.417;
-
     public static double CLOSESHOTTURRETANGLE = 80;
 
 
@@ -76,8 +77,10 @@ public class Constants {
     public static double MIDSHOTTURRETANGLE = 40.0; //38
 
     // auto angles
-    public static double STARTSHOTTURRETANGLE = 20.5; //
+    public static double STARTSHOTTURRETANGLE = 20.5;
+    public static double CLOSESTARTSHOTTURRETANGLE = 90;//
     public static double AUTOFARSHOTTURRETANGLE = 21; //-65
+    public static double AUTOCLOSESHOTTURRETANGLE = 45;
     public static double REDAUTOTURRETOFFEST = 0.1;
     public static double TURRETDYNAMIC = 200;
 

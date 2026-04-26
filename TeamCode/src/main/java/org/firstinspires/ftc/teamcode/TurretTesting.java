@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -43,7 +44,7 @@ import Modules.Constants;
 import Modules.OCBHWM;
 import Modules.Shoota;
 
-
+@Disabled
 @TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
 public class TurretTesting extends LinearOpMode {
 

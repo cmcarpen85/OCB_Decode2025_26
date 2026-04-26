@@ -52,7 +52,8 @@ public class MeepMeepTestingClose {
                 .setTangent(Math.toRadians(180))
                 .splineToSplineHeading(new Pose2d(PARAMS.pickFarSMX, PARAMS.pickFarSMY,Math.toRadians(90)),Math.toRadians(90))
                 .lineToY(PARAMS.pickFarSMY+ PARAMS.intakeDriveFarY)
-                .strafeToConstantHeading(new Vector2d(PARAMS.openGateX,PARAMS.openGateY))
+                        .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(PARAMS.openGateX,PARAMS.openGateY),Math.toRadians(90))
                 .strafeToConstantHeading(new Vector2d(PARAMS.shoot1X, PARAMS.shoot1Y))
                 .strafeToConstantHeading(new Vector2d(PARAMS.openGateX,PARAMS.openGateY-10))
                 .build());

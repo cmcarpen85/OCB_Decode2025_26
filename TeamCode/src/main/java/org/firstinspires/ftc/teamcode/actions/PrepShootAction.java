@@ -79,7 +79,7 @@ public class PrepShootAction implements FailableAction {
 
             case PREP_CLOSE_SHOOT:
                 Shoota.setSpeed(Constants.CLOSESHOTSPEED);
-                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Turret.setToAngle(Constants.AUTOCLOSESHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(Constants.CLOSESHOTHOODSERVO);
                 this.ShootSpeed = Constants.CLOSESHOTSPEED;
                 break;
@@ -92,7 +92,7 @@ public class PrepShootAction implements FailableAction {
                 break;
             case PREP_CLOSE_STARTING_SHOT:
                 Shoota.setSpeed(Constants.CLOASESTARTSHOTSPEED);
-                Turret.setToAngle(Constants.CLOSESHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
+                Turret.setToAngle(Constants.CLOSESTARTSHOTTURRETANGLE * this.color+ Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(Constants.CLOSESTARTSHOTHOODSERVO);
                 this.ShootSpeed = Constants.CLOASESTARTSHOTSPEED;
                 break;

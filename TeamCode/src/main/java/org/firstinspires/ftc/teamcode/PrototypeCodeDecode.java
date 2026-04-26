@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import Modules.OCBHWM;
-
+@Disabled
 
 @TeleOp
 public class PrototypeCodeDecode extends LinearOpMode {
