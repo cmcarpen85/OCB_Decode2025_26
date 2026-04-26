@@ -28,13 +28,13 @@ import Modules.Shoota;
 
 @Config
 @Autonomous
-public class BlueFarAutoWorlds extends LinearOpMode {
+public class RedFarAutoWorlds extends LinearOpMode {
 
 
     public static class Params {
-        public double Color = 1.0; // blue = 1 red = -1
+        public double Color = -1.0; // blue = 1 red = -1
         public double startX = -64.1575;
-        public double startY = 15.420;
+        public double startY = 15.420 * Color;
         public double startOri = 0;
 
         //SM = Spike Mark
@@ -96,11 +96,11 @@ public class BlueFarAutoWorlds extends LinearOpMode {
 
         TrajectoryActionBuilder PickCloseSpikeMark = drive.actionBuilder(startPos)
                 .splineTo(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY), Math.toRadians(90 * PARAMS.Color))
-                .lineToYConstantHeading(PARAMS.pickCloseSMY +  PARAMS.intakeDriveCloseY);
+                .lineToYConstantHeading(PARAMS.pickCloseSMY + PARAMS.intakeDriveCloseY);
 
         TrajectoryActionBuilder DriveToShootClosepick = drive.actionBuilder(pickCloseSM)
                 .setTangent(Math.toRadians(-90 * PARAMS.Color))
-                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90)), Math.toRadians(-90 * PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 40));
+                .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(90* PARAMS.Color)), Math.toRadians(-90 * PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 40));
 
         TrajectoryActionBuilder DriveToSecretTunnel = drive.actionBuilder(shootPos1)
                 .setTangent(Math.toRadians(90 * PARAMS.Color))

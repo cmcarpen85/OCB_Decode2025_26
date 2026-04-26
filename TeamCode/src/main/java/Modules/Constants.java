@@ -78,7 +78,7 @@ public class Constants {
     // auto angles
     public static double STARTSHOTTURRETANGLE = 20.5; //
     public static double AUTOFARSHOTTURRETANGLE = 21; //-65
-    public static double REDAUTOTURRETOFFEST = -1;
+    public static double REDAUTOTURRETOFFEST = 0.1;
     public static double TURRETDYNAMIC = 200;
 
     @Sorter(sort = 5)

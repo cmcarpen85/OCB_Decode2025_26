@@ -27,7 +27,7 @@ import Modules.OCBHWM;
 
 @Config
 @Autonomous
-public class BlueFarAutoWGateWorlds extends LinearOpMode {
+public class RedFarAutoWGateWorlds extends LinearOpMode {
 
 
     Pose2d initialPos = new Pose2d(PARAMS.startX, PARAMS.startY, Math.toRadians(PARAMS.startOri));
@@ -36,7 +36,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
     Vector2d scoreVec = new Vector2d(14, 21);
 
     public static class Params {
-        public double Color = 1.0; // blue = 1 red = -1
+        public double Color = -1.0; // blue = 1 red = -1
         public double startX = -64.1575;
         public double startY = 15.420* Color;
         public double startOri = 0;
