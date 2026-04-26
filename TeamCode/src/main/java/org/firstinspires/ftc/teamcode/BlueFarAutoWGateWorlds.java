@@ -38,7 +38,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
     public static class Params {
         public double Color = 1.0; // blue = 1 red = -1
         public double startX = -64.1575;
-        public double startY = 16.499;
+        public double startY = 15.420;
         public double startOri = 0;
 
         //SM = Spike Mark
@@ -48,7 +48,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double pickMidSMOri = 80* Color;
         public double intakeDriveMidX = 0;
         public double intakeDriveMidY = 16.1;
-        public double openGateX = -7;
+        public double openGateX = -5;
         public double openGateY = 55.3* Color;
         public double openGateOri = 82.4* Color;
         public double shoot1X = -55.5;
@@ -59,16 +59,20 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double intakeDriveCloseX = 0;
         public double intakeDriveCloseY = 22.2* Color;
         public double pickCorner1X = -64;
-        public double pickCorner1Y = 62* Color;
+        public double pickCorner1Y = 58 * Color;
         public double pickCornerRounded1X = -25;
-        public double pickCornerRounded1Y = 48.5* Color;
-        public double pickCornerRounded1Ori = 90* Color;
+        public double pickCornerRounded1Y = 48.5 * Color;
+        public double pickCornerRounded1Ori = 90 * Color;
         public double pickCornerRounded2X = -33.5;
-        public double pickCornerRounded2Y = 58.9* Color;
-        public double pickCornerRounded2Ori = 144.7* Color;
-        public double pickCornerRounded3X = -53.6;
-        public double pickCornerRounded3Y = 58.9* Color;
-        public double pickCornerRounded3Ori = 144.7* Color;
+        public double pickCornerRounded2Y = 54.9 * Color;
+        public double pickCornerRounded2Ori = 144.7 * Color;
+        public double pickCornerRounded3X = -50.6;
+        public double pickCornerRounded3XRedo = -53.6;
+        public double pickCornerRounded3Y = 58.9 * Color;
+        public double pickCornerRounded3Ori = 144.7 * Color;
+        public double pickSecretTunnelX = -32.8;
+        public double pickSecretTunnelY = 60.9 * Color;
+        public double pickSecretTunnelOri = 22.5 * Color;
         public double endAutoX = -61;
         public double endAutoY = 31.5* Color;
     }
@@ -92,9 +96,9 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         TrajectoryActionBuilder PickMidSpikeMark = drive.actionBuilder(startPos)
                 .splineToSplineHeading(new Pose2d(PARAMS.pickMidSMX, PARAMS.pickMidSMY, Math.toRadians(PARAMS.pickMidSMOri)), Math.toRadians(PARAMS.pickMidSMOri))
                 .lineToYConstantHeading(PARAMS.pickMidSMY + Math.signum(PARAMS.pickMidSMY) * PARAMS.intakeDriveMidY, new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 30))
-                .splineToSplineHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)), Math.toRadians(PARAMS.openGateOri));
+                .splineToSplineHeading(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)), Math.toRadians(PARAMS.openGateOri), new TranslationalVelConstraint(15), new ProfileAccelConstraint(-30, 30));
 
-        TrajectoryActionBuilder Shoot1 = drive.actionBuilder(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)))
+        TrajectoryActionBuilder DriveToShootMid = drive.actionBuilder(new Pose2d(PARAMS.openGateX, PARAMS.openGateY, Math.toRadians(PARAMS.openGateOri)))
                 .setTangent(Math.toRadians(-90* PARAMS.Color))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
@@ -102,33 +106,35 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                 .setTangent(Math.toRadians(0* PARAMS.Color))
                 .splineToConstantHeading(new Vector2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveCloseY), PARAMS.pickCloseSMX);
 
-        TrajectoryActionBuilder Shoot2 = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveMidY, Math.toRadians(90* PARAMS.Color)))
+        TrajectoryActionBuilder DriveToShootClose = drive.actionBuilder(new Pose2d(PARAMS.pickCloseSMX, PARAMS.pickCloseSMY + Math.signum(PARAMS.pickCloseSMY) * PARAMS.intakeDriveMidY, Math.toRadians(90* PARAMS.Color)))
                 .setTangent(Math.toRadians(-90* PARAMS.Color))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-180* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
         TrajectoryActionBuilder PickRoundedCorner = drive.actionBuilder(shootPos)
-                .setTangent(Math.toRadians(60* PARAMS.Color))
-                .splineTo(new Vector2d(PARAMS.pickCornerRounded1X, PARAMS.pickCornerRounded1Y), Math.toRadians(90* PARAMS.Color))
-                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(180* PARAMS.Color))
+                .setTangent(Math.toRadians(0 * PARAMS.Color))
+//                .splineTo(new Vector2d(PARAMS.pickCornerRounded1X, PARAMS.pickCornerRounded1Y), Math.toRadians(90* PARAMS.Color))
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCornerRounded2X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded2Ori)), Math.toRadians(179 * PARAMS.Color))
                 .lineToXConstantHeading(PARAMS.pickCornerRounded3X);
 
-        TrajectoryActionBuilder Shoot3 = drive.actionBuilder(new Pose2d(PARAMS.pickCornerRounded3X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded3Ori)))
+        TrajectoryActionBuilder DriveToShootRounded = drive.actionBuilder(new Pose2d(PARAMS.pickCornerRounded3X, PARAMS.pickCornerRounded2Y, Math.toRadians(PARAMS.pickCornerRounded3Ori)))
                 .setTangent(Math.toRadians(-90* PARAMS.Color))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
         TrajectoryActionBuilder PickCorner1 = drive.actionBuilder(shootPos)
                 .setTangent(Math.toRadians(90* PARAMS.Color))
-                .splineTo(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y), 90* PARAMS.Color);
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y - 10* PARAMS.Color, Math.toRadians(110 * PARAMS.Color)), Math.toRadians(90 * PARAMS.Color))
+                .lineToYConstantHeading(PARAMS.pickCorner1Y);
 
-        TrajectoryActionBuilder Shoot4 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
+        TrajectoryActionBuilder DriveToShootCorner1 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
                 .setTangent(Math.toRadians(-90* PARAMS.Color))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
         TrajectoryActionBuilder PickCorner2 = drive.actionBuilder(shootPos)
                 .setTangent(Math.toRadians(90* PARAMS.Color))
-                .splineTo(new Vector2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y), Math.toRadians(90* PARAMS.Color));
+                .splineToSplineHeading(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y - 10* PARAMS.Color, Math.toRadians(110 * PARAMS.Color)), Math.toRadians(90 * PARAMS.Color))
+                .lineToYConstantHeading(PARAMS.pickCorner1Y);
 
-        TrajectoryActionBuilder Shoot5 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
+        TrajectoryActionBuilder DriveToShootCorner2 = drive.actionBuilder(new Pose2d(PARAMS.pickCorner1X, PARAMS.pickCorner1Y, Math.toRadians(90* PARAMS.Color)))
                 .setTangent(Math.toRadians(-90* PARAMS.Color))
                 .splineToLinearHeading(new Pose2d(PARAMS.shoot1X, PARAMS.shoot1Y, Math.toRadians(PARAMS.shoot1Ori)), Math.toRadians(-90* PARAMS.Color), new TranslationalVelConstraint(40), new ProfileAccelConstraint(-30, 60));
 
@@ -153,7 +159,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
 
                                     //Prep mid spike mark shoot
                                     new ParallelAction(
-                                            Shoot1.build(),
+                                            DriveToShootMid.build(),
                                             new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100, PARAMS.Color)
                                     ),
 
@@ -175,7 +181,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                                     new SleepAction(0.25),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
-                                            Shoot2.build(),
+                                            DriveToShootClose.build(),
                                             new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 100, PARAMS.Color)
                                     ),
                                     //Shoot close SM
@@ -188,10 +194,13 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                             PickRoundedCorner.build(),
                                             new IntakeAction(IntakeActionType.INTAKE_IN)
                                     ),
-                                    new IntakeAction(IntakeActionType.INTAKE_REST),
                                     //Prep rounded corner Shoot
                                     new ParallelAction(
-                                            Shoot3.build(),
+                                            new SequentialAction(
+                                                    new SleepAction(0.5),
+                                                    new IntakeAction(IntakeActionType.INTAKE_REST)
+                                            ),
+                                            DriveToShootRounded.build(),
                                             new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
                                     ),
                                     //Shoot rounded corner Shoot
@@ -205,10 +214,13 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                             new IntakeAction(IntakeActionType.INTAKE_IN)
                                     ),
 
-                                    new IntakeAction(IntakeActionType.INTAKE_REST),
                                     //Prep corner 1 Shoot
                                     new ParallelAction(
-                                            Shoot4.build(),
+                                            new SequentialAction(
+                                                    new SleepAction(0.5),
+                                                    new IntakeAction(IntakeActionType.INTAKE_REST)
+                                            ),
+                                            DriveToShootCorner1.build(),
                                             new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
                                     ),
                                     //Shoot corner 1 Shoot
@@ -221,16 +233,19 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                             PickCorner2.build(),
                                             new IntakeAction(IntakeActionType.INTAKE_IN)
                                     ),
-
-                                    new IntakeAction(IntakeActionType.INTAKE_REST),
-                                    //Prep corner 2 Shoot
-                                    new ParallelAction(
-                                            Shoot5.build(),
-                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
-                                    ),
-                                    //Shoot corner 2 Shoot
-//                                    new SleepAction(.5),
-                                    new ShootAction(ShootaActionType.SHOOT, 600)
+                                    new IntakeAction(IntakeActionType.INTAKE_REST)
+//                                    //Prep corner 2 Shoot
+//                                    new ParallelAction(
+//                                            new SequentialAction(
+//                                                    new SleepAction(0.5),
+//                                                    new IntakeAction(IntakeActionType.INTAKE_REST)
+//                                            ),
+//                                            DriveToShootCorner2.build(),
+//                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
+//                                    ),
+//                                    //Shoot corner 2 Shoot
+////                                    new SleepAction(.5),
+//                                    new ShootAction(ShootaActionType.SHOOT, 600)
 //                                    new ShootAction(ShootaActionType.STOP),
                             )
                     ));

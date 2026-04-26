@@ -161,9 +161,9 @@ public class BlueOCBTeleop extends LinearOpMode {
 
             //manual aim adjust
             if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset + 1;
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset + 0.5;
             } else if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset - 1;
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset - 0.5;
             }
 
             if (gamepad2.left_trigger >= 0.4) {

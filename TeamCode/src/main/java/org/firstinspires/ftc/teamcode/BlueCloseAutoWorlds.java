@@ -28,7 +28,7 @@ public class BlueCloseAutoWorlds extends LinearOpMode {
 
     public static class Params {
         public double startX = 59.9121;
-        public double startY = 13.65;
+        public double startY = 15.420;
         public double startOri = 0;
 
         //SM = Spike Mark
@@ -68,7 +68,7 @@ public class BlueCloseAutoWorlds extends LinearOpMode {
     @Override
     public void runOpMode() {
         OCBHWM.hwinit(hardwareMap);
-        HeadingTracker.setPinpointStart(60.1, 14.927);
+        HeadingTracker.setPinpointStart(60.1, 15.420);
 
         drive = new MecanumDrive(hardwareMap, initialPos);
 

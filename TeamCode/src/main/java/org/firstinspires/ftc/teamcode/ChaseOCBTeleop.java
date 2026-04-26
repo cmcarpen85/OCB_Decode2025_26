@@ -136,10 +136,10 @@ public class ChaseOCBTeleop extends LinearOpMode {
             }
 
             //manual aim adjust
-            if(driverOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
-            } else if(driverOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
+            if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset + 0.5;
+            } else if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset - 0.5;
             }
 
             if (gamepad1.left_trigger >= 0.4) {
