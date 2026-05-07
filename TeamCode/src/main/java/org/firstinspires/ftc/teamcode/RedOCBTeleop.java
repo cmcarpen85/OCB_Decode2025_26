@@ -34,6 +34,7 @@ public class RedOCBTeleop extends LinearOpMode {
         double ShootaDesiredVelocity = 0;
         boolean Tracking = false;
         HeadingTracker.manualAimOffset=0;
+        boolean recovery = false;
 
 //        OCBHWM.limelight.start();
 //        OCBHWM.limelight.pipelineSwitch(2);
@@ -56,7 +57,7 @@ public class RedOCBTeleop extends LinearOpMode {
 
 
             if (gamepad1.back) {
-                OCBHWM.imu.resetYaw();
+                OCBHWM.pinPoint.setHeading(0,AngleUnit.DEGREES);
             }
 
 //          Slow Mode
@@ -72,8 +73,8 @@ public class RedOCBTeleop extends LinearOpMode {
 
             } else {
                 OCBHWM.m_robotDrive.driveFieldCentric(
-                        (-driverOp.getLeftX()*0.9),
-                        (-driverOp.getLeftY()*0.9),
+                        (-driverOp.getLeftX()*0.75),
+                        (-driverOp.getLeftY()*0.75),
                         (-driverOp.getRightX() * 0.8),
                         OCBHWM.pinPoint.getHeading(AngleUnit.DEGREES) + 90,
 //                        OCBHWM.imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
@@ -125,15 +126,7 @@ public class RedOCBTeleop extends LinearOpMode {
                 Shoota.setSpeed(Constants.FARSHOTSPEED);
                 ShootaSpeed = Constants.FARSHOTSPEED;
                 ShootaDesiredVelocity = Constants.FARSHOTVEL;
-            } else if (gamepad2.x) {
-                OCBHWM.hoodServo.setPosition(Constants.FARSHOTHOODSERVO);
-                Turret.setToAngle(Constants.TELEFARSHOTTURRETANGLEOPPO);
-                Shoota.setSpeed(Constants.FARSHOTSPEEDOPPO);
-                ShootaSpeed = Constants.FARSHOTSPEEDOPPO;
-                ShootaDesiredVelocity = Constants.FARSHOTVEL;
-            } else if (gamepad2.y) {
-                Turret.setToAngle(0);
-            } else if (gamepad2.left_trigger > 0.4) {
+            }  else if (gamepad2.left_trigger > 0.4) {
 //                Shoota.cameraAdjustTurret("blue");
 //                Shoota.cameraSetLaunch(ShootaSpeed);
                 HeadingTracker.headingTrackingRed(true);
@@ -151,10 +144,14 @@ public class RedOCBTeleop extends LinearOpMode {
             }
 
             //manual aim adjust
-            if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset+1;
-            } else if(OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset-1;
+            if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset + 0.5;
+            } else if (OperatorOp.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset - 0.5;
+            } else if (OperatorOp.wasJustPressed(GamepadKeys.Button.Y)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset - 4.0;
+            } else if (OperatorOp.wasJustPressed(GamepadKeys.Button.X)) {
+                HeadingTracker.manualAimOffset = HeadingTracker.manualAimOffset + 4.0;
             }
 
             if (gamepad2.left_trigger >= 0.4) {
@@ -167,10 +164,21 @@ public class RedOCBTeleop extends LinearOpMode {
                 }
             }
 
-            //Worst Case Scenario
-            if (gamepad2.back) {
-                OCBHWM.turretServo.setRtp(false);
+            //            //Worst Case Scenario
+            if (gamepad2.back && gamepad2.right_stick_button && recovery){
+                OCBHWM.turretServo.setRtp(true);
+                recovery = false;
             }
+            else if (gamepad2.back) {
+                OCBHWM.turretServo.setRtp(false);
+                recovery = true;
+
+            }
+
+            if (recovery){
+                OCBHWM.turretServo.setPower(-1 * gamepad2.right_stick_y);
+            }
+
 //            if (gamepad2.right_stick_button) {
 //                Shoota.cameraSetPinPoint();
 //            }

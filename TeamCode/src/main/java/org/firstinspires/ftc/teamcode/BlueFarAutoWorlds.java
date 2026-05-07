@@ -51,21 +51,21 @@ public class BlueFarAutoWorlds extends LinearOpMode {
         public double shoot1Y = 15.5 * Color;
         public double shoot1Ori = 90 * Color;
         public double pickCloseSMX = -36.1;
-        public double pickCloseSMY = 32.6 * Color;
+        public double pickCloseSMY = 35 * Color;
         public double intakeDriveCloseX = 0;
-        public double intakeDriveCloseY = 18.2 * Color;
+        public double intakeDriveCloseY = 19.2 * Color;
         public double pickCorner1X = -64;
-        public double pickCorner1Y = 52 * Color;
+        public double pickCorner1Y = 54 * Color;
         public double pickCorner2X = -64;
-        public double pickCorner2Y = 58 * Color;
+        public double pickCorner2Y = 60 * Color;
         public double pickCornerRounded1X = -25;
         public double pickCornerRounded1Y = 48.5 * Color;
         public double pickCornerRounded1Ori = 90 * Color;
-        public double pickCornerRounded2X = -33.5;
+        public double pickCornerRounded2X = -42;
         public double pickCornerRounded2Y = 54.9 * Color;
         public double pickCornerRounded2Ori = 144.7 * Color;
-        public double pickCornerRounded3X = -50.6;
-        public double pickCornerRounded3XRedo = -53.6;
+        public double pickCornerRounded3X = -53;
+        public double pickCornerRounded3XRedo = -56;
         public double pickCornerRounded3Y = 58.9 * Color;
         public double pickCornerRounded3Ori = 144.7 * Color;
         public double pickSecretTunnelX = -32.8;
@@ -196,11 +196,11 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                     //Prep Rounded Corner Shoot
                                     new ParallelAction(
                                             new SequentialAction(
-                                                    new SleepAction(0.5),
+                                                    new SleepAction(0.15),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                             ShootRoundedCorner.build(),
-                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 1000, PARAMS.Color)
                                     ),
                                     //Shoot Rounded Corner  Shoot
                                     new ShootAction(ShootaActionType.SHOOT, 600),
@@ -216,11 +216,11 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                     //Prep Corner Corner Shoot
                                     new ParallelAction(
                                             new SequentialAction(
-                                                    new SleepAction(0.5),
+                                                    new SleepAction(0.15),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                             DriveToShootCorner1.build(),
-                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 1000, PARAMS.Color)
                                     ),
 
                                     //Shoot Corner 1 Shoot
@@ -236,7 +236,7 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                     //Prep Rounded 2 Shoot
                                     new ParallelAction(
                                             new SequentialAction(
-                                                    new SleepAction(0.5),
+                                                    new SleepAction(0.15),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                             ShootRoundedCorner2.build(),
@@ -255,11 +255,11 @@ public class BlueFarAutoWorlds extends LinearOpMode {
                                     //Prep Corner Corner Shoot
                                     new ParallelAction(
                                             new SequentialAction(
-                                                    new SleepAction(0.5),
+                                                    new SleepAction(0.15),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                             DriveToShootCorner2.build(),
-                                            new PrepShootAction(PrepShootActionType.PREP_SHOOT, 1000, PARAMS.Color)
+                                            new PrepShootAction(PrepShootActionType.PREP_FAR_SHOOT, 1000, PARAMS.Color)
                                     ),
                                     //Shoot Corner Corner Shoot
                                     new ShootAction(ShootaActionType.SHOOT, 600),

@@ -21,11 +21,11 @@ import Modules.OCBHWM;
 public class RTPAxonChase {
 
     public static class Params {
-        public double kP = 0.0069; //0.0058
+        public double kP = 0.006; //0.0058
         public double kI =0.00001; //0.001
-        public double kD = 0.000406; // 0.0005
+        public double kD = 0.00043; // 0.0005
         public double kH = -0.001;//0.0002
-        public double kS = 0.059; // 0.05 slip ring  0.068 cable chain
+        public double kS = 0.06; // 0.05 slip ring  0.068 cable chain
 
     }
     public static Params PARAMS = new Params();

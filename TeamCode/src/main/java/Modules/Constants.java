@@ -32,7 +32,7 @@ public class Constants {
     public static double MAXHDPOWER = 0.01;
     public static double MAXHDAIM = 1;
     public static double COASTSPEED = 0.4;
-    public static double FARSHOTSPEED = 0.5745; // 0.635
+    public static double FARSHOTSPEED = 0.61; // 0.5745
     public static double FARSHOTSPEEDOPPO = 0.61;
     public static double FARSHOTVEL = 1560;
     public static double FARSHOTDISTANCE = 114;
@@ -43,7 +43,7 @@ public class Constants {
     public static double CLOSESHOTSPEED = 0.43;
     public static double STARTSHOTSPEED = 0.585;
     public static double CLOASESTARTSHOTSPEED = 0.40;
-    public static double AUTOSHOTSPEED = .59;
+    public static double AUTOSHOTSPEED = .5745;
     public static double SHOTHEIGHT = 18.75;
 
     @Sorter(sort = 3)
@@ -79,7 +79,7 @@ public class Constants {
     // auto angles
     public static double STARTSHOTTURRETANGLE = 20.5;
     public static double CLOSESTARTSHOTTURRETANGLE = 90;//
-    public static double AUTOFARSHOTTURRETANGLE = 21; //-65
+    public static double AUTOFARSHOTTURRETANGLE = 21.5; //-65
     public static double AUTOCLOSESHOTTURRETANGLE = 45;
     public static double REDAUTOTURRETOFFEST = 0.1;
     public static double TURRETDYNAMIC = 200;

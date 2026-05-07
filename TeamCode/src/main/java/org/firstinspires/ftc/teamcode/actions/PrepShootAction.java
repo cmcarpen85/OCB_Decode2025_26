@@ -64,10 +64,10 @@ public class PrepShootAction implements FailableAction {
                 break;
 
             case PREP_FAR_SHOOT:
-                Shoota.setSpeed(Constants.FARSHOTSPEED);
+                Shoota.setSpeed(Constants.AUTOSHOTSPEED);
                 Turret.setToAngle(Constants.AUTOFARSHOTTURRETANGLE * this.color + Math.max(this.color*Constants.REDAUTOTURRETOFFEST,0));
                 Hood.setToAngle(Constants.FARSHOTHOODSERVO);
-                this.ShootSpeed = Constants.FARSHOTSPEED;
+                this.ShootSpeed = Constants.AUTOSHOTSPEED;
                 break;
 
             case PREP_MID_SHOOT:

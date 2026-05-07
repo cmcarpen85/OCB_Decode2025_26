@@ -64,7 +64,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
         public double pickCornerRounded2X = -33.5;
         public double pickCornerRounded2Y = 54.9 * Color;
         public double pickCornerRounded2Ori = 144.7 * Color;
-        public double pickCornerRounded3X = -50.6;
+        public double pickCornerRounded3X = -54.6;
         public double pickCornerRounded3XRedo = -53.6;
         public double pickCornerRounded3Y = 58.9 * Color;
         public double pickCornerRounded3Ori = 144.7 * Color;
@@ -147,7 +147,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                             new SequentialAction(
                                     //Shoot preload
                                     new PrepShootAction(PrepShootActionType.PREP_STARTING_SHOT, 1500, PARAMS.Color),
-                                    new ShootAction(ShootaActionType.SHOOT, 600),
+                                    new ShootAction(ShootaActionType.SHOOT, 750),
 //                                    new ShootAction(ShootaActionType.STOP),
 
                                     //Pick mid spike mark
@@ -178,7 +178,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                     //Prep close Shoot
                                     new ParallelAction(
                                             new SequentialAction(
-                                                    new SleepAction(0.25),
+                                                    new SleepAction(0.15),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                             DriveToShootClose.build(),
@@ -197,7 +197,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                     //Prep rounded corner Shoot
                                     new ParallelAction(
                                             new SequentialAction(
-                                                    new SleepAction(0.5),
+                                                    new SleepAction(0.15),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                             DriveToShootRounded.build(),
@@ -217,7 +217,7 @@ public class BlueFarAutoWGateWorlds extends LinearOpMode {
                                     //Prep corner 1 Shoot
                                     new ParallelAction(
                                             new SequentialAction(
-                                                    new SleepAction(0.5),
+                                                    new SleepAction(0.15),
                                                     new IntakeAction(IntakeActionType.INTAKE_REST)
                                             ),
                                             DriveToShootCorner1.build(),
