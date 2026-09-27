@@ -1,17 +1,13 @@
 package Modules;
 
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
-import com.qualcomm.robotcore.hardware.DcMotorControllerEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-public class DCMotorController {
-    public static double R = 12 / 9.2;
-    public static double W_NL = 5800.0 * 2.0 * Math.PI / 60.0;
-    public static double K_E = (12.0 - 0.25 * R) / W_NL;
-    public static double Ticks_Per_Rev = 28;
+public class DCMotorCurrentControl {
+    private final double R = 12 / 9.2;
+    private final double W_NL = 5800.0 * 2.0 * Math.PI / 60.0;
+    private final double K_E = (12.0 - 0.25 * R) / W_NL;
+    private final double Ticks_Per_Rev = 28;
 
     public static double MAX_Voltage = 12;
 

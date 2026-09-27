@@ -24,7 +24,7 @@ import Modules.Turret;
  * A sample opmode for a flywheel with two motors
  * that are linked mechanically.
  */
-@Disabled
+
 @TeleOp
 public class FlywheelSample extends LinearOpMode {
     public static double MotorPower1 = 0.5;
@@ -44,7 +44,7 @@ public class FlywheelSample extends LinearOpMode {
     private CRServo gateServo;
     private CRServo gateServo2;
 
-    public static double kP = 20;
+    public static double kP = 10;
     public static double kV = 0.7;
 
     @Override
@@ -54,25 +54,25 @@ public class FlywheelSample extends LinearOpMode {
         // the 'flywheel_left' motor in the configuration will be set
         // as the leader for the group
         flywheel = new MotorGroup(
-                flywheelR = new Motor(hardwareMap, "flywheelL", Motor.GoBILDA.BARE),
-                flywheelL = new Motor(hardwareMap, "flywheelR", Motor.GoBILDA.BARE)
+                flywheelR = new Motor(hardwareMap, "flywheelR", Motor.GoBILDA.BARE),
+                flywheelL = new Motor(hardwareMap, "flywheelL", Motor.GoBILDA.BARE)
         );
 
-        hoodServo = hardwareMap.get(Servo.class, "hoodServo");
-        turretServo = hardwareMap.get(Servo.class, "turretServo");
-        turretFeedback = hardwareMap.get(AnalogInput.class,"turretFeedback");
-        hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
-
-        gateServo = hardwareMap.get(CRServo.class, "gateServo");
-        gateServo2 = hardwareMap.get(CRServo.class, "gateServo2");
+//        hoodServo = hardwareMap.get(Servo.class, "hoodServo");
+//        turretServo = hardwareMap.get(Servo.class, "turretServo");
+//        turretFeedback = hardwareMap.get(AnalogInput.class,"turretFeedback");
+//        hoodFeedback = hardwareMap.get(AnalogInput.class, "hoodFeedback");
+//
+//        gateServo = hardwareMap.get(CRServo.class, "gateServo");
+//        gateServo2 = hardwareMap.get(CRServo.class, "gateServo2");
 
         flywheel.setRunMode(Motor.RunMode.VelocityControl);
         flywheel.setVeloCoefficients(kP, 0, 0);
         flywheel.setFeedforwardCoefficients(0, kV);
         flywheelL.setInverted(true);
 
-        hoodServo.setPosition(0.05);
-        turretServo.setPosition(0.5);
+//        hoodServo.setPosition(0.05);
+//        turretServo.setPosition(0.5);
 //        turretServo.setPower(0);
 
         // this is not required for this example
@@ -104,37 +104,37 @@ public class FlywheelSample extends LinearOpMode {
             } else if (gamepad1.dpad_right && MotorPower1 > 0) {
                 MotorPower1 = MotorPower1 - .0001;
             }
-            if (gamepad1.dpad_up) {
-                hoodServo.setPosition(hoodServo.getPosition() + 0.0003);
-            } else if (gamepad1.dpad_down) {
-                hoodServo.setPosition(hoodServo.getPosition() - 0.0003);
-            }
+//            if (gamepad1.dpad_up) {
+//                hoodServo.setPosition(hoodServo.getPosition() + 0.0003);
+//            } else if (gamepad1.dpad_down) {
+//                hoodServo.setPosition(hoodServo.getPosition() - 0.0003);
+//            }
 
-            if (gamepad1.left_bumper) {
-//                turretServo.setPower(1);
-                turretServo.setPosition(turretServo.getPosition() + 0.001);
-            } else if (gamepad1.right_bumper) {
-//                turretServo.setPower(-1);
-                turretServo.setPosition(turretServo.getPosition() - 0.001);
-            }
+//            if (gamepad1.left_bumper) {
+////                turretServo.setPower(1);
+//                turretServo.setPosition(turretServo.getPosition() + 0.001);
+//            } else if (gamepad1.right_bumper) {
+////                turretServo.setPower(-1);
+//                turretServo.setPosition(turretServo.getPosition() - 0.001);
+//            }
 //            } else {
 //                turretServo.setPower(0);
 //            }
 
-            if (gamepad1.a) {
-                gateServo.setDirection(DcMotorSimple.Direction.FORWARD);
-                gateServo2.setDirection(DcMotorSimple.Direction.REVERSE);
-                gateServo.setPower(1);
-                gateServo2.setPower(1);
-            } else if (gamepad1.y) {
-                gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
-                gateServo2.setDirection(DcMotorSimple.Direction.FORWARD);
-                gateServo.setPower(1);
-                gateServo2.setPower(1);
-            } else {
-                gateServo.setPower(0);
-                gateServo2.setPower(0);
-            }
+//            if (gamepad1.a) {
+//                gateServo.setDirection(DcMotorSimple.Direction.FORWARD);
+//                gateServo2.setDirection(DcMotorSimple.Direction.REVERSE);
+//                gateServo.setPower(1);
+//                gateServo2.setPower(1);
+//            } else if (gamepad1.y) {
+//                gateServo.setDirection(DcMotorSimple.Direction.REVERSE);
+//                gateServo2.setDirection(DcMotorSimple.Direction.FORWARD);
+//                gateServo.setPower(1);
+//                gateServo2.setPower(1);
+//            } else {
+//                gateServo.setPower(0);
+//                gateServo2.setPower(0);
+//            }
 
             // we can obtain a list of velocities with each item in the list
             // representing the motor passed in as an input to the constructor.
@@ -143,9 +143,9 @@ public class FlywheelSample extends LinearOpMode {
             telemetry.addData("Left Flywheel Velocity", velocities.get(0));
             telemetry.addData("Right Flywheel Velocity", velocities.get(1));
             telemetry.addData("motorPower", MotorPower1);
-            telemetry.addData("turret pos", turretServo.getPosition());
-            telemetry.addData("Turret Voltage", turretFeedback.getVoltage());
-            telemetry.addData("Hood Voltage", hoodFeedback.getVoltage());
+//            telemetry.addData("turret pos", turretServo.getPosition());
+//            telemetry.addData("Turret Voltage", turretFeedback.getVoltage());
+//            telemetry.addData("Hood Voltage", hoodFeedback.getVoltage());
 
             telemetry.update();
             toolOp.readButtons();
